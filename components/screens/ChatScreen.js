@@ -4,25 +4,24 @@ import Message from "@/components/screens/message"
 import { View, Text, Image, StyleSheet, Platform, Pressable, Button, Modal, ScrollView } from 'react-native';
 import 'react-native-gesture-handler'
 import { useState } from 'react';
-import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-// import MessagePopup from "@/components/messages/messagePopup.js"
+import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
-import Nav from '../Navbar/nav';
+import Nav from './nav';
 import ChatTop from "@/components/screens/ChatTop.js"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'tailwind-react-native-classnames';
+import { useNavigation } from 'expo-router';
 
 export default function chatscreen () {
   const activeColor = "#F76C6B";
   const color = "grey";
   const [ activScreen, setActivieScreen ] = useState( 'Home' );
-  const [ PopVisivibility, setPopVisibility ] = useState( false );
   const [ modalVisible, setModalVisible ] = useState( false );
   const [ onoff, setOnoff ] = useState( false );
   const setvisible = () => {
     setModalVisible( true );
   }
+  const navigation = useNavigation()
   return (
     <GestureHandlerRootView style={ { flex: 1 } }>
 
@@ -37,7 +36,35 @@ export default function chatscreen () {
           </Pressable>
         </View>
         <ChatTop ></ChatTop>
-        <Message></Message>
+        {/* <Message></Message> */}
+        <View style={ styles.topIcons } >
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "User" )
+                        setActivieScreen( "Home" )
+                    } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={ () => {
+                        setActivieScreen( "Grid" )
+                    } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "4starscreen" )
+                        setActivieScreen( "Star" )
+                    } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "chatscreen" )
+                        setActivieScreen( "Chat" )
+                    } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
+                    <TouchableOpacity
+
+                        onPress={ () => {
+                            navigation.navigate( "user" )
+                            setActivieScreen( "User" )
+                        } }
+                    > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
+                </View>
         
       </SafeAreaView>
       <View style={ styles2.container }>
@@ -118,13 +145,18 @@ const styles = StyleSheet.create( {
 
   },
 
-
   topIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: '100%',
     padding: 10,
-  },
+    position:"absolute",
+    top:669,
+    borderTopColor: "black",
+    zIndex: 10000,
+    opacity: 1000,
+
+},
   messagetext: {
     color: "white",
     fontSize: 17,

@@ -1,4 +1,4 @@
-import Nav from '@/components/Navbar/nav';
+import Nav from '@/components/screens/nav';
 import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button } from 'react-native';
@@ -15,10 +15,10 @@ const UserInfo = () => {
   const activeColor = "#FD297B";
   const color = "grey";
   const displays = {
-      display: "show"
+    display: "show"
   }
   const displaysNon = {
-      display: "none"
+    display: "none"
   }
   const [ activScreen, setActivieScreen ] = useState( 'Home' );
   const navigation = useNavigation()
@@ -78,11 +78,15 @@ const UserInfo = () => {
 
               <View style={ styles.upgrade }>
                 <View style={ styles.upgradeTitle }>
-                  <Fontisto style={ styles.icon } size={ 18 } name='tinder' color={ plan.color } />
-                  <Text >tinder</Text>
-                  <Text style={ { color: 'black', backgroundColor: "gold", fontSize: 7 } }>GOLD</Text>
+                  <Fontisto style={ styles.icon } size={ 20 } name='tinder' color={ plan.color } />
+                  <Text style={ { fontSize: 23, fontWeight: "500" } } >tinder</Text>
+                  <View style={ { justifyContent: "center", alignItems: "center", height: "7%", width: "40%", marginTop: 7.5, backgroundColor: "gold" } } > <Text style={ { color: 'black', fontSize: 10, fontWeight: "bold" } }>GOLD</Text></View>
                 </View>
-                <Button title="Upgrade" color={ plan.color } />
+                <TouchableOpacity style={ styles.selectButton } onPress={ () => {
+                  navigation.navigate( "purchase" )
+                } }>
+                  <Text style={ [styles.selectButtonText] }>Upgrade</Text>
+                </TouchableOpacity>
               </View>
               <View style={ styles.whatincluded }>
                 <Text style={ styles.rowValue }> What's Included</Text>
@@ -120,18 +124,30 @@ const UserInfo = () => {
         </View>
         <View style={ styles.topIcons } >
           <TouchableOpacity onPress={ () => {
-            navigation.navigate( "Modal" )
-          } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Chat' ? activeColor : color } ></Fontisto></TouchableOpacity>
-          <TouchableOpacity> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Chat' ? activeColor : color } /></TouchableOpacity>
-          <TouchableOpacity> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Chat' ? activeColor : color } ></MaterialCommunityIcons></TouchableOpacity>
+            navigation.navigate( "User" )
+            setActivieScreen( "Home" )
+          } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={ () => {
+            setActivieScreen( "Grid" )
+          } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( "4starscreen" )
+            setActivieScreen( "Star" )
+          } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
+          </TouchableOpacity>
           <TouchableOpacity onPress={ () => {
             navigation.navigate( "chatscreen" )
+            setActivieScreen( "Chat" )
           } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
           <TouchableOpacity
-            //  onPress={()=>{
-            //     navigation.navigate("user")
-            // }}
-            onPress={ () => navigation.navigate( "user" ) }
+
+            onPress={ () => {
+              navigation.navigate( "user" )
+              setActivieScreen( "User" )
+            } }
           > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
         </View>
       </View>
@@ -155,31 +171,30 @@ const styles = StyleSheet.create( {
     width: 70,
     height: 35,
   },
+  selectButton:{
+    height:"100%",
+    width:"50%",
+    backgroundColor:"gold",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:20,
+  },
+  selectButtonText:{
+    fontSize:20,
+    fontWeight:"700"
+ 
+  },
   topIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: '100%',
-    // padding: 10,
-    // position: 'absolute',
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
-    // height: 60,
-    // borderTopColor: "black",
-    // zIndex: 10000,
-    // opacity: 1000,
+    padding: 10,
     position: 'absolute',
-    bottom: -47,
-    left: 0,
-    right: 0,
-    height: 60,
-    
-    // backgroundColor: '#03DAC6',
-    // justifyContent: 'center',
+    top: 231,
     alignItems: 'center',
-    zIndex: 10,
+    // zIndex: 10,
 
-},
+  },
   headerIcons: {
     flexDirection: 'row',
   },
@@ -294,13 +309,15 @@ const styles = StyleSheet.create( {
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: 220,
-    width: 300
+    width: 348
 
   },
   upgradeTitle: {
     // fontSize: ,
     // fontWeight: 'bold','
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
 
   upgradeContent: {
@@ -319,7 +336,7 @@ const styles = StyleSheet.create( {
   },
   rowValue: {
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
   },
   seeAllFeatures: {
     color: '#ffcc00',
@@ -344,9 +361,7 @@ const styles = StyleSheet.create( {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    color: "black",
-    fontWeight: 'bold',
-    fontSize: 12,
+    marginTop:10,
   },
   freeType: {
     flexDirection: "row",

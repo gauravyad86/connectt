@@ -2,7 +2,7 @@
 import React from 'react';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'; // Use only react-navigation stack
 import LoginScreen from '@/components/screens/LoginScreen';
-import UserDetails from "@/components/screens/UserDetails";
+import HomePage from "@/components/screens/HomePage";
 import ChatScreen from "@/components/screens/ChatScreen";
 import ModalScreen from "@/components/screens/ModalScreen";
 import ExploreScreen from "@/components/screens/ExploreScreen";
@@ -11,7 +11,7 @@ import ChatSection from "@/components/Pages/chatSection";
 import Getsuperlikes from "@/components/Pages/GetsuperLikes";
 import PurchaseScreen from "@/components/Pages/PurchaseScreen";
 import BottomStarScreen from "@/components/screens/BottonStarSreen.js";
-// import Settings from "@/components/Pages/Settings";
+// import Settings from "@/components/Pages/Settings.js";
 import Settings from "@/components/Pages/Settings.js"
 import Chat_Picks_click from "@/components/Pages/Chat_Picks_click.js"
 import Subsription from "@/components/Pages/Subscription";
@@ -34,13 +34,23 @@ const StackNavigator = () => {
         <>
           <Stack.Group>
             {/* <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen> */}
-            <Stack.Screen name="User" component={UserDetails}></Stack.Screen>
+            <Stack.Screen name="User" component={HomePage}></Stack.Screen>
             <Stack.Screen name="Chat" component={ChatScreen}></Stack.Screen>
             <Stack.Screen name="Explore" component={ExploreScreen}></Stack.Screen>
             {/* <Stack.Screen name="Home" component={App}></Stack.Screen> */}
             <Stack.Screen name="4starscreen" component={BottomStarScreen}></Stack.Screen>
+            <Stack.Screen name="Modal" component={ModalScreen}></Stack.Screen>
+            <Stack.Screen name="user" component={UserInfo}></Stack.Screen>
+            <Stack.Screen name="getsuperlikes" component={Getsuperlikes}></Stack.Screen>
+            <Stack.Screen name="purchase" component={PurchaseScreen}></Stack.Screen>
+            <Stack.Screen name="subsription" component={Subsription}></Stack.Screen>
+            <Stack.Screen name="addcarddetails" component={AddCreditDebitcard}></Stack.Screen>
+            <Stack.Screen name="picks" component={Chat_Picks_click}></Stack.Screen>
+            <Stack.Screen name="chatscreen" component={ChatScreen}></Stack.Screen>
+            <Stack.Screen name="chatsection" component={ChatSection}></Stack.Screen>
+            <Stack.Screen name="setting" component={Settings}></Stack.Screen>
           </Stack.Group>
-          <Stack.Group
+          {/* <Stack.Group
             screenOptions={{
               presentation: "modal"
             }}
@@ -52,8 +62,8 @@ const StackNavigator = () => {
             <Stack.Screen name="subsription" component={Subsription}></Stack.Screen>
             <Stack.Screen name="addcarddetails" component={AddCreditDebitcard}></Stack.Screen>
             <Stack.Screen name="picks" component={Chat_Picks_click}></Stack.Screen>
-          </Stack.Group>
-          <Stack.Group
+          </Stack.Group> */}
+          {/* <Stack.Group
             screenOptions={{
               presentation: "transparentModal",
               ...TransitionPresets.ModalPresentationIOS,
@@ -62,7 +72,7 @@ const StackNavigator = () => {
             <Stack.Screen name="setting" component={Settings}></Stack.Screen>
             <Stack.Screen name="chatscreen" component={ChatScreen}></Stack.Screen>
             <Stack.Screen name="chatsection" component={ChatSection}></Stack.Screen>
-          </Stack.Group>
+          </Stack.Group> */}
         </>
 
       ) :

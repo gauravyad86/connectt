@@ -6,7 +6,7 @@ import { Entypo, FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 
-import Nav from '@/components/Navbar/nav';
+import Nav from '@/components/screens/nav';
 import { Link, useNavigation } from 'expo-router';
 import BottomBar from "@/components/screens/BottomBar"
 
@@ -17,13 +17,7 @@ import image from "@/assets/images/nope.png"
 export default function App () {
     const activeColor = "#FD297B";
     const color = "grey";
-    const displays = {
-        display: "show"
-    }
-    const displaysNon = {
-        display: "none"
-    }
-    const [ disStayle, setDisStyle ] = useState( displaysNon );
+
     const [ activScreen, setActivieScreen ] = useState( 'Home' );
     const [ crossScreen, setCrossScreen ] = useState( false );
     if ( crossScreen ) {
@@ -44,7 +38,7 @@ export default function App () {
                 {/* card */ }
                 <View style={ styles.card }>
                     <ImageBackground
-                        source={ "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain"}
+                        source={ "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain" }
                         style={ styles.image }>
                         <View style={ styles.cardInner }>
                             <Text style={ styles.name }>hello</Text>
@@ -52,7 +46,7 @@ export default function App () {
                         </View>
                     </ImageBackground>
                 </View>
-                <View style={{justifyContent:"center", alignItems:"center"} }>
+                <View style={ { justifyContent: "center", alignItems: "center" } }>
 
                     <View style={ styles.icons }>
                         <View style={ styles.buttons }>
@@ -63,11 +57,11 @@ export default function App () {
 
                         <View style={ styles.buttons } > <Entypo name="cross" id='CrossBtn' size={ 30 } color="#f32b96" /></View>
                         <TouchableOpacity onPress={ () => {
-          navigation.navigate( 'getsuperlikes' )
-        } }>
-                        <View style={ styles.buttons } id='StarBtn' > <FontAwesome name="star" size={ 30 } color="#1597fa" /></View>
+                            navigation.navigate( 'getsuperlikes' )
+                        } }>
+                            <View style={ styles.buttons } id='StarBtn' > <FontAwesome name="star" size={ 30 } color="#1597fa" /></View>
                         </TouchableOpacity>
-      
+
                         <View style={ styles.buttons } id='Heartbtn'>
                             <FontAwesome name="heart" size={ 30 } color="#91d923" />
                         </View>
@@ -77,29 +71,34 @@ export default function App () {
                     </View>
                 </View>
                 <View style={ styles.topIcons } >
-            <TouchableOpacity onPress={ () => {
-                navigation.navigate( "Modal" )
-                setActivieScreen("Home")
-            } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto></TouchableOpacity>
-            <TouchableOpacity onPress={()=>{
-                setActivieScreen("Grid")
-            }}> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } /></TouchableOpacity>
-            <TouchableOpacity onPress={ () => {
-                navigation.navigate( "4starscreen" )
-                setActivieScreen("Star")
-            } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons></TouchableOpacity>
-            <TouchableOpacity onPress={ () => {
-                navigation.navigate( "chatscreen" )
-                setActivieScreen("Chat")
-            } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-            <TouchableOpacity
-                //  onPress={()=>{
-                //     navigation.navigate("user")
-                // }}
-                onPress={ () => navigation.navigate( "user" ) }
-            > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
-        </View>
-               <BottomBar/>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "User" )
+                        setActivieScreen( "Home" )
+                    } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={ () => {
+                        setActivieScreen( "Grid" )
+                    } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "4starscreen" )
+                        setActivieScreen( "Star" )
+                    } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "chatscreen" )
+                        setActivieScreen( "Chat" )
+                    } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
+                    <TouchableOpacity
+
+                        onPress={ () => {
+                            navigation.navigate( "user" )
+                            setActivieScreen( "User" )
+                        } }
+                    > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
+                </View>
+                {/* <BottomBar /> */}
             </SafeAreaView>
         </GestureHandlerRootView >
     );
@@ -123,35 +122,35 @@ const styles = StyleSheet.create( {
         backgroundColor: '#fefefe',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 5,
+            width: 0,
+            height: 5,
         },
         shadowOpacity: 0.36,
         shadowRadius: 6.68,
-    
+
         elevation: 11,
-      },
-      image: {
+    },
+    image: {
         width: '100%',
         height: '100%',
         borderRadius: 10,
         overflow: 'hidden',
-    
+
         justifyContent: 'flex-end',
-      },
-      cardInner: {
+    },
+    cardInner: {
         padding: 10,
-      },
-      name: {
+    },
+    name: {
         fontSize: 30,
         color: 'white',
         fontWeight: 'bold',
-      },
-      bio: {
+    },
+    bio: {
         fontSize: 18,
         color: 'white',
         lineHeight: 25,
-      },
+    },
     topIcons: {
         flexDirection: "row",
         justifyContent: "space-around",
@@ -171,7 +170,7 @@ const styles = StyleSheet.create( {
         width: '85%',
         padding: 10,
         // position: "absolute",
-        alignItems:"center"
+        alignItems: "center"
         // top: 560,
     },
     buttons: {

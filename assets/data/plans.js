@@ -8,7 +8,7 @@ const plans = [
     { id:2,
       title: 'Tinder Platinum',
       benefits: ['Priority Likes', 'Message Before Matching'],
-      color: '#E5E4E2', // Platinum color
+      color: '#5F6565', // Platinum color
       type: "Platinum"
     },
     { id:3,

@@ -12,22 +12,28 @@
 //   )
 // }
 import users from '@/assets/data/users';
-import Nav from '@/components/Navbar/nav';
+import Nav from '@/components/screens/nav';
 import MatchesScreen from '@/components/screens/MatchesScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const Chat_Picks_click = () => {
+    const navigation = useNavigation()
     return (
         <View style={ styles.container }>
             <Nav></Nav>
             <View style={ styles.likePageTop }>
-                <Text style={
-                    styles.likesCount
-                }>  0 likes</Text>
+                <TouchableOpacity onPress={ () => {
+                    navigation.goBack()
+                } }>
+                    <Text style={
+                        styles.likesCount
+                    }>  0 likes</Text>
+                </TouchableOpacity>
                 <Text style={
                     styles.likesCount
                 }> |</Text>

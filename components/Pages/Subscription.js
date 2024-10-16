@@ -13,7 +13,7 @@ const Subsription = () => {
             <View style={ styles.pageWrapper3 }>
                 {/* Header */ }
                 <TouchableOpacity style={ styles.closeButton } onPress={ () => {
-                    navigation.navigate( "user" )
+                    navigation.goBack()
                 } }>
                     <Text style={ styles.closeText }>❌</Text>
                 </TouchableOpacity>
@@ -24,19 +24,19 @@ const Subsription = () => {
                 {/* Scrollable Card Section */ }
                 <ScrollView horizontal showsHorizontalScrollIndicator={ false } style={ styles.cardContainer }>
                     <View style={ styles.box1 }>
-                        <Fontisto name="tinder" size={ 25 } color="#FF4500" />
+                        <Fontisto name="tinder" size={ 25 } color="#FD297B" />
                         <Text style={ styles.optionTitle }> tinder</Text>
-                        <AntDesign name="plus" size={ 20 } color="red" />
+                        <AntDesign name="plus" size={ 20 } color="#FD297B" />
                     </View>
                     <View style={ styles.box2 }>
-                        <Fontisto size={ 18 } name='tinder' color="#FFD700" />
+                        <Fontisto size={ 25 } name='tinder' color="#ecb757"  style={{marginRight:8}} />
                         <Text style={ styles.optionTitle }>tinder</Text>
-                        <Text style={ { color: 'black', backgroundColor: "gold", fontSize: 9 } }>GOLD</Text>
+                        <Text style={ { color: 'black', backgroundColor: "#ecb757", fontSize: 9 , marginTop:8, fontWeight:"bold"} }>GOLD</Text>
                     </View>
                     <View style={ styles.box3 }>
-                        <Fontisto size={ 18 } name='tinder' color="#E5E4E2" />
+                        <Fontisto size={ 18 } name='tinder' color="#252523"  style={{marginRight:7}}/>
                         <Text style={ styles.optionTitle }>tinder</Text>
-                        <Text style={ { color: 'black', backgroundColor: "platinum", fontSize: 9 } }>Platinum</Text>
+                        <Text style={ { color: 'white', backgroundColor: "#252523", fontSize: 9 , marginTop:8} }>Platinum</Text>
                     </View>
 
 
@@ -147,13 +147,14 @@ const styles = StyleSheet.create( {
     },
     pageTitle: {
         color: '#FFFFFF',
-        fontSize: 22,
+        fontSize: 21,
         fontWeight: '500',
     },
     optionTitle: {
         fontSize: 22,
         fontWeight: '700',
-        color: "black"
+        color: "black",
+        marginRight:5
     },
     box1: {
         flexDirection: "row",
@@ -161,10 +162,13 @@ const styles = StyleSheet.create( {
         justifyContent: "center",
         alignItems: "center",
         height: 60,
-        width: "100%",
+        width: "80%",
         borderWidth: 2,
-        borderColor: "white",
-        backgroundColor: "pink"
+        marginRight:5,
+        borderColor: "#FD297B",
+        backgroundColor: "#E9C0DD",
+        borderRadius:5,
+        marginLeft:15,
 
     },
     box3: {
@@ -173,10 +177,12 @@ const styles = StyleSheet.create( {
         justifyContent: "center",
         alignItems: "center",
         height: 60,
-        width: "100%",
+        width: "80%",
         borderWidth: 2,
+        marginRight:5,
         borderColor: "white",
-        backgroundColor: "pink"
+        backgroundColor: "#BDECFF",
+        borderRadius:5
 
     },
     box2: {
@@ -185,14 +191,16 @@ const styles = StyleSheet.create( {
         justifyContent: "center",
         alignItems: "center",
         height: 60,
-        width: "100%",
+        width: "80%",
         borderWidth: 2,
-        borderColor: "white",
-        backgroundColor: "yellow"
+        marginRight:5,
+        borderColor:"#ecb757",
+        backgroundColor: "#EEF2B4",
+        borderRadius:5
 
     },
     cardContainer: {
-
+   marginTop:10
     },
     planCard: {
         backgroundColor: '#2C2C2E',
