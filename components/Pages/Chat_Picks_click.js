@@ -13,7 +13,6 @@
 // }
 import users from '@/assets/data/users';
 import Nav from '@/components/screens/nav';
-import MatchesScreen from '@/components/screens/MatchesScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';

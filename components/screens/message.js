@@ -40,7 +40,7 @@ export default function Message () {
 
             ) )
             }
-        
+
         </ScrollView >
     )
 }
@@ -56,7 +56,7 @@ const styles = StyleSheet.create( {
         flexWrap: 'wrap',
         // height: 700,
         // marginLeft: 8
-        // padding:10,
+        padding:10,
 
     },
     topIcons: {
@@ -77,13 +77,13 @@ const styles = StyleSheet.create( {
         left: 0,
         right: 0,
         height: 60,
-    
+
         // backgroundColor: '#03DAC6',
         // justifyContent: 'center',
         alignItems: 'center',
         zIndex: 10,
-    
-      },
+
+    },
     messagetext: {
         color: "white",
         fontSize: 17,

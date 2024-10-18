@@ -5,11 +5,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Entypo, FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
-
-import Nav from '@/components/screens/nav';
-import { Link, useNavigation } from 'expo-router';
-import BottomBar from "@/components/screens/BottomBar"
-
+import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from 'expo-router';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import TinderSwipeDemo from "@/components/TinderCard/TinderSwipeDemo"
 import image from "@/assets/images/nope.png"
 // import { Link } from 'expo-router';
 // import Settings from '@/components/discovery/DiscoverySettings';
@@ -26,50 +25,39 @@ export default function App () {
         console.log( "not clicked" )
     }
     const onpressHandler = () => {
-        console.log( "clicked gh" )
+        navigation.navigate( "tindercard" )
     }
     const navigation = useNavigation()
     return (
 
         <GestureHandlerRootView style={ { flex: 1 } }>
             <SafeAreaView style={ styles.root }>
-                <Nav ></Nav>
+                {/* navbar */ }
 
-                {/* card */ }
-                <View style={ styles.card }>
-                    <ImageBackground
-                        source={ "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain" }
-                        style={ styles.image }>
-                        <View style={ styles.cardInner }>
-                            <Text style={ styles.name }>hello</Text>
-                            <Text style={ styles.bio }>hello</Text>
-                        </View>
-                    </ImageBackground>
-                </View>
-                <View style={ { justifyContent: "center", alignItems: "center" } }>
-
-                    <View style={ styles.icons }>
-                        <View style={ styles.buttons }>
-                            <Pressable onPress={ onpressHandler }   >
-                                <FontAwesome id='undoBtn' name="undo" size={ 30 } color="#d4aa37" />
-                            </Pressable>
-                        </View>
-
-                        <View style={ styles.buttons } > <Entypo name="cross" id='CrossBtn' size={ 30 } color="#f32b96" /></View>
+                <View style={ styles.navbar }>
+                    <View style={ styles.icontext }>
+                        <Pressable ><Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto></Pressable>
+                        <Text style={ styles.text }  >tinder</Text>
+                    </View>
+                    <View style={ styles.righticons }>
                         <TouchableOpacity onPress={ () => {
-                            navigation.navigate( 'getsuperlikes' )
+                            navigation.navigate( 'notifications' )
                         } }>
-                            <View style={ styles.buttons } id='StarBtn' > <FontAwesome name="star" size={ 30 } color="#1597fa" /></View>
-                        </TouchableOpacity>
+                            <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                        {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
+                        <TouchableOpacity onPress={ () => {
+                            navigation.navigate( "discoverysetting" )
+                        } }> <FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
 
-                        <View style={ styles.buttons } id='Heartbtn'>
-                            <FontAwesome name="heart" size={ 30 } color="#91d923" />
-                        </View>
-                        <View style={ styles.buttons } id='flashBtn'>
-                            <FontAwesome name="flash" size={ 30 } color="#c145ec" />
-                        </View>
                     </View>
                 </View>
+
+
+                {/* card */ }
+
+
+                <TinderSwipeDemo />
+                
                 <View style={ styles.topIcons } >
                     <TouchableOpacity onPress={ () => {
                         navigation.navigate( "User" )
@@ -78,6 +66,7 @@ export default function App () {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "gridscreen" )
                         setActivieScreen( "Grid" )
                     } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
                     </TouchableOpacity>
@@ -98,7 +87,7 @@ export default function App () {
                         } }
                     > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
                 </View>
-                {/* <BottomBar /> */}
+                {/* <BottomBar /> */ }
             </SafeAreaView>
         </GestureHandlerRootView >
     );
@@ -114,6 +103,14 @@ const styles = StyleSheet.create( {
     root: {
         flex: 1,
         backgroundColor: "black"
+    },
+    background: {
+        width: '100%',
+        height: '100%',
+        //   borderRadius: 10,
+        borderBottomEndRadius: 10,
+        borderBottomLeftRadius: 10,
+        position: "absolute",
     },
     card: {
         width: '100%',
@@ -156,8 +153,8 @@ const styles = StyleSheet.create( {
         justifyContent: "space-around",
         width: '100%',
         padding: 10,
-        // position:"absolute",
-        // top:660,
+        position: "absolute",
+        top: 668,
         borderTopColor: "black",
         // display:"block"
         zIndex: 10000,
@@ -183,4 +180,42 @@ const styles = StyleSheet.create( {
         alignItems: "center"
 
     },
+    navbar: {
+        width: '100%',
+        height: '7%',
+        backgroundColor: "black",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "absolute",
+        zIndex: 10,
+    },
+    righticons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginRight: 5,
+    },
+    icontext: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        //  marginLeft:6,
+    },
+    text: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+    },
+    icon: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+    },
+    sheildicon: {
+        marginRight: 8,
+        marginLeft: 15,
+    }
 } );

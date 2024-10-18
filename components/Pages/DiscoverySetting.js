@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import { ScrollView, Switch } from 'react-native-gesture-handler';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo, FontAwesome6, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from 'expo-router';
 
 const DiscoverySettings = ( props ) => {
   const [ maxDistance, setMaxDistance ] = useState( 5 );
@@ -19,11 +20,17 @@ const DiscoverySettings = ( props ) => {
     messageLikes: 'Select',
     superLikes: 'Select',
   } );
+  const navigation = useNavigation()
 
   return (
 
-    <View vertical={ true } showsHorizontalScrollIndicator={ false } style={ [ styles.container9 ] }>
-      <Text style={ styles.sectionHeader }>DISCOVERY SETTINGS</Text>
+    <ScrollView vertical={ true } showsHorizontalScrollIndicator={ false } style={ [ styles.container9 ] }>
+      <TouchableOpacity onPress={ () => navigation.goBack() }>
+        <View style={ styles.header }>
+          <Ionicons name="arrow-back" size={ 24 } color="red" />
+          <Text style={ { color: "white", marginLeft: "25%", fontSize: 17 } }>Discovery Settings</Text>
+        </View>
+      </TouchableOpacity>
       {/* Maximum Distance */ }
       <View style={ styles.maxdistance }>
         <View style={ styles.settingRow }>
@@ -52,19 +59,13 @@ const DiscoverySettings = ( props ) => {
       </View>
 
       {/* Looking For */ }
-      <View style={ styles.settingRow }>
-        <Text style={ styles.label }>Looking for</Text>
-        <View style={ styles.pickerContainer }>
-          <Picker
-            selectedValue={ lookingFor }
-            style={ styles.picker }
-            onValueChange={ ( itemValue ) => setLookingFor( itemValue ) }
-          >
-            <Picker.Item label="Women" value="Women" />
-            <Picker.Item label="Men" value="Men" />
-            <Picker.Item label="Everyone" value="Everyone" />
-          </Picker>
-        </View>
+      <View style={ styles.lokingforwommen }>
+        <Text style={ styles.label }>Show me</Text>
+        <TouchableOpacity onPress={ () => {
+          navigation.navigate( "lookingforwomen" )
+        } }>
+          <Ionicons name="chevron-forward" size={ 24 } color="white" />
+        </TouchableOpacity>
       </View>
 
       {/* Age Range */ }
@@ -95,10 +96,6 @@ const DiscoverySettings = ( props ) => {
       </View>
       <Text style={ styles.afterslidertext }  > Tinder uses these preferences to suggest matches. Some match suggestions may not fall within your desired parameters</Text>
 
-      {/* Show Me on Tinder */ }
-      <View style={ styles.settingRow }>
-        <Text style={ styles.SHowmeOnTinder }>Show me on Tinder</Text>
-      </View>
 
       {/* Notifications */ }
       <Text style={ styles.sectionHeader }>Premium Discovery</Text>
@@ -446,7 +443,7 @@ const DiscoverySettings = ( props ) => {
         </View>
       </View>
 
-    </View>
+    </ScrollView>
   );
 };
 
@@ -456,6 +453,7 @@ const styles = StyleSheet.create( {
     backgroundColor: 'black',
     color: "green",
     // display:"none"
+    padding: 10
 
   },
   sectionHeader: {
@@ -470,6 +468,36 @@ const styles = StyleSheet.create( {
     justifyContent: "space-between",
     // alignItems: 'center',
     width: "100%",
+  },
+  lokingforwommen:{
+    fontSize: 15,
+    height: "4%",
+    width: "100%",
+    // fontWeight: 'bold',
+    // marginBottom: 10,
+    backgroundColor: "#111419",
+    color: "white",
+    flexDirection: "row",
+    justifyContent:"space-between",
+    // marginLeft: 20,
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 40,
+  },
+  header: {
+    fontSize: 15,
+    height: "80%",
+    width: "100%",
+    // fontWeight: 'bold',
+    // marginBottom: 10,
+    backgroundColor: "#111419",
+    color: "white",
+    flexDirection: "row",
+    // justifyContent:"space-around",
+    // marginLeft: 20,
+    alignItems: "center",
+    marginTop: -6,
+    marginBottom: 40,
   },
   label: {
     fontSize: 15,
@@ -504,10 +532,7 @@ const styles = StyleSheet.create( {
     width: 150,
     color: '#000',
   },
-  SHowmeOnTinder: {
-    fontSize: 10,
-    //  marginBottom:2,
-  },
+ 
   subText: {
     fontSize: 12,
     color: '#555',

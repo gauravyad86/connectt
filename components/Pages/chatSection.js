@@ -120,10 +120,11 @@ const styles = StyleSheet.create( {
   container: {
     flex: 1,
     backgroundColor: '#121212',
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     justifyContent: "center",
     // alignItems:"center"
-    width:"100%"
+    width:"100%",
+    padding:10,
   },
   Scrollconatiner: {
     flex: 1,

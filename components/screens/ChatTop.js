@@ -4,7 +4,7 @@ import users from '@/assets/data/users';
 
 const ChatTop = () => {
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <SafeAreaView style={ styles.root }>
         <View style={ styles.container }>
           {/* <Text style={{fontWeight: 'bold', fontSize: 24, color: '#F63A6E'}}>

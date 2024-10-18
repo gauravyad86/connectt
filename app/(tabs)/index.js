@@ -1,5 +1,5 @@
 import { View,Text,Image, StyleSheet, Platform } from 'react-native';
-import MatchesScreen from "@/components/screens/MatchesScreen"
+
 import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native';
 import { Stack } from 'expo-router';

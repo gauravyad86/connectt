@@ -4,7 +4,7 @@ import Message from "@/components/screens/message"
 import { View, Text, Image, StyleSheet, Platform, Pressable, Button, Modal, ScrollView } from 'react-native';
 import 'react-native-gesture-handler'
 import { useState } from 'react';
-import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
 import Nav from './nav';
 import ChatTop from "@/components/screens/ChatTop.js"
@@ -12,10 +12,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from 'expo-router';
 
-export default function chatscreen () {
+export default function Chatscreen () {
   const activeColor = "#F76C6B";
   const color = "grey";
-  const [ activScreen, setActivieScreen ] = useState( 'Home' );
+  const [ activScreen, setActivieScreen ] = useState( 'Chat' );
   const [ modalVisible, setModalVisible ] = useState( false );
   const [ onoff, setOnoff ] = useState( false );
   const setvisible = () => {
@@ -25,47 +25,57 @@ export default function chatscreen () {
   return (
     <GestureHandlerRootView style={ { flex: 1 } }>
 
-      <SafeAreaView style={ styles.root }>
-        <Nav ></Nav>
+      <SafeAreaView style={ styles.root } >
+        <View style={ styles.navbar }>
+          <View style={ styles.icontext }>
+            <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
+            <Text style={ styles.text }  >tinder</Text>
+          </View>
+          <View style={ styles.righticons }>
+           
+            <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
+          </View>
+        </View>
         <View style={ styles.messagess }>
           <Text style={ styles.message } > New matches</Text>
-          <Pressable onPress={ () => setModalVisible( true ) }>
+          <TouchableOpacity onPress={ () => setModalVisible( true ) }>
             <Text style={ styles.mymoveoff } >
-              MY MOVE <Text style={ styles.mymoveoff2 }>{!onoff?"OFF":"ON"}</Text>
+              MY MOVE <Text style={ styles.mymoveoff2 }>{ !onoff ? "OFF" : "ON" }</Text>
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
         <ChatTop ></ChatTop>
-        {/* <Message></Message> */}
+        <Message></Message>
         <View style={ styles.topIcons } >
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "User" )
-                        setActivieScreen( "Home" )
-                    } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
-                    </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( "User" )
+            setActivieScreen( "Home" )
+          } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
+          </TouchableOpacity>
 
-                    <TouchableOpacity onPress={ () => {
-                        setActivieScreen( "Grid" )
-                    } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "4starscreen" )
-                        setActivieScreen( "Star" )
-                    } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "chatscreen" )
-                        setActivieScreen( "Chat" )
-                    } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-                    <TouchableOpacity
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( "gridscreen" )
+            setActivieScreen( "Grid" )
+          } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( "4starscreen" )
+            setActivieScreen( "Star" )
+          } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( "chatscreen" )
+            setActivieScreen( "Chat" )
+          } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
+          <TouchableOpacity
 
-                        onPress={ () => {
-                            navigation.navigate( "user" )
-                            setActivieScreen( "User" )
-                        } }
-                    > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
-                </View>
-        
+            onPress={ () => {
+              navigation.navigate( "user" )
+              setActivieScreen( "User" )
+            } }
+          > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
+        </View>
+
       </SafeAreaView>
       <View style={ styles2.container }>
         {/* Modal */ }
@@ -87,8 +97,9 @@ export default function chatscreen () {
                 <TouchableOpacity
                   style={ styles2.cancelButton }
                   onPress={ () => {
-                    setOnoff(false)
-                    setModalVisible( false )} }
+                    setOnoff( false )
+                    setModalVisible( false )
+                  } }
                 >
                   <Text style={ styles2.cancelText }>NOT NOW</Text>
                 </TouchableOpacity>
@@ -96,8 +107,9 @@ export default function chatscreen () {
                 <TouchableOpacity
                   style={ styles2.confirmButton }
                   onPress={ () => {
-                    setOnoff(true)
-                    setModalVisible( false )} }
+                    setOnoff( true )
+                    setModalVisible( false )
+                  } }
                 >
                   <Text style={ styles.confirmText }>TURN IT ON</Text>
                 </TouchableOpacity>
@@ -150,13 +162,13 @@ const styles = StyleSheet.create( {
     justifyContent: "space-around",
     width: '100%',
     padding: 10,
-    position:"absolute",
-    top:669,
+    position: "absolute",
+    top: 669,
     borderTopColor: "black",
     zIndex: 10000,
     opacity: 1000,
-
-},
+    backgroundColor: "black"
+  },
   messagetext: {
     color: "white",
     fontSize: 17,
@@ -170,7 +182,7 @@ const styles = StyleSheet.create( {
     justifyContent: "space-between",
     alignItems: "center",
     width: "90%",
-    marginTop: 10
+    marginTop: 50
     // position:"absolute",
   },
   message: {
@@ -192,6 +204,44 @@ const styles = StyleSheet.create( {
     fontSize: 16.5,
     fontWeight: "500",
     color: "red"
+  },
+  navbar: {
+    width: '100%',
+    height: '5%',
+    backgroundColor: "black",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    position: "absolute",
+    zIndex: 10,
+  },
+  righticons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 5,
+  },
+  icontext: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    //  marginLeft:6,
+  },
+  text: {
+    color: "red",
+    marginLeft: 6,
+    fontSize: 22,
+    fontWeight: "500",
+  },
+  icon: {
+    color: "red",
+    marginLeft: 6,
+    fontSize: 22,
+    fontWeight: "500",
+  },
+  sheildicon: {
+    marginRight: 8,
+    marginLeft: 15,
   }
 } );
 const styles2 = StyleSheet.create( {
@@ -200,7 +250,7 @@ const styles2 = StyleSheet.create( {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    display:"none"
+    display: "none"
   },
   button: {
     backgroundColor: '#ff5b5b',

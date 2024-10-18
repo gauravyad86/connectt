@@ -1,20 +1,39 @@
 
 import Nav from '@/components/screens/nav';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, Pressable } from 'react-native';
 import BottomBar from './BottomBar';
-import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 const BottomStarScreen = () => {
     const activeColor = "#FD297B";
     const color = "grey";
     const activeColorLike = "#FD297B";
     const colorLike = "grey";
-    const [ activScreen, setActivieScreen ] = useState( 'Home' );
+    const [ activScreen, setActivieScreen ] = useState( 'Star' );
     const navigation = useNavigation()
     return (
         <View style={ styles.container6 }>
-            <Nav />
+                {/* navbar */ }
+
+                <View style={ styles.navbar }>
+                    <View style={ styles.icontext }>
+                       <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
+                       <Text style={ styles.text }  >tinder</Text>
+                    </View>
+                    <View style={ styles.righticons }>
+                    <TouchableOpacity onPress={ () => {
+                            navigation.navigate( 'notifications' )
+                        } }>
+                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                        {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
+                        <TouchableOpacity onPress={ () => {
+                            navigation.navigate("discoverysetting")
+                        } }> <FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                       
+                    </View>
+                </View>
+
             <View style={ styles.likePageTop }>
                 <Text style={
                     styles.likesCount
@@ -44,7 +63,9 @@ const BottomStarScreen = () => {
                 <MaterialCommunityIcons name="heart-flash" size={ 50 } color="#FFDA44" />
                 <Text style={ styles.goldText }>See people who liked you with <br />Tinder Gold™</Text>
             </View>
-            <TouchableOpacity style={ styles.button }>
+            <TouchableOpacity style={ styles.button } onPress={ () => {
+                            navigation.navigate( 'seewholikeyoumore' )
+                        } } >
                 <Text style={ styles.buttonText }>See who likes you</Text>
             </TouchableOpacity>
             {/* <BottomBar/>   */ }
@@ -56,6 +77,7 @@ const BottomStarScreen = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={ () => {
+                         navigation.navigate( "gridscreen" )
                         setActivieScreen( "Grid" )
                     } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
                     </TouchableOpacity>
@@ -86,12 +108,14 @@ const styles = StyleSheet.create( {
         flex: 1,
         // backgroundColor: 'black', // Dark background color
         // alignItems:"center",
-        backgroundColor: "black"
+        backgroundColor: "#161617",
+       
     },
     likePageTop: {
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center"
+        alignItems: "center",
+         marginTop:"17%"
     },
     header: {
         paddingTop: 40,
@@ -115,6 +139,7 @@ const styles = StyleSheet.create( {
         borderTopColor: "black",
         zIndex: 10000,
         opacity: 1000,
+        backgroundColor:"black"
 
     },
     main: {
@@ -134,7 +159,7 @@ const styles = StyleSheet.create( {
         fontSize: 17,
         textAlign: 'center',
         // marginBottom: 30,
-        marginTop: 10
+        marginTop: 20
     },
     heartContainer: {
         alignItems: 'center',
@@ -187,7 +212,51 @@ const styles = StyleSheet.create( {
     navIcon: {
         fontSize: 24,
         color: '#FFFFFF',
-    },
+    }, 
+    navbar: {
+        // width: '100%',
+        // height: '6%',
+        // backgroundColor: "black",
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        // alignItems: "center",
+        width: '100%',
+        height: '7%',
+        backgroundColor: "black",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position:"absolute",
+        zIndex:10,
+      },
+      righticons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginRight: 5,
+      },
+      icontext: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        //  marginLeft:6,
+      },
+      text: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+      },
+      icon: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+      },
+      sheildicon: {
+        marginRight: 8,
+        marginLeft: 15,
+      }
 } );
 
 export default BottomStarScreen;

@@ -1,5 +1,5 @@
 import Nav from '@/components/screens/nav';
-import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button } from 'react-native';
 import plans from "@/assets/data/plans"
@@ -20,13 +20,31 @@ const UserInfo = () => {
   const displaysNon = {
     display: "none"
   }
-  const [ activScreen, setActivieScreen ] = useState( 'Home' );
+  const [ activScreen, setActivieScreen ] = useState( 'User' );
   const navigation = useNavigation()
 
   return (
     <ScrollView style={ styles.container }>
       {/* Header */ }
-      <Nav  ></Nav>
+      <View style={ styles.navbar }>
+        <View style={ styles.icontext }>
+          <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
+          <Text style={ styles.text }  >tinder</Text>
+        </View>
+        <View style={ styles.righticons }>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( 'sheild' )
+          } }>
+            <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            navigation.navigate( 'setting' )
+            console.log("object")
+          } }>
+            <Ionicons name="settings" size={ 25 } style={ styles.sheildicon } color="grey" />
+          </TouchableOpacity>
+        </View>
+      </View>
       {/* Profile Section */ }
       <View style={ styles.profileSection }>
         <View style={ styles.profilePicContainer }>
@@ -49,17 +67,19 @@ const UserInfo = () => {
         <TouchableOpacity style={ styles.useractiveicons } onPress={ () => {
           navigation.navigate( 'getsuperlikes' )
         } }>
-          <FontAwesome name="star" size={ 19 } color="#1597fa" />
-          <Text style={ styles.actionText }>Get Super Likes</Text>
+          <FontAwesome name="star" size={ 25 } color="#1597fa" />
+          <Text style={ styles.actionText }>GET MORE </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={ styles.useractiveicons }>
-          <FontAwesome name="flash" size={ 19 } color="#c145ec" />
-          <Text style={ styles.actionText }>Get Super Likes</Text>
+        <TouchableOpacity style={ styles.useractiveicons } onPress={ () => {
+          navigation.navigate( 'subsription' )
+        } } >
+          <FontAwesome name="flash" size={ 25 } color="#c145ec" />
+          <Text style={ styles.actionText }>GET MORE</Text>
         </TouchableOpacity>
         <TouchableOpacity style={ styles.useractiveicons } onPress={ () => {
           navigation.navigate( 'subsription' )
         } }>
-          <Fontisto name="tinder" color="red" size={ 19 } />
+          <Fontisto name="tinder" color="red" size={ 25 } />
           <Text style={ styles.actionText }>Subsriptions</Text>
         </TouchableOpacity>
       </View>
@@ -83,9 +103,9 @@ const UserInfo = () => {
                   <View style={ { justifyContent: "center", alignItems: "center", height: "7%", width: "40%", marginTop: 7.5, backgroundColor: "gold" } } > <Text style={ { color: 'black', fontSize: 10, fontWeight: "bold" } }>GOLD</Text></View>
                 </View>
                 <TouchableOpacity style={ styles.selectButton } onPress={ () => {
-                  navigation.navigate( "purchase" )
+                  navigation.navigate( "seewholikeyoumore" )
                 } }>
-                  <Text style={ [styles.selectButtonText] }>Upgrade</Text>
+                  <Text style={ [ styles.selectButtonText ] }>Upgrade</Text>
                 </TouchableOpacity>
               </View>
               <View style={ styles.whatincluded }>
@@ -130,6 +150,7 @@ const UserInfo = () => {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={ () => {
+            navigation.navigate( "gridscreen" )
             setActivieScreen( "Grid" )
           } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
           </TouchableOpacity>
@@ -171,18 +192,18 @@ const styles = StyleSheet.create( {
     width: 70,
     height: 35,
   },
-  selectButton:{
-    height:"100%",
-    width:"50%",
-    backgroundColor:"gold",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:20,
+  selectButton: {
+    height: "100%",
+    width: "50%",
+    backgroundColor: "gold",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
   },
-  selectButtonText:{
-    fontSize:20,
-    fontWeight:"700"
- 
+  selectButtonText: {
+    fontSize: 20,
+    fontWeight: "700"
+
   },
   topIcons: {
     flexDirection: "row",
@@ -229,12 +250,13 @@ const styles = StyleSheet.create( {
   },
   profileSection: {
     alignItems: 'center',
-    height: "60%",
+    height: "59%",
     backgroundColor: "#111419",
     borderRadius: 5,
     flexDirection: "column",
     justifyContent: "center",
     width: "100%",
+    marginTop: 30
   },
   profilePicContainer: {
     position: 'relative',
@@ -361,7 +383,7 @@ const styles = StyleSheet.create( {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop:10,
+    marginTop: 10,
   },
   freeType: {
     flexDirection: "row",
@@ -374,6 +396,50 @@ const styles = StyleSheet.create( {
     marginRight: 18,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  navbar: {
+    // width: '100%',
+    // height: '6%',
+    // backgroundColor: "black",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    width: '100%',
+    height: '9%',
+    backgroundColor: "black",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    position: "absolute",
+    zIndex: 100,
+  },
+  righticons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginRight: 5,
+  },
+  icontext: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    //  marginLeft:6,
+  },
+  text: {
+    color: "red",
+    marginLeft: 6,
+    fontSize: 22,
+    fontWeight: "500",
+  },
+  icon: {
+    color: "red",
+    marginLeft: 6,
+    fontSize: 22,
+    fontWeight: "500",
+  },
+  sheildicon: {
+    marginRight: 8,
+    marginLeft: 15,
   }
 } );
 

@@ -1,4 +1,5 @@
-import { FontAwesome, Fontisto } from '@expo/vector-icons';
+import { Entypo, FontAwesome, Fontisto } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
@@ -29,15 +30,22 @@ export default function GetSuperLikes () {
                 <TouchableOpacity style={ styles.closeButton } onPress={ () => {
                     navigation.goBack()
                 } }>
-                    <Text style={ styles.closeText }>❌</Text>
+                    <Entypo name="cross" size={ 26 } color="white" />
                 </TouchableOpacity>
 
                 {/* Tinder+ logo and text */ }
-                <View style={ styles.header }>
-                    <FontAwesome name="star" size={ 20 } color="#1597fa" />
+                <LinearGradient
+                    colors={ [ 'rgba(5, 35, 88, 2)', 'transparant' ] } // Adjust the second color for the gradient
+                    style={ styles.header }
+                >
+                    <FontAwesome name="star" size={ 20 } color="#1597fa" style={ { marginTop: 15 } } />
                     <Text style={ styles.headerText }>Get Super Likes</Text>
-                </View>
-
+                </LinearGradient>
+                {/* <LinearGradient
+                    // Background Linear Gradient
+                    colors={ [ 'transparent', 'rgba(8,1,1,5)' ] }
+                    style={ styles.background }
+                /> */}
                 {/* Main Heading Text */ }
                 <Text style={ styles.mainHeading }>
                     Stand out with Super <br />
@@ -51,11 +59,12 @@ export default function GetSuperLikes () {
                     <ScrollView horizontal showsHorizontalScrollIndicator={ false } style={ styles.use }>
                         { userss.map( user => (
                             <View style={ styles.user } key={ user.id }>
+                                {user.id===2?( <Text style={ styles.Week }>{ user.name }</Text>):(<Text/>)}
                                 <Text style={ styles.Week }>{ user.name }</Text>
                                 <Text style={ styles.rsValue }>{ user.rs }</Text>
-                                <TouchableOpacity style={ styles.selectButton } onPress={()=>{
-                            navigation.navigate("purchase")
-                        }}>
+                                <TouchableOpacity style={ styles.selectButton } onPress={ () => {
+                                    navigation.navigate( "homepagestarselect" )
+                                } }>
                                     <Text style={ styles.selectButtonText }>Select</Text>
                                 </TouchableOpacity>
                             </View>
@@ -78,9 +87,9 @@ export default function GetSuperLikes () {
                             <Fontisto name="tinder" size={ 22 } color="yellow" style={ styles.icon } />
                             <Text style={ styles.tinderGoldText }>Get Tinder Gold</Text>
                         </View>
-                        <TouchableOpacity style={ styles.goldSelectButton } onPress={()=>{
-                            navigation.navigate("purchase")
-                        }}>
+                        <TouchableOpacity style={ styles.goldSelectButton } onPress={ () => {
+                            navigation.navigate( "seewholikeyoumore" )
+                        } }>
                             <Text style={ styles.goldSelectButtonText }>Select</Text>
                         </TouchableOpacity>
                     </View>
@@ -115,13 +124,18 @@ const styles = StyleSheet.create( {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 10,
+        // marginVertical: 10,
+        width: "100%",
+        // height:"5%",
+        // marginTop:
+
     },
     headerText: {
         color: 'white',
         fontSize: 20,
         fontWeight: '500',
         marginLeft: 5,
+        marginTop: 15,
     },
     mainHeading: {
         color: 'white',
@@ -144,15 +158,15 @@ const styles = StyleSheet.create( {
     use: {
     },
     user: {
-        height: "100%",
-        width: "40%",
+        height: 180,
+        width: "35%",
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#7B8799',
+        borderColor: '#555962',
         // marginHorizontal: 10,
-        marginRight:9,
+        marginRight: 9,
         padding: 10,
     },
     Week: {
@@ -168,17 +182,19 @@ const styles = StyleSheet.create( {
         marginTop: 19,
     },
     selectButton: {
-        backgroundColor: 'blue',
+        backgroundColor: '#1886ff',
         borderRadius: 30,
-        marginTop: 10,
-        paddingVertical: 15,
-        paddingHorizontal: 40,
+        marginTop: 10, height: "30%",
+        width: "80%",
+        justifyContent: "center", alignItems: "center"
+        // paddingVertical: 15,
+        // paddingHorizontal: 40,
     },
     selectButtonText: {
         color: 'white',
         fontWeight: '500',
-        fontSize: 18,
-        fontWeight: "bold"
+        fontSize: 20,
+        fontWeight: "500"
     },
     dividerContainer: {
         flexDirection: 'row',
@@ -188,17 +204,18 @@ const styles = StyleSheet.create( {
     },
     line: {
         height: 1,
-        backgroundColor: '#7B8799',
-        width: '40%',
+        backgroundColor: '#555962',
+        width: '44%',
     },
     orText: {
         fontSize: 18,
         color: 'white',
         marginHorizontal: 10,
+        fontWeight: "bold"
     },
     bottombox: {
         borderWidth: 1,
-        borderColor: '#7B8799',
+        borderColor: '#555962',
         borderRadius: 10,
         padding: 15,
         marginVertical: 15,
@@ -206,9 +223,10 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
     },
     bottomText: {
-        fontSize: 15,
+        fontSize: 13,
         color: 'white',
         textAlign: 'center',
+        fontWeight: "bold"
     },
     header2: {
         flexDirection: 'row',
@@ -227,11 +245,19 @@ const styles = StyleSheet.create( {
         paddingVertical: 8,
         paddingHorizontal: 15,
         borderWidth: 1,
-        borderColor: '#7B8799',
+        borderColor: '#555962',
     },
     goldSelectButtonText: {
         color: 'white',
         fontWeight: '500',
         fontSize: 15,
+    }, background: {
+        width: '100%',
+        height: '100%',
+        //   borderRadius: 10,
+        borderBottomEndRadius: 10,
+        borderBottomLeftRadius: 10,
+        top: -40
     },
 } );
+// #05234d

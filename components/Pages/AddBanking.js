@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 
-export default function AddCreditDebitcard () {
+export default function AddBanking () {
     const colorScheme = Appearance.getColorScheme();  // Detect light or dark mode
     const isDarkMode = colorScheme === 'dark';  // Boolean to check if dark mode is active
 
@@ -23,7 +23,6 @@ export default function AddCreditDebitcard () {
             </TouchableOpacity>
 
             {/* Card Number Input */ }
-            <Text style={ { color: "#D7DCD4", marginBottom: 20 } }> All feild required</Text>
             <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize:16 } }>Card number</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -34,65 +33,11 @@ export default function AddCreditDebitcard () {
                 onChangeText={ setCardNumber }
             />
 
-            {/* Expiry Date Input */ }
-            <View style={ { flexDirection: "row", alignItems:"center" } }>
-                <View style={ { flexDirection: "column", justifyContent:"center",  } }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>Expiry Date</Text>
-                    <TextInput
-                        style={ [{width:"80%", height: 50,
-                            borderColor: '#A3A8A1',
-                            borderWidth: .01,
-                            borderRadius: 3,
-                            // paddingHorizontal: 10,
-                            fontSize: 16,
-                            marginBottom: 20,} , isDarkMode ? styles.darkInput : styles.lightInput ] }
-                        placeholder=" MM/YY"
-                        placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                        keyboardType="numeric"
-                        value={ expiryDate }
-                        onChangeText={ setExpiryDate }
-                    />
-                </View>
-
-                {/* CVV Input */ }
-                <View style={ { flexDirection: "column" } }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>CVC </Text>
-                    <TextInput
-                        style={ [ {width:"85%", height: 50,
-                            borderColor: '#A3A8A1',
-                            borderWidth: .01,
-                            borderRadius: 3,
-                            // paddingHorizontal: 10,
-                            fontSize: 16,
-                            marginBottom: 20,}, isDarkMode ? styles.darkInput : styles.lightInput ] }
-                        placeholder="CVV"
-                        placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                        keyboardType="numeric"
-                        secureTextEntry
-                        value={ cvv }
-                        onChangeText={ setCvv }
-                    />
-                </View>
-            </View>
+            
 
             {/* Cardholder Name Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Cardholder Name</Text>
-            <TextInput
-                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
-                placeholder="Cardholder Name"
-                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
-            />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Country/region</Text>
-            <TextInput
-                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
-                placeholder="country"
-                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
-            />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> State</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:17,marginTop:10,marginBottom:15 } }>India</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>State</Text>
 
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -101,9 +46,23 @@ export default function AddCreditDebitcard () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
+            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Phone number</Text>
+           <TextInput
+                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
+                placeholder="country"
+                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
+                value={ cardholderName }
+                onChangeText={ setCardholderName }
+            />
             <Text style={ styles.darkInput }> By Continuing, you creat a Google Payments account and agree to the Google Payments Terms of Service.</Text>
             <Text style={ styles.darkInput }> The Privacy Notice describes how your data is handled                       </Text>
             {/* Submit Button */ }
+            <View
+                style={ {
+                    borderBottomColor: 'white',
+                    borderBottomWidth: StyleSheet.hairlineWidth, marginTop:120,
+                } }
+            />
             <View style={ styles.purchaseDetails }>
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                     <View style={ styles.tindericonBackground }>
@@ -118,7 +77,9 @@ export default function AddCreditDebitcard () {
                 </View>
                 <Text style={ styles.purchasePrice }>₹2,700.00</Text>
             </View>
+
             <TouchableOpacity style={ styles.button }>
+         
                 <Text style={ styles.buttonText }>Save Card</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -144,7 +105,7 @@ const styles = StyleSheet.create( {
     purchaseDetails: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 40,
+        marginVertical: 15,
     },
     purchasePrice: {
         color: 'white',
