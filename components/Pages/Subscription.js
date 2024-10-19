@@ -1,3 +1,4 @@
+import plans from '@/assets/data/plans';
 import { AntDesign, Entypo, Fontisto } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React from 'react';
@@ -22,14 +23,16 @@ const Subsription = () => {
                 </View>
 
                 {/* Scrollable Card Section */ }
-                <ScrollView horizontal showsHorizontalScrollIndicator={ false } style={ styles.cardContainer }>
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={ false } style={ styles.cardContainer }>
+                    {plans.map(()=>{
+                        
+                    })}
                     <View style={ styles.box1 }>
                         <Fontisto name="tinder" size={ 25 } color="#FD297B" />
                         <Text style={ styles.optionTitle }> tinder</Text>
-
                         <AntDesign name="plus" size={ 20 } color="#FD297B" />
                     </View>
-                    <View style={ styles.box2 }>
+                    {/* <View style={ styles.box2 }>
                         <Fontisto size={ 25 } name='tinder' color="#ecb757" style={ { marginRight: 8 } } />
                         <Text style={ styles.optionTitle }>tinder</Text>
                         <Text style={ { color: 'black', backgroundColor: "#ecb757", fontSize: 9, marginTop: 8, fontWeight: "bold" } }>GOLD</Text>
@@ -38,20 +41,13 @@ const Subsription = () => {
                         <Fontisto size={ 18 } name='tinder' color="#252523" style={ { marginRight: 7 } } />
                         <Text style={ styles.optionTitle }>tinder</Text>
                         <Text style={ { color: 'white', backgroundColor: "#252523", fontSize: 9, marginTop: 8 } }>Platinum</Text>
-                    </View>
+                    </View> */}
                 </ScrollView>
-                {/* <ScrollView vertical={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }> */ }
-                {/* Upgrade Your Likes Section */ }
-                {/* <View style={ styles.upgradeTitleBox }> */ }
                 <Text style={ styles.upgradeTitle }>Upgrade Your Likes</Text>
-                {/* </View> */ }
                 <View style={ styles.upgradeSection }>
                     <View style={ styles.benefitItem }>
-                        {/* <View style={ styles.benefitLabel }> */ }
-
                         <Entypo name="check" size={ 24 } color="red" />
                         <Text style={ styles.benefitLabel }> Unlimited Likes</Text>
-                        {/* </View> */ }
                     </View>
                     <View style={ styles.benefitItem }>
                         <Entypo name="lock" size={ 18 } color="white" />
@@ -59,21 +55,18 @@ const Subsription = () => {
                     </View>
                     <View style={ styles.benefitItem }>
                         <Entypo name="lock" size={ 18 } color="white" />
-                        <View >
-                            <Text style={ styles.benefitLabel }> Priority Likes</Text>
-                            <Text style={ styles.benefitLabel2 }> Your Likes will be seen sooner
-                                <br /> with Priority Likes</Text></View>
+                        <View>
+                            <Text style={ styles.benefitLabel }>Priority Likes</Text>
+                            <Text style={ styles.benefitLabel2 }>Your Likes will be seen sooner
+                            {'\n'}with Priority Likes</Text></View>
                     </View>
                 </View>
                 <Text style={ styles.upgradeTitle }>Enhance your experience</Text>
                 {/* </View> */ }
                 <View style={ styles.upgradeSection }>
                     <View style={ styles.benefitItem }>
-                        {/* <View style={ styles.benefitLabel }> */ }
-
                         <Entypo name="check" size={ 24 } color="red" />
-                        <Text style={ styles.benefitLabel }> Unlimited Rewinds</Text>
-                        {/* </View> */ }
+                        <Text style={ styles.benefitLabel }>Unlimited Rewinds</Text>
                     </View>
                     <View style={ styles.benefitItem }>
                         <Entypo name="lock" size={ 18 } color="white" />
@@ -82,20 +75,20 @@ const Subsription = () => {
                     <View style={ styles.benefitItem }>
                         <Entypo name="lock" size={ 18 } color="white" />
                         <View >
-                            <Text style={ styles.benefitLabel }> 3 Free Super Likes per week </Text>
+                            <Text style={ styles.benefitLabel }>3 Free Super Likes per week </Text>
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
                         <Entypo name="lock" size={ 18 } color="white" />
                         <View >
-                            <Text style={ styles.benefitLabel }>  Message Before Matching</Text>
-                            <Text style={ styles.benefitLabel2 }> Add a note to your Super Likes
-                               </Text></View>
+                            <Text style={ styles.benefitLabel }>Message Before Matching</Text>
+                            <Text style={ styles.benefitLabel2 }>Add a note to your Super Likes</Text>
+                        </View>
                     </View>
                 </View>
-                {/* <Text style={ styles.upgradeTitle }>Premium Discovery</Text> */}
+                {/* <Text style={ styles.upgradeTitle }>Premium Discovery</Text> */ }
                 {/* </View> */ }
-                {/* <View style={ styles.upgradeSection }> */}
+                {/* <View style={ styles.upgradeSection }> */ }
                 {/* <View style={ styles.benefitItem }>
                      <Entypo name="check" size={ 18 } color="red" />
                       
@@ -113,15 +106,15 @@ const Subsription = () => {
                         <View  >
                             <Text style={ styles.benefitLabel }> Priority Likes</Text>
                             <Text style={ styles.benefitLabel2 }> Your Likes will be seen sooner
-                                <br /> with Priority Likes</Text></View>
+                               {'\n'}with Priority Likes</Text></View>
                     </View> */}
-                {/* </View> */}
+                {/* </View> */ }
 
                 {/* Pricing Section */ }
-                 <TouchableOpacity style={ styles.priceButton } onPress={()=>{
-                    navigation.navigate("substartclick")
-                 }}>
-                    <Text style={ styles.priceText }>STARTING AT ₹99.00</Text>
+                <TouchableOpacity style={ [styles.priceButton, {backgroundColor: plan.id === 1 ? 'gold' : plan.id === 2 ? 'platinum' : '#FF4500'}] } onPress={ () => {
+                    navigation.navigate( "substartclick" )
+                } }>
+                    <Text style={ [styles.priceText ]}>STARTING AT ₹99.00</Text>
                 </TouchableOpacity>
                 {/* </ScrollView> */ }
             </View>
@@ -156,7 +149,7 @@ const styles = StyleSheet.create( {
         zIndex: 1, // Ensure it stays on top
     },
     closeText: {
-        fontSize: 24,
+        fontSize: 18,
         color: 'white',
     },
     topBar: {
@@ -290,7 +283,7 @@ const styles = StyleSheet.create( {
         fontSize: 12,
         marginTop: 5,
         flexDirection: "column",
-        marginLeft:15
+        marginLeft: 15
 
     },
     benefitsSection: {
@@ -304,7 +297,7 @@ const styles = StyleSheet.create( {
         marginBottom: 10,
     },
     priceButton: {
-        backgroundColor: '#FF5A60',
+        // backgroundColor: '#FF5A60',
         paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 30,
@@ -312,7 +305,7 @@ const styles = StyleSheet.create( {
         // marginBottom: 50,
         alignItems: 'center',
         position: "relative",
-        marginTop:20
+        marginTop: 20
 
     },
     priceText: {

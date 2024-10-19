@@ -1,8 +1,6 @@
 
-import Nav from '@/components/screens/nav';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, Pressable } from 'react-native';
-import BottomBar from './BottomBar';
 import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 const BottomStarScreen = () => {
@@ -15,7 +13,6 @@ const BottomStarScreen = () => {
     return (
         <View style={ styles.container6 }>
                 {/* navbar */ }
-
                 <View style={ styles.navbar }>
                     <View style={ styles.icontext }>
                        <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
@@ -29,24 +26,23 @@ const BottomStarScreen = () => {
                         {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
                         <TouchableOpacity onPress={ () => {
                             navigation.navigate("discoverysetting")
-                        } }> <FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                        } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
                        
                     </View>
                 </View>
-
             <View style={ styles.likePageTop }>
                 <Text style={
                     styles.likesCount
-                }>  0 likes</Text>
+                }>0 likes</Text>
                 <Text style={
                     styles.likesCount
-                }> |</Text>
+                }>|</Text>
                 <TouchableOpacity onPress={ () => {
                     navigation.navigate( "picks" )
                 } }>
                     <Text style={
                         styles.likesCount
-                    }>  Top Picks</Text>
+                    }>Top Picks</Text>
                 </TouchableOpacity>
             </View>
             <View
@@ -56,12 +52,12 @@ const BottomStarScreen = () => {
                 } }
             />
             <Text style={ styles.upgradeText }>Upgrade to Gold to see people
-                <br />who have already liked you.</Text>
+                {'\n'}who have already liked you.</Text>
             {/* Main Section */ }
 
             <View style={ styles.heartContainer }>
                 <MaterialCommunityIcons name="heart-flash" size={ 50 } color="#FFDA44" />
-                <Text style={ styles.goldText }>See people who liked you with <br />Tinder Gold™</Text>
+                <Text style={ styles.goldText }>See people who liked you with{'\n'}Tinder Gold™</Text>
             </View>
             <TouchableOpacity style={ styles.button } onPress={ () => {
                             navigation.navigate( 'seewholikeyoumore' )
@@ -69,34 +65,26 @@ const BottomStarScreen = () => {
                 <Text style={ styles.buttonText }>See who likes you</Text>
             </TouchableOpacity>
             {/* <BottomBar/>   */ }
-            <View style={ styles.topIcons } >
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "User" )
-                        setActivieScreen( "Home" )
-                    } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
+            <View style={styles.bottomBar}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("Home"); setActivieScreen("Home"); }}>
+                        <Fontisto size={30} name='tinder' color={activScreen === 'Home' ? activeColor : color} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={ () => {
-                         navigation.navigate( "gridscreen" )
-                        setActivieScreen( "Grid" )
-                    } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
+                    <TouchableOpacity onPress={() => { navigation.navigate("gridscreen"); setActivieScreen("Grid"); }}>
+                        <MaterialCommunityIcons name="view-grid" size={24} color={activScreen === 'Grid' ? activeColor : color} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "4starscreen" )
-                        setActivieScreen( "Star" )
-                    } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "chatscreen" )
-                        setActivieScreen( "Chat" )
-                    } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-                    <TouchableOpacity
 
-                        onPress={ () => {
-                            navigation.navigate( "user" )
-                            setActivieScreen( "User" )
-                        } }
-                    > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.navigate("4starscreen"); setActivieScreen("Star"); }}>
+                        <MaterialCommunityIcons size={30} name='star-four-points' color={activScreen === 'Star' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("chatscreen"); setActivieScreen("Chat"); }}>
+                        <Ionicons name='chatbubbles' size={30} color={activScreen === 'Chat' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("user"); setActivieScreen("User"); }}>
+                        <FontAwesome name='user' size={30} color={activScreen === 'User' ? activeColor : color} />
+                    </TouchableOpacity>
                 </View>
 
         </View>
@@ -129,18 +117,16 @@ const styles = StyleSheet.create( {
         fontSize: 24,
         fontWeight: 'bold',
     },
-    topIcons: {
+    bottomBar: {
         flexDirection: "row",
         justifyContent: "space-around",
         width: '100%',
-        padding: 10,
-        position:"absolute",
-        top:669,
-        borderTopColor: "black",
-        zIndex: 10000,
-        opacity: 1000,
-        backgroundColor:"black"
-
+        paddingVertical: 10,
+        backgroundColor: "black",
+        position: "absolute",
+        bottom: 0,
+        borderTopWidth: 1,
+        borderTopColor: "grey",
     },
     main: {
         flex: 1,

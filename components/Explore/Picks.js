@@ -1,16 +1,4 @@
-// import React from 'react'
-// import { View } from 'react-native'
-// import SubCross from "@/components/onCross/SubCross"
-// import Getlikes from "@/components/getLikes/getlikes"
-// export default function explore() {
-//   return (
-//    <View>
-//     {/* <SubCross></SubCross> */}
-//     {/* <Getlikes></Getlikes> */}
 
-//    </View>
-//   )
-// }
 import users from '@/assets/data/users';
 import Nav from '@/components/Navbar/nav';
 import MatchesScreen from '@/components/screens/MatchesScreen';

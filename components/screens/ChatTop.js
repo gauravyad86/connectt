@@ -7,9 +7,6 @@ const ChatTop = () => {
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <SafeAreaView style={ styles.root }>
         <View style={ styles.container }>
-          {/* <Text style={{fontWeight: 'bold', fontSize: 24, color: '#F63A6E'}}>
-          New Matches
-        </Text> */}
           <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }>
             { users.map( user => (
               <View style={ styles.user } key={ user.id }>
@@ -19,7 +16,6 @@ const ChatTop = () => {
 
             ) ) }
           </ScrollView>
-
         </View>
       </SafeAreaView>
     </ScrollView>

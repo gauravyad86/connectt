@@ -15,17 +15,15 @@ export default function Message () {
         <ScrollView vertical={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }>
             <View style={ styles.messHeading }>
                 <Text style={ styles.messagetext } > Messages</Text>
-                {/* <View style={tw.style("w-full h-4 bg-green" )}> <Text style={tw.style("color-white")}>1</Text> </View> */ }
             </View>
             { users.map( user => (
                 <TouchableOpacity onPress={ () => {
                     navigation.navigate( "chatsection" )
-                } }>
+                } } key={user.id}>
                     <View style={ styles.mess } key={ user.id }>
                         <Image source={ { uri: user.image } } style={ styles.image } />
                         <View style={ styles.messageContent }>
                             <Text style={ styles.name }> { user.name }</Text>
-                            {/* {user.varified && <Text style={styles.verified}> ✔</Text>}    */ }
                             <Text style={ styles.bio }>{ user.bio }</Text>
                             <View
                                 style={ {
@@ -37,10 +35,8 @@ export default function Message () {
                         </View>
                     </View>
                 </TouchableOpacity>
-
             ) )
             }
-
         </ScrollView >
     )
 }
@@ -101,7 +97,7 @@ const styles = StyleSheet.create( {
         alignItems: "center",
     },
     image: {
-        width: '18%',
+        width: '15%',
         height: '60%',
         borderRadius: 90,
     },

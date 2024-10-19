@@ -34,12 +34,12 @@ const Explore = () => {
         }}
       />
       <Text style={styles.upgradeText}>Upgrade to Gold to see people
-        <br />who have already liked you.</Text>
+        {'\n'}who have already liked you.</Text>
       {/* Main Section */}
 
       <View style={styles.heartContainer}>
         <MaterialCommunityIcons name="heart-flash" size={50} color="#FFDA44" />
-        <Text style={styles.goldText}>See people who liked you with <br/>Tinder Gold™</Text>
+        <Text style={styles.goldText}>See people who liked you with {'\n'}Tinder Gold™</Text>
       </View>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>See who likes you</Text>

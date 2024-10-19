@@ -22,13 +22,11 @@ const LoginScreen = () => {
             source={ image }
         >
             {
-                type === 1 ? (
+                type === 1?(
                         <View style={ tw.style( "flex-1 justify-center items-center w-full" ) }>
                             <Text style={ tw.style( "font-bold text-2xl" ) }>Sign In</Text>
                             <Text style={ tw.style( "text-black text-2xl" ) }> Access your  account</Text>
                             <View style={ tw.style( "w-full p-5" ) }>
-
-
                                 <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Email</Text>
                                 <TextInput
                                     keyboardType="email-address"
@@ -49,23 +47,21 @@ const LoginScreen = () => {
                             />
                                 <TouchableOpacity  onPress={SignIn}style={ tw.style( "w-full rounded-lg mt-8 bg-black py-3" ) }>
                                     <Text style={ tw.style( "text-center text-gray-100 pt-3 text-1xl font-bold" ) }>
-                                        Sign In
-                                    </Text>
+                                        Sign In</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={ () => setType( 2 ) } >
-                                    <Text style={ tw.style( "text-center text-grat-100 pt-3 text-1xl font-bold" ) }>
-                                        Doesnot  have an account?
+                                    <Text style={ tw.style( "text-center text-gray-100 pt-3 text-1xl font-bold" ) }>
+                                        Doesn't  have an account?
                                     </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                 
-                ) : (
+                ):(
                     <View style={ tw.style( "flex-1 justify-center items-center w-full" ) }>
                         <Text style={ tw.style( "font-bold text-2xl" ) }>Sign Up</Text>
                         <Text style={ tw.style( "text-black text-2xl" ) }>Create a new account</Text>
                         <View style={ tw.style( "w-full p-5" ) }>
-
                             <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Name</Text>
                             <TextInput
                                 style={ tw.style(
@@ -74,7 +70,6 @@ const LoginScreen = () => {
                                 onChange={ ( text ) => setName( text.target.value ) }
                                 value={name}
                             />
-
                             <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Email</Text>
                             <TextInput
                                 keyboardType="email-address"
@@ -99,13 +94,12 @@ const LoginScreen = () => {
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={ () => setType( 1 ) } >
-                                <Text style={ tw.style( "text-center text-grat-100 pt-3 text-1xl font-bold" ) }>
-                                    Aready have an account?
+                                <Text style={ tw.style( "text-center text-gray-100 pt-3 text-1xl font-bold" ) }>
+                                    Already have an account?
                                 </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-
                 ) }
         </ImageBackground>
     );

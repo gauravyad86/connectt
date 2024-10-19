@@ -486,7 +486,7 @@ const styles = StyleSheet.create( {
   },
   header: {
     fontSize: 15,
-    height: "80%",
+    height: 45,
     width: "100%",
     // fontWeight: 'bold',
     // marginBottom: 10,

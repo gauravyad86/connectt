@@ -2,8 +2,10 @@ import { Entypo, FontAwesome5, Fontisto } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react'
 import { SafeAreaView, View, ScrollView } from 'react-native'
-import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Image , Dimensions} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import TinderSwipeDemo from "@/components/TinderCard/TinderSwipeDemo";
+const { width, height } = Dimensions.get('window');
 export default function MysubStarting () {
     const userss = [
         {
@@ -34,36 +36,26 @@ export default function MysubStarting () {
             <ScrollView style={ styles.container } vertial={ true } howsVerticalScrollIndicator={ false }>
 
                 {/* Close button on top-left */ }
-
                 <View style={ styles.closeButton }>
-
-                <TouchableOpacity onPress={ () => navigation.goBack() }>
-                    <View style={ styles.closeButton }>
-                        <Entypo name="cross" size={ 26 } color="white" />
+                    <TouchableOpacity onPress={ () => navigation.goBack() } >
+                        <Entypo name="cross" size={ 30 } color="white" />
+                    </TouchableOpacity>
+                    <View style={ styles.header }>
+                        <Fontisto name="tinder" size={ 22 } color="#FFDE59" style={ styles.icon } />
+                        <Text style={ styles.headerText }>tinder</Text>
+                        <Text style={ { color: 'black', backgroundColor: "#FFDE59", fontSize: 9, marginTop: 8, fontWeight: "700" } }>GOLD</Text>
                     </View>
-                </TouchableOpacity>
-
-                </View>
-                {/* Tinder+ logo and text */ }
-                <View style={ styles.header }>
-                    <Fontisto name="tinder" size={ 22 } color="#FFDE59" style={ styles.icon } />
-                    <Text style={ styles.headerText }>tinder</Text>
-                    <Text style={ { color: 'black', backgroundColor: "#FFDE59", fontSize: 9, marginTop: 8, fontWeight: "700" } }>GOLD</Text>
                 </View>
                 <ScrollView style={ styles.container } vertial={ true } howsVerticalScrollIndicator={ false }>
                     {/* Main Heading Text */ }
                     <Text style={ styles.mainHeading }>
                         See who Likes you with
-                        <br />
+                        {'\n'}
                         Tinder Gold™
-
                     </Text>
                     <Text style={ styles.planText }> Select a plan</Text>
 
                     <View style={ styles.container2 }>
-                        {/* <Text style={{fontWeight: 'bold', fontSize: 24, color: '#F63A6E'}}>
-          New Matches
-        </Text> */}
                         <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.use }>
                             { userss.map( user => (
                                 <View style={ [ styles.user, ] } key={ user.id }>
@@ -82,7 +74,6 @@ export default function MysubStarting () {
                     <View style={ styles.upgradeSection }>
                         <View style={ styles.benefitItem }>
                             {/* <View style={ styles.benefitLabel }> */ }
-
                             <Entypo name="check" size={ 24 } color="white" />
                             <Text style={ styles.benefitLabel }>Unlimited Likes</Text>
                             {/* </View> */ }
@@ -102,7 +93,7 @@ export default function MysubStarting () {
                             <Entypo name="check" size={ 24 } color="white" />
                             <View >
                                 <Text style={ styles.benefitLabel }>1 Free Boost per month </Text>
-                                <Text style={ styles.benefitLabel2 }>Free monthly Boost only available for <br />1 month or longer subscriptions
+                                <Text style={ styles.benefitLabel2 }>Free monthly Boost only available for{'\n'}1 month or longer subscriptions
                                 </Text>
                             </View>
                         </View>
@@ -134,7 +125,7 @@ export default function MysubStarting () {
                             <View >
                                 <Text style={ styles.benefitLabel }>Top Picks</Text>
                                 <Text style={ styles.benefitLabel2 }>Browse through a daily curated selection
-                                    <br />of profile
+                                {'\n'}of profile
                                 </Text>
                             </View>
                         </View>
@@ -152,7 +143,7 @@ export default function MysubStarting () {
                             <View >
                                 <Text style={ styles.benefitLabel }>Control Who You See </Text>
                                 <Text style={ styles.benefitLabel2 }>Choose the type of people you want to
-                                    <br />control them
+                                {'\n'}control them
 
                                 </Text>
                             </View>
@@ -224,9 +215,9 @@ const styles = StyleSheet.create( {
     },
 
     closeButton: {
-        position: 'absolute',
-        top: 10,
-        left: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        // justifyContent: 'center',
     },
     closeText: {
         fontSize: 24,
@@ -255,6 +246,7 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 10,
+        margin:"auto"
     },
     logo: {
         width: 25,
@@ -286,7 +278,7 @@ const styles = StyleSheet.create( {
         marginTop: -30
     },
     user: {
-        //  height: "100%",
+         height: height*.2,
         width: "45%",
         borderRadius: 10,
         justifyContent: "center",
@@ -395,7 +387,7 @@ const styles = StyleSheet.create( {
     },
     bottomTextBTn: {
         position: "absolute",
-        bottom: 200,
+        bottom: 0,
         backgroundColor: "black",
         height: "20%"
     }, continueButton: {

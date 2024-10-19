@@ -1,15 +1,22 @@
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet, Image, FlatList, SafeAreaView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Card = ({ title, icon, userCount }) => {
+const Card = ({ title, icon, userCount ,id}) => {
+    const navigation = useNavigation()
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={()=>{
+            if(id==='1'){
+                navigation.navigate("coffyDate")
+            }
+        }}>
             <Image source={icon} style={styles.icon} />
             <Text style={styles.title}>{title}</Text>
             <View style={styles.userCount}>
                 <Text>{userCount}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -19,10 +26,10 @@ const GridBox = () => {
         { id: '2', title: 'Thrill Seekers', userCount: 15 },
         { id: '3', title: 'Creatives', userCount: 29 },
         { id: '4', title: 'Foodies', userCount: 20 },
-        { id: '5', title: 'Nature Lovers', userCount: 12 },
-        { id: '6', title: 'Gamers', userCount: 31 },
-        { id: '7', title: 'Gamers', userCount: 31 },
-        { id: '8', title: 'Gamers', userCount: 31 },
+        // { id: '5', title: 'Nature Lovers', userCount: 12 },
+        // { id: '6', title: 'Gamers', userCount: 31 },
+        // { id: '7', title: 'Gamers', userCount: 31 },
+        // { id: '8', title: 'Gamers', userCount: 31 },
         // Add more items to ensure scrolling
     ];
 
@@ -31,7 +38,7 @@ const GridBox = () => {
             <FlatList
                 data={DATA}
                 renderItem={({ item }) => (
-                    <Card title={item.title} icon={item.icon} userCount={item.userCount} />
+                    <Card title={item.title} icon={item.icon} userCount={item.userCount} id={item.id} />
                 )}
                 keyExtractor={(item) => item.id}
                 numColumns={2} // Display items in two columns

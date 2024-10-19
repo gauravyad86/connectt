@@ -1,10 +1,9 @@
-import Nav from '@/components/screens/nav';
 import { FontAwesome, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button, Dimensions } from 'react-native';
 import plans from "@/assets/data/plans"
 import { useNavigation } from 'expo-router';
-
+const { width, height } = Dimensions.get('window');
 const UserInfo = () => {
   const [ currentIndex, setCurrentIndex ] = useState( 0 );
   const onSwipe = ( event ) => {
@@ -14,12 +13,7 @@ const UserInfo = () => {
   };
   const activeColor = "#FD297B";
   const color = "grey";
-  const displays = {
-    display: "show"
-  }
-  const displaysNon = {
-    display: "none"
-  }
+
   const [ activScreen, setActivieScreen ] = useState( 'User' );
   const navigation = useNavigation()
 
@@ -28,7 +22,7 @@ const UserInfo = () => {
       {/* Header */ }
       <View style={ styles.navbar }>
         <View style={ styles.icontext }>
-          <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
+          <Fontisto style={ styles.icon } size={ 30 } name='tinder' />
           <Text style={ styles.text }  >tinder</Text>
         </View>
         <View style={ styles.righticons }>
@@ -39,7 +33,7 @@ const UserInfo = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={ () => {
             navigation.navigate( 'setting' )
-            console.log("object")
+            console.log( "object" )
           } }>
             <Ionicons name="settings" size={ 25 } style={ styles.sheildicon } color="grey" />
           </TouchableOpacity>
@@ -53,7 +47,7 @@ const UserInfo = () => {
             style={ styles.profilePic }
           />
           <TouchableOpacity style={ styles.editIcon }>
-            <Pressable style={ styles.editText }><Text>✏️</Text></Pressable>
+            <Pressable style={ styles.editText }><Text>edit</Text></Pressable>
           </TouchableOpacity>
         </View>
         <View style={ styles.progressContainer }>
@@ -85,7 +79,7 @@ const UserInfo = () => {
       </View>
 
       {/* Upgrade Section */ }
-      <View>
+      <View style={{height:"54%"}}>
         <ScrollView
           horizontal
           pagingEnabled
@@ -93,23 +87,24 @@ const UserInfo = () => {
           onScroll={ onSwipe }
           scrollEventThrottle={ 16 }
         >
-          { plans.map( ( plan, index ) => (
-            <View style={ styles.upgradeSection }>
-
+          {plans.map( ( plan, index ) => (
+            <View style={ styles.upgradeSection } key={plan.id}>
               <View style={ styles.upgrade }>
                 <View style={ styles.upgradeTitle }>
-                  <Fontisto style={ styles.icon } size={ 20 } name='tinder' color={ plan.color } />
+                  <Fontisto style={ {color:  plan.id===1 ? 'gold' : plan.id === 2 ? 'platinum' : '#FF4500' , marginRight:5,} } size={ 24 } name='tinder' />
                   <Text style={ { fontSize: 23, fontWeight: "500" } } >tinder</Text>
-                  <View style={ { justifyContent: "center", alignItems: "center", height: "7%", width: "40%", marginTop: 7.5, backgroundColor: "gold" } } > <Text style={ { color: 'black', fontSize: 10, fontWeight: "bold" } }>GOLD</Text></View>
+                  <View style={ [styles.typesstyle,{ backgroundColor: plan.id === 1 ? 'gold' : plan.id === 2 ?'platinum' : '#FF4500' }] } >
+                    <Text style={ { color: 'black', fontSize: 10, fontWeight: "bold" } }>{plan.type}</Text>
+                  </View>
                 </View>
-                <TouchableOpacity style={ styles.selectButton } onPress={ () => {
+                <TouchableOpacity style={ [styles.selectButton , { backgroundColor: plan.id === 1 ? 'gold' : plan.id === 2 ? 'platinum' : '#FF4500' }]} onPress={ () => {
                   navigation.navigate( "seewholikeyoumore" )
                 } }>
-                  <Text style={ [ styles.selectButtonText ] }>Upgrade</Text>
+                  <Text style={ [ styles.selectButtonText] }>Upgrade</Text>
                 </TouchableOpacity>
               </View>
               <View style={ styles.whatincluded }>
-                <Text style={ styles.rowValue }> What's Included</Text>
+                <Text style={ styles.rowValue }>What's Included</Text>
                 <View style={ styles.freeType } >
                   <Text style={ styles.freeTypeText } >Free</Text>
                   <Text style={ styles.freeTypeText } >{ plan.type }</Text>
@@ -132,9 +127,9 @@ const UserInfo = () => {
           ) ) }
         </ScrollView>
         <View style={ styles.indicatorContainer }>
-          { plans.map( ( val, index ) => (
+          {plans.map( ( val, index ) => (
             <View
-              key={ val.id }
+              key={val.id}
               style={ [
                 styles.indicator,
                 { backgroundColor: index === currentIndex ? '#fff' : '#888' },
@@ -142,35 +137,27 @@ const UserInfo = () => {
             />
           ) ) }
         </View>
-        <View style={ styles.topIcons } >
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "User" )
-            setActivieScreen( "Home" )
-          } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
-          </TouchableOpacity>
+        <View style={styles.bottomBar}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("Home"); setActivieScreen("Home"); }}>
+                        <Fontisto size={30} name='tinder' color={activScreen === 'Home' ? activeColor : color} />
+                    </TouchableOpacity>
 
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "gridscreen" )
-            setActivieScreen( "Grid" )
-          } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "4starscreen" )
-            setActivieScreen( "Star" )
-          } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "chatscreen" )
-            setActivieScreen( "Chat" )
-          } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-          <TouchableOpacity
+                    <TouchableOpacity onPress={() => { navigation.navigate("gridscreen"); setActivieScreen("Grid"); }}>
+                        <MaterialCommunityIcons name="view-grid" size={24} color={activScreen === 'Grid' ? activeColor : color} />
+                    </TouchableOpacity>
 
-            onPress={ () => {
-              navigation.navigate( "user" )
-              setActivieScreen( "User" )
-            } }
-          > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
-        </View>
+                    <TouchableOpacity onPress={() => { navigation.navigate("4starscreen"); setActivieScreen("Star"); }}>
+                        <MaterialCommunityIcons size={30} name='star-four-points' color={activScreen === 'Star' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("chatscreen"); setActivieScreen("Chat"); }}>
+                        <Ionicons name='chatbubbles' size={30} color={activScreen === 'Chat' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("user"); setActivieScreen("User"); }}>
+                        <FontAwesome name='user' size={30} color={activScreen === 'User' ? activeColor : color} />
+                    </TouchableOpacity>
+                </View>
       </View>
     </ScrollView>
   );
@@ -193,18 +180,20 @@ const styles = StyleSheet.create( {
     height: 35,
   },
   selectButton: {
-    height: "100%",
-    width: "50%",
-    backgroundColor: "gold",
+    height: height*.06,
+    width: width*.5,
+    // backgroundColor: "gold",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
   },
   selectButtonText: {
     fontSize: 20,
-    fontWeight: "700"
+    fontWeight: "700",
+    
 
   },
+  typesstyle: { justifyContent: "center", alignItems: "center", height: "7%", width: "40%", marginTop: 7.5 },
   topIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -221,7 +210,6 @@ const styles = StyleSheet.create( {
   },
   icon: {
     marginLeft: -11,
-    // color:"gold",
     marginRight: 3
   },
   actionText: {
@@ -398,12 +386,6 @@ const styles = StyleSheet.create( {
     fontSize: 16,
   },
   navbar: {
-    // width: '100%',
-    // height: '6%',
-    // backgroundColor: "black",
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    // alignItems: "center",
     width: '100%',
     height: '9%',
     backgroundColor: "black",
@@ -440,7 +422,18 @@ const styles = StyleSheet.create( {
   sheildicon: {
     marginRight: 8,
     marginLeft: 15,
-  }
+  },
+  bottomBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: "black",
+    position: "absolute",
+    bottom: 0,
+    borderTopWidth: 1,
+    borderTopColor: "grey",
+},
 } );
 
 

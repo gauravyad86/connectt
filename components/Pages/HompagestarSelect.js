@@ -13,13 +13,11 @@ export default function HompagestarSelect () {
                 <View style={ styles.container }>
                     {/* Cross Icon */ }
                     <View style={ { flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-                        <Text style={ styles.crossText }>Google Play</Text> {/* You can replace 'X' with an actual icon if needed */ }
-                        <TouchableOpacity onPress={ () => navigation.goBack() }>
-                            <Text style={ styles.crossText }><Entypo name="cross" size={ 24 } color="white" /></Text> {/* You can replace 'X' with an actual icon if needed */ }
+                        <Text style={ styles.crossText }>Google Play</Text> 
+                        <TouchableOpacity style={ styles.crossText } onPress={ () => navigation.goBack() }>
+                            <Entypo name="cross" size={ 24 } color="white" /> 
                         </TouchableOpacity>
                     </View>
-
-
                     <View
                         style={ {
                             borderBottomColor: '#C4C5B3',
@@ -30,7 +28,7 @@ export default function HompagestarSelect () {
                     <View style={ styles.purchaseDetails }>
                         <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                             <View style={ styles.tindericonBackground }>
-                                <Fontisto size={ 18 } name='tinder' color="white"  ></Fontisto>
+                                <Fontisto size={ 18 } name='tinder' color="white"></Fontisto>
                             </View>
                             <View style={ { marginLeft: 15 } }>
                                 <Text style={ styles.purchaseItem }>15 Super Likes</Text>
@@ -39,32 +37,32 @@ export default function HompagestarSelect () {
                         </View>
                         <Text style={ styles.purchasePrice }>₹2,700.00</Text>
                     </View>
-                    <Text style={ styles.description }>Add a payment method to your Google Account to complete your purchase. Your payment information is only visible to Google </Text>
+                    <Text style={ styles.description }>Add a payment method to your Google Account to complete your purchase. Your payment information is only visible to Google</Text>
                     {/* payemnt option */ }
                     <View style={ styles.paymentOptions }>
-                        <TouchableOpacity style={ styles.paymentButton }>
-                            <View style={ { color: "white", flexDirection: "row" } }
-
-                            > <FontAwesome6 name="amazon-pay" size={ 24 } color="#b0cefe" /><Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Pay with UPI</Text></View>
+                        <TouchableOpacity style={ [styles.paymentButton, {  flexDirection: "row" }] }>
+                                <FontAwesome6 name="amazon-pay" size={ 24 } color="#b0cefe" />
+                                <Text style={ { color: "#e2e3e5", marginLeft: 10 } }>Pay with UPI</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={ styles.paymentButton } onPress={ () => navigation.navigate( "addcarddetails" ) }>
-                            <Text style={ { color: "white" } } > <MaterialIcons name="payment" size={ 24 } color="#b0cefe" /> <Text style={ { color: "white", marginLeft: 10 } } >Add credit or debit card</Text></Text>
+                        <TouchableOpacity style={ [styles.paymentButton, {  flexDirection: "row" }] } onPress={ () => navigation.navigate( "addcarddetails" ) }>
+                                <MaterialIcons name="payment" size={ 24 } color="#b0cefe" />
+                                <Text style={ { color: "white", marginLeft: 10 } } >Add credit or debit card</Text> 
                         </TouchableOpacity>
-                        <TouchableOpacity style={ styles.paymentButton } onPress={ () => {
-                            navigation.navigate( "addbank" )
+                        <TouchableOpacity style={ [styles.paymentButton, {  flexDirection: "row" }] } onPress={ () => {
+                            navigation.navigate( "bank" )
                         } }>
-                            <Text style={ { color: "white" } } > <FontAwesome name="bank" size={ 24 } color="#b0cefe" /> <Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Add Netbanking</Text></Text>
+                                <FontAwesome name="bank" size={ 24 } color="#b0cefe" />
+                                <Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Add Netbanking</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={ styles.paymentButton }>
-                            <Text style={ { color: "white" } } > <MaterialIcons name="redeem" size={ 24 } color="#b0cefe" /> <Text style={ { color: "#e2e3e5", marginLeft: 10 } } > Redeem code</Text></Text>
+                        <TouchableOpacity style={ [styles.paymentButton, {  flexDirection: "row" }] }>
+                                <MaterialIcons name="redeem" size={ 24 } color="#b0cefe" />
+                                <Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Redeem code</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={ styles.paymentButton }>
-                            <Text style={ { color: "white" } } > <Ionicons name="people-sharp" size={ 24 } color="#b0cefe" /> <Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Ask someone else to pay
-                                <br />
-                                <Text style={ { color: "red", marginLeft: 35 } }> Unavailable for purchases over ₹1000.00</Text>
-                            </Text></Text>
+                        <TouchableOpacity style={ [styles.paymentButton, {  flexDirection: "row" }] }>
+                                <Ionicons name="people-sharp" size={ 24 } color="#b0cefe" />
+                                <Text style={ { color: "#e2e3e5", marginLeft: 10 } } >Ask someone else to pay{'\n'}</Text>
+                                <Text style={ { color: "red", marginLeft: 35 } }>Unavailable for purchases over ₹1000.00</Text>  
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </ScrollView>

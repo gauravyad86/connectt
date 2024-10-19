@@ -4,8 +4,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import LoginScreen from '@/components/screens/LoginScreen';
 import HomePage from "@/components/screens/HomePage";
 import ChatScreen from "@/components/screens/ChatScreen";
-import ModalScreen from "@/components/screens/ModalScreen";
-import ExploreScreen from "@/components/screens/ExploreScreen";
+
 import BoostScreen from "@/components/screens/BoostScreen";
 import UserInfo from "@/components/screens/UserInfo";
 import ChatSection from "@/components/Pages/chatSection";
@@ -24,8 +23,10 @@ import AddBanking from "@/components/Pages/AddBanking";
 import GridBox from "@/components/Pages/GridBox";
 import BoostSelect from "@/components/Pages/Boostselectbottom";
 import Women from "@/components/Pages/Women";
-import HompagestarSelect from "@/components/Pages/HompagestarSelect";
 import 'react-native-gesture-handler';
+import HompagestarSelect from "@/components/Pages/HompagestarSelect";
+import CoffyDate from "@/components/Pages/Coffydate";
+import CoffeeDateJoin from "@/components/Pages/CoffeeDateJoin";
 import DiscoverySettings from '../Pages/DiscoverySetting';
 import TinderSwipeDemo from '@/components/TinderCard/TinderSwipeDemo.js';
 // import User from "@/app/(tabs)/User";
@@ -44,10 +45,8 @@ const StackNavigator = () => {
         <>
           <Stack.Group>
             {/* <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen> */}
-            <Stack.Screen name="User" component={HomePage}></Stack.Screen>
-            <Stack.Screen name="Explore" component={ExploreScreen}></Stack.Screen>
+            <Stack.Screen name="Home" component={HomePage}></Stack.Screen>
             <Stack.Screen name="4starscreen" component={BottomStarScreen}></Stack.Screen>
-            <Stack.Screen name="Modal" component={ModalScreen}></Stack.Screen>
             <Stack.Screen name="user" component={UserInfo}></Stack.Screen>
             <Stack.Screen name="getsuperlikes" component={Getsuperlikes}></Stack.Screen>
             <Stack.Screen name="purchase" component={PurchaseScreen}></Stack.Screen>
@@ -61,7 +60,7 @@ const StackNavigator = () => {
             <Stack.Screen name="notifications" component={Notifications}></Stack.Screen>
             <Stack.Screen name="discoverysetting" component={DiscoverySettings}></Stack.Screen>
             <Stack.Screen name="lookingforwomen" component={Women}></Stack.Screen>
-            <Stack.Screen name="addbank" component={AddBanking}></Stack.Screen>
+            <Stack.Screen name="bank" component={AddBanking}></Stack.Screen>
             <Stack.Screen name="gridbox" component={GridBox}></Stack.Screen>
             <Stack.Screen name="chatsection" component={ChatSection}></Stack.Screen>
             <Stack.Screen name="homepagestarselect" component={HompagestarSelect}></Stack.Screen>
@@ -69,6 +68,8 @@ const StackNavigator = () => {
             <Stack.Screen name="boostselect" component={BoostSelect}></Stack.Screen>
             <Stack.Screen name="setting" component={Settings}></Stack.Screen>
             <Stack.Screen name="tindercard" component={TinderSwipeDemo}></Stack.Screen>
+            <Stack.Screen name="coffyDate" component={CoffyDate}></Stack.Screen>
+            <Stack.Screen name="joincoffedate" component={CoffeeDateJoin}></Stack.Screen>
           </Stack.Group>
           {/* <Stack.Group
             screenOptions={{

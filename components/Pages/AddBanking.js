@@ -15,15 +15,16 @@ export default function AddBanking () {
     const [ cardholderName, setCardholderName ] = useState( '' );
     const navigation = useNavigation()
     return (
-        <ScrollView style={ styles.container } vertical={true}>
+        <ScrollView style={ styles.container } vertical={ true }>
             <TouchableOpacity onPress={ () => {
                 navigation.goBack()
-            } }>
-                <View style={ styles.header }> <Ionicons name="arrow-back" size={ 24 } color="white" /><Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text></View>
+            } } style={ styles.header }>
+                <Ionicons name="arrow-back" size={ 24 } color="white" />
+                <Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text>
             </TouchableOpacity>
 
             {/* Card Number Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize:16 } }>Card number</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="Card Number"
@@ -32,13 +33,9 @@ export default function AddBanking () {
                 value={ cardNumber }
                 onChangeText={ setCardNumber }
             />
-
-            
-
             {/* Cardholder Name Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:17,marginTop:10,marginBottom:15 } }>India</Text>
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>State</Text>
-
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 17, marginTop: 10, marginBottom: 15 } }>India</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="State"
@@ -46,8 +43,8 @@ export default function AddBanking () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Phone number</Text>
-           <TextInput
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }> Phone number</Text>
+            <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="country"
                 placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
@@ -60,16 +57,17 @@ export default function AddBanking () {
             <View
                 style={ {
                     borderBottomColor: 'white',
-                    borderBottomWidth: StyleSheet.hairlineWidth, marginTop:120,
+                    borderBottomWidth: StyleSheet.hairlineWidth, marginTop: 120,
                 } }
             />
             <View style={ styles.purchaseDetails }>
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                     <View style={ styles.tindericonBackground }>
-                        <Fontisto size={ 21 } name='tinder' color="white"  ></Fontisto></View>
+                        <Fontisto size={ 21 } name='tinder' color="white"/>
+                    </View>
                     <View style={ { marginLeft: 15 } }>
                         <Text style={ styles.purchaseItem }>15 Super Likes (Tinder
-                            <br />
+                            {'\n'}
                             Dating App: Chat & Date)
                         </Text>
 
@@ -77,9 +75,7 @@ export default function AddBanking () {
                 </View>
                 <Text style={ styles.purchasePrice }>₹2,700.00</Text>
             </View>
-
             <TouchableOpacity style={ styles.button }>
-         
                 <Text style={ styles.buttonText }>Save Card</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -154,7 +150,7 @@ const styles = StyleSheet.create( {
         paddingHorizontal: 10,
         fontSize: 16,
         marginBottom: 10,
-      
+
     },
     darkInput: {
         backgroundColor: 'black',

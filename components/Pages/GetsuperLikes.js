@@ -2,7 +2,8 @@ import { Entypo, FontAwesome, Fontisto } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 import React from 'react';
-import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, StyleSheet,Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window');
 
 export default function GetSuperLikes () {
     const userss = [
@@ -35,8 +36,8 @@ export default function GetSuperLikes () {
 
                 {/* Tinder+ logo and text */ }
                 <LinearGradient
-                    colors={ [ 'rgba(5, 35, 88, 2)', 'transparant' ] } // Adjust the second color for the gradient
-                    style={ styles.header }
+                    colors={['#0f0b8c', 'transparent']} // Gold gradient
+                    style={[styles.header, { height: height * 0.08 }]} // Dynamic height
                 >
                     <FontAwesome name="star" size={ 20 } color="#1597fa" style={ { marginTop: 15 } } />
                     <Text style={ styles.headerText }>Get Super Likes</Text>
@@ -48,8 +49,8 @@ export default function GetSuperLikes () {
                 /> */}
                 {/* Main Heading Text */ }
                 <Text style={ styles.mainHeading }>
-                    Stand out with Super <br />
-                    Like. You're 3x more <br />
+                    Stand out with Super {'\n'}
+                    Like. You're 3x more {'\n'}
                     likely to match!
                 </Text>
                 <Text style={ styles.planText }>Select a package</Text>
@@ -126,9 +127,6 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         // marginVertical: 10,
         width: "100%",
-        // height:"5%",
-        // marginTop:
-
     },
     headerText: {
         color: 'white',
@@ -158,7 +156,7 @@ const styles = StyleSheet.create( {
     use: {
     },
     user: {
-        height: 180,
+        height: 200,
         width: "35%",
         borderRadius: 10,
         justifyContent: 'center',

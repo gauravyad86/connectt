@@ -12,8 +12,8 @@
 //   )
 // }
 import users from '@/assets/data/users';
-import Nav from '@/components/screens/nav';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 import React from 'react';
@@ -24,14 +24,29 @@ const Chat_Picks_click = () => {
     const navigation = useNavigation()
     return (
         <View style={ styles.container }>
-            <Nav></Nav>
+            <View style={ styles.navbar }>
+                <View style={ styles.icontext }>
+                    <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
+                    <Text style={ styles.text }  >tinder</Text>
+                </View>
+                <View style={ styles.righticons }>
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( 'notifications' )
+                    } }>
+                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                    {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
+                    <TouchableOpacity onPress={ () => {
+                        navigation.navigate( "discoverysetting" )
+                    } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                </View>
+            </View>
             <View style={ styles.likePageTop }>
                 <TouchableOpacity onPress={ () => {
                     navigation.goBack()
                 } }>
                     <Text style={
                         styles.likesCount
-                    }>  0 likes</Text>
+                    }>0likes</Text>
                 </TouchableOpacity>
                 <Text style={
                     styles.likesCount
@@ -108,7 +123,8 @@ const styles = StyleSheet.create( {
     likePageTop: {
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop:60,
     },
     header: {
         paddingTop: 40,
@@ -247,6 +263,50 @@ const styles = StyleSheet.create( {
         fontSize: 24,
         color: '#FFFFFF',
     },
+    navbar: {
+        // width: '100%',
+        // height: '6%',
+        // backgroundColor: "black",
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        // alignItems: "center",
+        width: '100%',
+        height: '7%',
+        backgroundColor: "black",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position:"absolute",
+        zIndex:10,
+      },
+      righticons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginRight: 5,
+      },
+      icontext: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        //  marginLeft:6,
+      },
+      text: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+      },
+      icon: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+      },
+      sheildicon: {
+        marginRight: 8,
+        marginLeft: 15,
+      }
 } );
 
 export default Chat_Picks_click;

@@ -53,7 +53,7 @@ export default function SeeWhoLikeYou () {
                 {/* Main Heading Text */ }
                 <Text style={ styles.mainHeading }>
                     See who Likes you with
-                    <br />
+                    {'\n'}
                     Tinder Gold™
 
                 </Text>
@@ -101,7 +101,7 @@ export default function SeeWhoLikeYou () {
                         <Entypo name="check" size={ 24 } color="white" />
                         <View >
                             <Text style={ styles.benefitLabel }>1 Free Boost per month </Text>
-                            <Text style={ styles.benefitLabel2 }>Free monthly Boost only available for <br />1 month or longer subscriptions
+                            <Text style={ styles.benefitLabel2 }>Free monthly Boost only available for {'\n'}1 month or longer subscriptions
                             </Text>
                         </View>
                     </View>
@@ -133,7 +133,7 @@ export default function SeeWhoLikeYou () {
                         <View >
                             <Text style={ styles.benefitLabel }>Top Picks</Text>
                             <Text style={ styles.benefitLabel2 }>Browse through a daily curated selection
-                                <br />of profile
+                            {'\n'}of profile
                             </Text>
                         </View>
                     </View>
@@ -151,7 +151,7 @@ export default function SeeWhoLikeYou () {
                         <View >
                             <Text style={ styles.benefitLabel }>Control Who You See </Text>
                             <Text style={ styles.benefitLabel2 }>Choose the type of people you want to
-                                <br />control them
+                            {'\n'}control them
 
                             </Text>
                         </View>

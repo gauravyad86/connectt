@@ -6,10 +6,8 @@ import 'react-native-gesture-handler'
 import { useState } from 'react';
 import { FontAwesome, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
-import Nav from './nav';
 import ChatTop from "@/components/screens/ChatTop.js"
 import { SafeAreaView } from 'react-native-safe-area-context';
-import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from 'expo-router';
 
 export default function Chatscreen () {
@@ -24,15 +22,13 @@ export default function Chatscreen () {
   const navigation = useNavigation()
   return (
     <GestureHandlerRootView style={ { flex: 1 } }>
-
       <SafeAreaView style={ styles.root } >
         <View style={ styles.navbar }>
           <View style={ styles.icontext }>
             <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
             <Text style={ styles.text }  >tinder</Text>
           </View>
-          <View style={ styles.righticons }>
-           
+          <View style={ styles.righticons }>  
             <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
           </View>
         </View>
@@ -40,41 +36,33 @@ export default function Chatscreen () {
           <Text style={ styles.message } > New matches</Text>
           <TouchableOpacity onPress={ () => setModalVisible( true ) }>
             <Text style={ styles.mymoveoff } >
-              MY MOVE <Text style={ styles.mymoveoff2 }>{ !onoff ? "OFF" : "ON" }</Text>
+              MY MOVE<Text style={ styles.mymoveoff2 }>{ !onoff ? "OFF" : "ON" }</Text>
             </Text>
           </TouchableOpacity>
         </View>
-        <ChatTop ></ChatTop>
+        <ChatTop></ChatTop>
         <Message></Message>
-        <View style={ styles.topIcons } >
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "User" )
-            setActivieScreen( "Home" )
-          } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } ></Fontisto>
-          </TouchableOpacity>
+        <View style={styles.bottomBar}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("Home"); setActivieScreen("Home"); }}>
+                        <Fontisto size={30} name='tinder' color={activScreen === 'Home' ? activeColor : color} />
+                    </TouchableOpacity>
 
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "gridscreen" )
-            setActivieScreen( "Grid" )
-          } }> <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "4starscreen" )
-            setActivieScreen( "Star" )
-          } }> <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={ () => {
-            navigation.navigate( "chatscreen" )
-            setActivieScreen( "Chat" )
-          } }> <Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-          <TouchableOpacity
+                    <TouchableOpacity onPress={() => { navigation.navigate("gridscreen"); setActivieScreen("Grid"); }}>
+                        <MaterialCommunityIcons name="view-grid" size={24} color={activScreen === 'Grid' ? activeColor : color} />
+                    </TouchableOpacity>
 
-            onPress={ () => {
-              navigation.navigate( "user" )
-              setActivieScreen( "User" )
-            } }
-          > <FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
-        </View>
+                    <TouchableOpacity onPress={() => { navigation.navigate("4starscreen"); setActivieScreen("Star"); }}>
+                        <MaterialCommunityIcons size={30} name='star-four-points' color={activScreen === 'Star' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("chatscreen"); setActivieScreen("Chat"); }}>
+                        <Ionicons name='chatbubbles' size={30} color={activScreen === 'Chat' ? activeColor : color} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate("user"); setActivieScreen("User"); }}>
+                        <FontAwesome name='user' size={30} color={activScreen === 'User' ? activeColor : color} />
+                    </TouchableOpacity>
+                </View>
 
       </SafeAreaView>
       <View style={ styles2.container }>
@@ -91,7 +79,6 @@ export default function Chatscreen () {
               <Text style={ styles2.subText }>
                 My Move will apply to all new matches going forward.
               </Text>
-
               {/* Modal Buttons */ }
               <View style={ styles2.buttonContainer }>
                 <TouchableOpacity
@@ -243,6 +230,17 @@ const styles = StyleSheet.create( {
     marginRight: 8,
     marginLeft: 15,
   }
+  , bottomBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: "black",
+    position: "absolute",
+    bottom: 0,
+    borderTopWidth: 1,
+    borderTopColor: "grey",
+},
 } );
 const styles2 = StyleSheet.create( {
   container: {

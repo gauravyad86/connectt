@@ -17,7 +17,6 @@ export default function PurchaseScreen () {
             <Text style={ styles.crossText }><Entypo name="cross" size={24} color="white" /></Text> {/* You can replace 'X' with an actual icon if needed */ }
           </TouchableOpacity>
         </View>
-
         <Text style={ styles.discountText }>₹60 Play discount</Text>
         <Text style={ styles.description }>Use it on an app, game, or in-app item over ₹60. Use now or expires 7 days after the offer is applied.
         </Text>
@@ -63,8 +62,8 @@ export default function PurchaseScreen () {
           </TouchableOpacity>
           <TouchableOpacity style={ styles.paymentButton }>
             <Text style={ { color: "white" } } > <Ionicons name="people-sharp" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } >Ask someone else to pay
-              <br />
-              <Text style={ { color: "red", marginLeft: 35 } }> Unavailable for purchases over ₹1000.00</Text>
+            {'\n'}
+              <Text style={ { color: "red", marginLeft: 35 } }>Unavailable for purchases over ₹1000.00</Text>
             </Text></Text>
           </TouchableOpacity>
 

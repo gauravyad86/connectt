@@ -15,16 +15,17 @@ export default function AddCreditDebitcard () {
     const [ cardholderName, setCardholderName ] = useState( '' );
     const navigation = useNavigation()
     return (
-        <ScrollView style={ styles.container } vertical={true}>
+        <ScrollView style={ styles.container } vertical={ true }>
             <TouchableOpacity onPress={ () => {
                 navigation.goBack()
-            } }>
-                <View style={ styles.header }> <Ionicons name="arrow-back" size={ 24 } color="white" /><Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text></View>
+            } } style={ styles.header }>
+                <Ionicons name="arrow-back" size={ 24 } color="white" />
+                <Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text>
             </TouchableOpacity>
 
             {/* Card Number Input */ }
-            <Text style={ { color: "#D7DCD4", marginBottom: 20 } }> All feild required</Text>
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize:16 } }>Card number</Text>
+            <Text style={ { color: "#D7DCD4", marginBottom: 20 } }>All feild required</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="Card Number"
@@ -35,17 +36,19 @@ export default function AddCreditDebitcard () {
             />
 
             {/* Expiry Date Input */ }
-            <View style={ { flexDirection: "row", alignItems:"center" } }>
-                <View style={ { flexDirection: "column", justifyContent:"center",  } }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>Expiry Date</Text>
+            <View style={ { flexDirection: "row", alignItems: "center" } }>
+                <View style={ { flexDirection: "column", justifyContent: "center", } }>
+                    <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Expiry Date</Text>
                     <TextInput
-                        style={ [{width:"80%", height: 50,
+                        style={ [ {
+                            width: "80%", height: 50,
                             borderColor: '#A3A8A1',
                             borderWidth: .01,
                             borderRadius: 3,
                             // paddingHorizontal: 10,
                             fontSize: 16,
-                            marginBottom: 20,} , isDarkMode ? styles.darkInput : styles.lightInput ] }
+                            marginBottom: 20,
+                        }, isDarkMode ? styles.darkInput : styles.lightInput ] }
                         placeholder=" MM/YY"
                         placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
                         keyboardType="numeric"
@@ -56,15 +59,17 @@ export default function AddCreditDebitcard () {
 
                 {/* CVV Input */ }
                 <View style={ { flexDirection: "column" } }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }>CVC </Text>
+                    <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>CVC </Text>
                     <TextInput
-                        style={ [ {width:"85%", height: 50,
+                        style={ [ {
+                            width: "85%", height: 50,
                             borderColor: '#A3A8A1',
                             borderWidth: .01,
                             borderRadius: 3,
                             // paddingHorizontal: 10,
                             fontSize: 16,
-                            marginBottom: 20,}, isDarkMode ? styles.darkInput : styles.lightInput ] }
+                            marginBottom: 20,
+                        }, isDarkMode ? styles.darkInput : styles.lightInput ] }
                         placeholder="CVV"
                         placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
                         keyboardType="numeric"
@@ -76,7 +81,7 @@ export default function AddCreditDebitcard () {
             </View>
 
             {/* Cardholder Name Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Cardholder Name</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Cardholder Name</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="Cardholder Name"
@@ -84,7 +89,7 @@ export default function AddCreditDebitcard () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> Country/region</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Country/region</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="country"
@@ -92,7 +97,7 @@ export default function AddCreditDebitcard () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100,fontSize:16 } }> State</Text>
+            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
 
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -101,19 +106,19 @@ export default function AddCreditDebitcard () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
-            <Text style={ styles.darkInput }> By Continuing, you creat a Google Payments account and agree to the Google Payments Terms of Service.</Text>
-            <Text style={ styles.darkInput }> The Privacy Notice describes how your data is handled                       </Text>
+            <Text style={ styles.darkInput }>By Continuing, you creat a Google Payments account and agree to the Google Payments Terms of Service.</Text>
+            <Text style={ styles.darkInput }>The Privacy Notice describes how your data is handled</Text>
             {/* Submit Button */ }
             <View style={ styles.purchaseDetails }>
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                     <View style={ styles.tindericonBackground }>
-                        <Fontisto size={ 21 } name='tinder' color="white"  ></Fontisto></View>
+                        <Fontisto size={ 21 } name='tinder' color="white" />
+                    </View>
                     <View style={ { marginLeft: 15 } }>
                         <Text style={ styles.purchaseItem }>15 Super Likes (Tinder
-                            <br />
-                            Dating App: Chat & Date)
+                            {'\n'}
+                         Dating App: Chat & Date)
                         </Text>
-
                     </View>
                 </View>
                 <Text style={ styles.purchasePrice }>₹2,700.00</Text>
@@ -193,7 +198,7 @@ const styles = StyleSheet.create( {
         paddingHorizontal: 10,
         fontSize: 16,
         marginBottom: 10,
-      
+
     },
     darkInput: {
         backgroundColor: 'black',
