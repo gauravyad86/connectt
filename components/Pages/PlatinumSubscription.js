@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { SafeAreaView, View, ScrollView, } from 'react-native'
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-export default function SeeWhoLikeYou () {
+export default function PlatinumSubscription () {
     const userss = [
         {
             id: '1',
@@ -33,7 +33,7 @@ export default function SeeWhoLikeYou () {
                 {/* Close button on top-left */ }
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                     <LinearGradient
-                        colors={ [ '#d7aa3e', 'black' ] } // Adjust the second color for the gradient
+                        colors={ [ 'grey', 'black' ] } // Adjust the second color for the gradient
                         style={ { width: "100%" , flexDirection:"row",alignItems:"center"} }>
 
                         <TouchableOpacity onPress={ () => navigation.goBack() } style={ styles.closeButton }>
@@ -42,9 +42,9 @@ export default function SeeWhoLikeYou () {
 
                         {/* Tinder+ logo and text */ }
                         <View style={ styles.header }>
-                            <Fontisto name="tinder" size={ 22 } color="#d7aa3e" style={ styles.icon } />
+                            <Fontisto name="tinder" size={ 22 } color="white" style={ styles.icon } />
                             <Text style={ styles.headerText }>tinder</Text>
-                            <Text style={ { color: 'black', backgroundColor: "#d7aa3e", fontSize: 9, marginTop: 8, fontWeight: "700" } }>GOLD</Text>
+                            <Text style={ { color: 'black', backgroundColor: "white", fontSize: 9, marginTop: 8, fontWeight: "700" } }>Platinum</Text>
                         </View>
                     </LinearGradient>
                 </View>
@@ -274,7 +274,7 @@ const styles = StyleSheet.create( {
         width: "100%",
     },
     headingg: {
-        color: '#FFDE59',
+        color: 'white',
         fontSize: 17,
         justifyContent: "flex-start",
         // textAlign: 'center',
@@ -396,7 +396,7 @@ const styles = StyleSheet.create( {
         height: "20%"
     }, continueButton: {
         // position: "absolute",
-        backgroundColor: '#d7aa3e',
+        backgroundColor: 'white',
         height: "27%",
         width: "90%",
         borderRadius: 20,

@@ -1,16 +1,3 @@
-// import React from 'react'
-// import { View } from 'react-native'
-// import SubCross from "@/components/onCross/SubCross"
-// import Getlikes from "@/components/getLikes/getlikes"
-// export default function explore() {
-//   return (
-//    <View>
-//     {/* <SubCross></SubCross> */}
-//     {/* <Getlikes></Getlikes> */}
-
-//    </View>
-//   )
-// }
 import users from '@/assets/data/users';
 
 import { FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -19,6 +6,7 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Bottombar from '../screens/Bottombar/bottombar';
 
 const Chat_Picks_click = () => {
     const navigation = useNavigation()
@@ -91,6 +79,7 @@ const Chat_Picks_click = () => {
             <TouchableOpacity style={ styles.priceButton }>
                 <Text style={ styles.priceText }>SEE MORE</Text>
             </TouchableOpacity>
+            <Bottombar/>
         </View>
     );
 };
@@ -111,6 +100,11 @@ const styles = StyleSheet.create( {
         marginLeft: 10,
         marginTop: 10,
         marginBottom: 10
+    },
+      underline: {
+        width: "100%",
+        height: ".05%",
+        backgroundColor: "white"
     },
     background: {
         width: '100%',
@@ -218,7 +212,7 @@ const styles = StyleSheet.create( {
         borderRadius: 30,
         justifyContent: "center",
         alignItems: 'center',
-        margin: 90,
+        margin: 110,
     },
     priceText: {
         color: 'black',

@@ -45,7 +45,6 @@ export default function BoostSelect () {
                     </View>
                 </View>
 
-
                 {/* Main Heading Text */ }
                 <Text style={ styles.mainHeading }>
                     See who Likes you with

@@ -1,7 +1,7 @@
 import React from 'react'
 import Message from "@/components/screens/message"
 
-import { View, Text, Image, StyleSheet, Platform, Pressable, Button, Modal, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, Platform, Pressable, Button, Modal, ScrollView, Dimensions } from 'react-native';
 import 'react-native-gesture-handler'
 import { useState } from 'react';
 import { FontAwesome, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,16 +9,24 @@ import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-h
 import ChatTop from "@/components/screens/ChatTop.js"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from 'expo-router';
-
+import Bottombar from './Bottombar/bottombar';
+const { width, height } = Dimensions.get('window');
 export default function Chatscreen () {
-  const activeColor = "#F76C6B";
-  const color = "grey";
-  const [ activScreen, setActivieScreen ] = useState( 'Chat' );
+ 
   const [ modalVisible, setModalVisible ] = useState( false );
   const [ onoff, setOnoff ] = useState( false );
-  const setvisible = () => {
-    setModalVisible( true );
-  }
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+};
+  const handleTurnOn = () => {
+    setOnoff(true);
+    toggleModal();
+  };
+
+  const handleNotNow = () => {
+    setOnoff(false);
+    toggleModal();
+  };
   const navigation = useNavigation()
   return (
     <GestureHandlerRootView style={ { flex: 1 } }>
@@ -28,12 +36,14 @@ export default function Chatscreen () {
             <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
             <Text style={ styles.text }  >tinder</Text>
           </View>
-          <View style={ styles.righticons }>  
+          <TouchableOpacity style={ styles.righticons } onPress={()=>{
+            navigation.navigate("shield")
+          }}>  
             <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={ styles.messagess }>
-          <Text style={ styles.message } > New matches</Text>
+          <Text style={ styles.message } >New matches</Text>
           <TouchableOpacity onPress={ () => setModalVisible( true ) }>
             <Text style={ styles.mymoveoff } >
               MY MOVE<Text style={ styles.mymoveoff2 }>{ !onoff ? "OFF" : "ON" }</Text>
@@ -42,28 +52,7 @@ export default function Chatscreen () {
         </View>
         <ChatTop></ChatTop>
         <Message></Message>
-        <View style={styles.bottomBar}>
-                    <TouchableOpacity onPress={() => { navigation.navigate("Home"); setActivieScreen("Home"); }}>
-                        <Fontisto size={30} name='tinder' color={activScreen === 'Home' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("gridscreen"); setActivieScreen("Grid"); }}>
-                        <MaterialCommunityIcons name="view-grid" size={24} color={activScreen === 'Grid' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("4starscreen"); setActivieScreen("Star"); }}>
-                        <MaterialCommunityIcons size={30} name='star-four-points' color={activScreen === 'Star' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("chatscreen"); setActivieScreen("Chat"); }}>
-                        <Ionicons name='chatbubbles' size={30} color={activScreen === 'Chat' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("user"); setActivieScreen("User"); }}>
-                        <FontAwesome name='user' size={30} color={activScreen === 'User' ? activeColor : color} />
-                    </TouchableOpacity>
-                </View>
-
+         <Bottombar/>
       </SafeAreaView>
       <View style={ styles2.container }>
         {/* Modal */ }
@@ -83,20 +72,14 @@ export default function Chatscreen () {
               <View style={ styles2.buttonContainer }>
                 <TouchableOpacity
                   style={ styles2.cancelButton }
-                  onPress={ () => {
-                    setOnoff( false )
-                    setModalVisible( false )
-                  } }
+                  onPress={handleNotNow}
                 >
                   <Text style={ styles2.cancelText }>NOT NOW</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={ styles2.confirmButton }
-                  onPress={ () => {
-                    setOnoff( true )
-                    setModalVisible( false )
-                  } }
+                  onPress={handleTurnOn}
                 >
                   <Text style={ styles.confirmText }>TURN IT ON</Text>
                 </TouchableOpacity>
@@ -120,6 +103,8 @@ const styles = StyleSheet.create( {
   root: {
     flex: 1,
     backgroundColor: "black"
+    ,
+     paddingBottom:30,
   },
 
   icons: {
@@ -169,7 +154,8 @@ const styles = StyleSheet.create( {
     justifyContent: "space-between",
     alignItems: "center",
     width: "90%",
-    marginTop: 50
+    marginTop: 10,
+   
     // position:"absolute",
   },
   message: {
@@ -194,13 +180,15 @@ const styles = StyleSheet.create( {
   },
   navbar: {
     width: '100%',
-    height: '5%',
+    height: '7%',
     backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     position: "absolute",
     zIndex: 10,
+    top:0,
+    padding:10,
   },
   righticons: {
     flexDirection: "row",
@@ -243,21 +231,11 @@ const styles = StyleSheet.create( {
 },
 } );
 const styles2 = StyleSheet.create( {
-  container: {
+  container2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    display: "none"
-  },
-  button: {
-    backgroundColor: '#ff5b5b',
-    padding: 10,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
   },
   modalOverlay: {
     flex: 1,
@@ -277,6 +255,33 @@ const styles2 = StyleSheet.create( {
     shadowRadius: 4,
     elevation: 5,
   },
+  button: {
+    backgroundColor: '#ff5b5b',
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  // modalOverlay: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: 'rgba(0, 0, 0, 0.5)', // Creates the dimmed background effect
+  // },
+  // modalView: {
+  //   width: 300,
+  //   padding: 20,
+  //   backgroundColor: 'white',
+  //   borderRadius: 10,
+  //   alignItems: 'center',
+  //   shadowColor: '#000',
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowOpacity: 0.25,
+  //   shadowRadius: 4,
+  //   elevation: 5,
+  // },
   modalText: {
     fontSize: 18,
     fontWeight: 'bold',

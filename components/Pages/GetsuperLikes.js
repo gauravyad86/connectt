@@ -156,7 +156,7 @@ const styles = StyleSheet.create( {
     use: {
     },
     user: {
-        height: 200,
+        height: 230,
         width: "35%",
         borderRadius: 10,
         justifyContent: 'center',
@@ -182,7 +182,7 @@ const styles = StyleSheet.create( {
     selectButton: {
         backgroundColor: '#1886ff',
         borderRadius: 30,
-        marginTop: 10, height: "30%",
+        marginTop: 10, height: "26%",
         width: "80%",
         justifyContent: "center", alignItems: "center"
         // paddingVertical: 15,
@@ -239,11 +239,12 @@ const styles = StyleSheet.create( {
     },
     goldSelectButton: {
         backgroundColor: 'black',
-        borderRadius: 20,
+        borderRadius: 25,
         paddingVertical: 8,
         paddingHorizontal: 15,
         borderWidth: 1,
         borderColor: '#555962',
+        marginLeft:10,
     },
     goldSelectButtonText: {
         color: 'white',

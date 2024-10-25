@@ -1,258 +1,348 @@
-
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, Pressable } from 'react-native';
-import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, FontAwesome, Fontisto } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-const BottomStarScreen = () => {
-    const activeColor = "#FD297B";
-    const color = "grey";
-    const activeColorLike = "#FD297B";
-    const colorLike = "grey";
-    const [ activScreen, setActivieScreen ] = useState( 'Star' );
-    const navigation = useNavigation()
-    return (
-        <View style={ styles.container6 }>
-                {/* navbar */ }
-                <View style={ styles.navbar }>
-                    <View style={ styles.icontext }>
-                       <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
-                       <Text style={ styles.text }  >tinder</Text>
-                    </View>
-                    <View style={ styles.righticons }>
-                    <TouchableOpacity onPress={ () => {
-                            navigation.navigate( 'notifications' )
-                        } }>
-                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
-                        {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
-                        <TouchableOpacity onPress={ () => {
-                            navigation.navigate("discoverysetting")
-                        } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
-                       
-                    </View>
-                </View>
-            <View style={ styles.likePageTop }>
-                <Text style={
-                    styles.likesCount
-                }>0 likes</Text>
-                <Text style={
-                    styles.likesCount
-                }>|</Text>
-                <TouchableOpacity onPress={ () => {
-                    navigation.navigate( "picks" )
-                } }>
-                    <Text style={
-                        styles.likesCount
-                    }>Top Picks</Text>
-                </TouchableOpacity>
-            </View>
-            <View
-                style={ {
-                    borderBottomColor: '#868C8B',
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                } }
-            />
-            <Text style={ styles.upgradeText }>Upgrade to Gold to see people
-               {'\n'}who have already liked you.</Text>
-            {/* Main Section */ }
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, Dimensions, Animated, TouchableOpacity, StyleSheet } from 'react-native';
 
-            <View style={ styles.heartContainer }>
-                <MaterialCommunityIcons name="heart-flash" size={ 50 } color="#FFDA44" />
-                <Text style={ styles.goldText }>See people who liked you with {'\n'}Tinder Gold™</Text>
-            </View>
-            <TouchableOpacity style={ styles.button } onPress={ () => {
-                            navigation.navigate( 'seewholikeyoumore' )
-                        } } >
-                <Text style={ styles.buttonText }>See who likes you</Text>
-            </TouchableOpacity>
-            {/* <BottomBar/>   */ }
-            <View style={ styles.topIcons } >
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "User" )
-                        setActivieScreen( "Home" )
-                    } } ><Fontisto size={ 30 } name='tinder' color={ activScreen === 'Home' ? activeColor : color } />
-                    </TouchableOpacity>
+const { width } = Dimensions.get( 'window' );
 
-                    <TouchableOpacity onPress={ () => {
-                         navigation.navigate( "gridscreen" )
-                        setActivieScreen( "Grid" )
-                    } }><MaterialCommunityIcons name="view-grid" size={ 24 } color={ activScreen === 'Grid' ? activeColor : color } />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "4starscreen" )
-                        setActivieScreen( "Star" )
-                    } }><MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activScreen === 'Star' ? activeColor : color } ></MaterialCommunityIcons>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "chatscreen" )
-                        setActivieScreen( "Chat" )
-                    } }><Ionicons name='chatbubbles' size={ 30 } color={ activScreen === 'Chat' ? activeColor : color }  ></Ionicons></TouchableOpacity>
-                    <TouchableOpacity
+const BoostScreen = () => {
+  const navigation = useNavigation()
+  const [ lightOn, setLightOn ] = useState( false );
+  const animatedOpacity = useRef( new Animated.Value( 0 ) ).current;
+  const scrollX = useRef( new Animated.Value( 0 ) ).current;
 
-                        onPress={ () => {
-                            navigation.navigate( "user" )
-                            setActivieScreen( "User" )
-                        } }
-                    ><FontAwesome name='user' size={ 30 } color={ activScreen === 'User' ? activeColor : color }  ></FontAwesome></TouchableOpacity>
-                </View>
+  // Toggle light animation
+  useEffect( () => {
+    const toggleLight = setInterval( () => {
+      setLightOn( prev => !prev );
+    }, 3000 );
 
+    return () => clearInterval( toggleLight );
+  }, [] );
+
+  useEffect( () => {
+    Animated.timing( animatedOpacity, {
+      toValue: lightOn ? 1 : 0,
+      duration: 1000,
+      useNativeDriver: true,
+    } ).start();
+  }, [ lightOn ] );
+
+  const plans = [
+    { id: 1, title: '20 Boosts', price: '₹175.00/ea', save: 'Save 41%' },
+    { id: 2, title: '10 Boosts', price: '₹100.00/ea', save: 'Save 30%' },
+    { id: 3, title: '5 Boosts', price: '₹50.00/ea', save: 'Save 20%' },
+  ];
+
+  const renderPlans = () => {
+    return plans.map( ( plan, index ) => {
+      const inputRange = [
+        ( index - 1 ) * width * 0.7,
+        index * width * 0.7,
+        ( index + 1 ) * width * 0.7,
+      ];
+
+      const scale = scrollX.interpolate( {
+        inputRange,
+        outputRange: [ 0.8, 1, 0.8 ],
+        extrapolate: 'clamp',
+      } );
+
+      return (
+        <Animated.View
+          key={ plan.id }
+          style={ [ styles.planCard, { transform: [ { scale } ] } ] }
+        >
+          <View style={ {
+            width: width * 0.8,
+            height: 
+            45,
+            // borderRadius: 10,
+            borderTopEndRadius: 10, borderTopLeftRadius: 10,
+            marginTop: -27,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: "white",
+            borderColor: '#555962',
+            // marginBottom: 20
+          } }><Text style={ { color: "#c145ec", fontWeight: "500", fontSize: 20 } }> POPULAR</Text></View>
+          <Text style={ styles.planTitle }>{ plan.title }</Text>
+          <View style={ styles.buttons } id='flashBtn'>
+            <FontAwesome name="flash" size={ 30 } color="#c145ec" />
+          </View>
+          <Text style={ styles.planPrice }>{ plan.price }</Text>
+          <TouchableOpacity style={ styles.selectButton } onPress={ () => navigation.navigate( "homepagestarselect" ) }>
+            <Text style={ styles.selectButtonText }>Select</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      );
+    } );
+  };
+
+  return (
+    <View style={ styles.container }>
+
+      {/* Scrollable content */ }
+      <View style={ styles.scrollContainer }>
+        {/* Upper part with animation */ }
+        <View style={ styles.animationContainer }>
+          <Animated.View style={ [ styles.lightEffect, { opacity: animatedOpacity } ] } />
+          <Text style={ styles.illustrationText }>People Illustration with Light Effect</Text>
         </View>
-    );
+
+        {/* Horizontal ScrollView for cards */ }
+        <View style={ styles.planSection }>
+          <Text style={ styles.title }>Be Seen</Text>
+          <Text style={ styles.upgradeText }>Be a top profile in your are for 30 minutes to get more matches
+          </Text>
+
+          <Animated.ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={ false }
+            snapToInterval={ width * 0.7 }
+            decelerationRate="fast"
+            bounces={ false }
+            scrollEventThrottle={ 16 }
+            onScroll={ Animated.event(
+              [ { nativeEvent: { contentOffset: { x: scrollX } } } ],
+              { useNativeDriver: true }
+            ) }
+            contentContainerStyle={ { paddingHorizontal: ( width - width * 0.7 ) / 2 } }
+          >
+            { renderPlans() }
+          </Animated.ScrollView>
+        </View>
+      </View>
+      {/* Or Divider */ }
+      <View style={ styles.dividerContainer }>
+        <View style={ styles.line } />
+        {/* <Text style={ styles.orText }>or</Text> */}
+        {/* <View style={ styles.line } /> */}
+      </View>
+      {/* Fixed bottom button */ }
+      <View style={ styles.bottombox }>
+        <Text style={ styles.bottomText }>1 free Boost a month</Text>
+        <View style={ styles.header2 }>
+          <View style={ { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' } }>
+            <Fontisto name="tinder" size={ 22 } color="yellow" style={ styles.icon } />
+            <Text style={ styles.tinderGoldText }>Get Tinder Gold</Text>
+          </View>
+          <TouchableOpacity style={ styles.goldSelectButton } onPress={ () => {
+            navigation.navigate( "seewholikeyoumore" )
+          } }>
+            <Text style={ styles.goldSelectButtonText }>Select</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create( {
-    container6: {
-        flex: 1,
-        // backgroundColor: 'black', // Dark background color
-        // alignItems:"center",
-        backgroundColor: "#161617",
-       
-    },
-    likePageTop: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-         marginTop:"17%"
-    },
-    header: {
-        paddingTop: 40,
-        paddingBottom: 10,
-        backgroundColor: '#1B1B1B',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    headerText: {
-        color: '#FF5A60', // Tinder red color
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    topIcons: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        width: '100%',
-        padding: 10,
-        position:"absolute",
-        top:669,
-        borderTopColor: "black",
-        zIndex: 10000,
-        opacity: 1000,
-        backgroundColor:"black"
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    // justifyContent:"center", 
+    // alignItems:"center"
+  },
+  scrollContainer: {
+    height: "50%"
+    // paddingBottom: 100,
+    // Extra padding for scroll view so content isn't blocked by the fixed button
+  },
+  animationContainer: {
+    height: "50%",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#222',
+  },
+  lightEffect: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    // backgroundColor: '#ffd700',
+    backgroundColor: "white"
+  },
+  buttons: {
+    backgroundColor: "white",
+    borderRadius: 55,
+    width: 55,
+    height: 55,
+    // padding: 7,
+    margin: 15,
+    justifyContent: 'center',
+    alignItems: "center"
 
-    },
-    main: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    likesCount: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        marginBottom: 10,
-        fontWeight: "500"
-    },
-    upgradeText: {
-        color: 'white',
-        fontSize: 17,
-        textAlign: 'center',
-        // marginBottom: 30,
-        marginTop: 20
-    },
-    heartContainer: {
-        alignItems: 'center',
-        // marginBottom: 30,
-        position: "relative",
-        top: 200
+  },
+  upgradeText: {
+    color: 'white',
+    fontSize: 17,
+    textAlign: 'center',
+    marginBottom: 10,
+    padding: 10
+  },
+  illustrationText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  planSection: {
+    // paddingVertical: 20,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 23,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  description: {
+    color: '#aaa',
+    marginVertical: 10,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  planCard: {
+    width: width * 0.8,
+    height: 280,
+    // width: "60%",
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'white',
+    marginTop:20,
+    // marginHorizontal: 10,
+    // backgroundColor: '#333',
+    // padding: 20,
+    // borderRadius: 15,
+    // marginHorizontal: 10,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // marginRight: 9,
+    // padding: 10,
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: -20,
+    height: "1%",
+    marginTop: 230,
+  },
+  line: {
+    height: 1,
+    backgroundColor: '#555962',
+    width: '100%',
+  },
+  orText: {
+    fontSize: 18,
+    color: 'white',
+    marginHorizontal: 10,
+    fontWeight: "bold",
+  },
+  planTitle: {
+    color: 'white',
+    fontSize: 23,
+    marginBottom: 7,
+    fontWeight: "500",
+    marginTop: 8,
 
-    },
-    heartIcon: {
-        // width: 50,
-        // height: 50,
-        // marginBottom: 10,
-    },
-    goldText: {
-        color: 'white', // Gold color
-        fontSize: 16,
-        textAlign: 'center',
-        // marginTop:-30
-    },
-    button: {
-        backgroundColor: '#FFDA44',
-        // paddingHorizontal: 20,
-        // paddingVertical: 10,
-        height: "8%",
-        width: "60%",
-        borderRadius: 30,
-        // marginBottom: -400,
-        position: "absolute",
-        justifyContent: "center",
+  },
+  planPrice: {
+    color: '#fff',
+    fontSize: 16,
+    marginVertical: 5,
+  },
+  planSave: {
+    color: '#fff',
+    fontSize: 14,
+    backgroundColor: '#9b59b6',
+    padding: 5,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  selectButton: {
+    backgroundColor: 'purple',
+    paddingVertical: 10,
+    paddingHorizontal: 50,
+    borderRadius: 25,
+    marginBottom:3,
+  },
+  selectButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  fixedBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#000',
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#444',
+  },
+  continueButton: {
+    backgroundColor: '#ffd700',
+    paddingVertical: 15,
+    borderRadius: 25,
+    alignItems: 'center',
+  },
+  continueButtonText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  bottombox: {
+    borderWidth: 1,
+    borderColor: '#555962',
+    borderRadius: 10,
+    // padding: 15,
+    marginVertical:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: "90%",
+    margin: "auto",
 
-        bottom: "10%",
-
-        right: "20%",
-        alignItems: "center"
-    },
-    buttonText: {
-        color: '#1B1B1B',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    bottomNav: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 15,
-        backgroundColor: '#1B1B1B',
-    },
-    navItem: {
-        alignItems: 'center',
-    },
-    navIcon: {
-        fontSize: 24,
-        color: '#FFFFFF',
-    }, 
-    navbar: {
-        // width: '100%',
-        // height: '6%',
-        // backgroundColor: "black",
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        // alignItems: "center",
-        width: '100%',
-        height: '7%',
-        backgroundColor: "black",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        position:"absolute",
-        zIndex:10,
-      },
-      righticons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginRight: 5,
-      },
-      icontext: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        //  marginLeft:6,
-      },
-      text: {
-        color: "red",
-        marginLeft: 6,
-        fontSize: 22,
-        fontWeight: "500",
-      },
-      icon: {
-        color: "red",
-        marginLeft: 6,
-        fontSize: 22,
-        fontWeight: "500",
-      },
-      sheildicon: {
-        marginRight: 8,
-        marginLeft: 15,
-      }
+  },
+  bottomText: {
+    fontSize: 13,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: "bold"
+  },
+  header2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  tinderGoldText: {
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 5,
+  },
+  goldSelectButton: {
+    backgroundColor: 'black',
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: '#555962',marginLeft:15
+  },
+  goldSelectButtonText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 15,
+  }, background: {
+    width: '100%',
+    height: '100%',
+    //   borderRadius: 10,
+    borderBottomEndRadius: 10,
+    borderBottomLeftRadius: 10,
+    top: -40
+  },
 } );
 
-export default BottomStarScreen;
+export default BoostScreen;

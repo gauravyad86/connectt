@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     },
     grid: {
         justifyContent: 'center',
-        paddingBottom: 20, // Add some padding at the bottom
+        paddingBottom: 10, // Add some padding at the bottom
     },
     card: {
         flex: 1,
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
         margin: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 150,
-        height: 200,
+        width: 200,
+        height: 220,
     },
     icon: {
         width: 50,

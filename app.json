@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "newproject",
-    "slug": "tinderclone",
+    "slug": "newproject",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "deca0cd9-4f82-4d41-9d73-f1f4fe656ad1"
+        "projectId": "7be1a556-4a7e-4be5-967e-dcd4036a0cad"
       }
     },
     "owner": "priyankakataria123"

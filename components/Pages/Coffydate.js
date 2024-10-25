@@ -23,7 +23,9 @@ export default function CoffyDate() {
       <Text style={styles.subtitle}>Find someone to get coffee with</Text>
       
       {/* Join Now Button */}
-      <TouchableOpacity style={styles.joinButton} onPress={()=>navigation.navigate('joincoffedate')}>
+      <TouchableOpacity style={styles.joinButton} 
+      // onPress={()=>navigation.navigate('joincoffedate')}
+      >
         <LinearGradient
           colors={['#fc00ff', '#00dbde']}
           style={styles.joinButtonGradient}

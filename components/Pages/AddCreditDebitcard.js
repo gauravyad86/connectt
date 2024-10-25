@@ -1,8 +1,8 @@
 import { Fontisto, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get( 'window' );
 
 export default function AddCreditDebitcard () {
     const colorScheme = Appearance.getColorScheme();  // Detect light or dark mode
@@ -13,6 +13,8 @@ export default function AddCreditDebitcard () {
     const [ expiryDate, setExpiryDate ] = useState( '' );
     const [ cvv, setCvv ] = useState( '' );
     const [ cardholderName, setCardholderName ] = useState( '' );
+    const [ state, setSatate ] = useState( '' );
+    const [ Country, setCountry ] = useState( '' );
     const navigation = useNavigation()
     return (
         <ScrollView style={ styles.container } vertical={ true }>
@@ -24,7 +26,7 @@ export default function AddCreditDebitcard () {
             </TouchableOpacity>
 
             {/* Card Number Input */ }
-            <Text style={ { color: "#D7DCD4", marginBottom: 20 } }>All feild required</Text>
+            <Text style={ { color: "red", marginBottom: 10 } }>*All feild required</Text>
             <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -41,13 +43,14 @@ export default function AddCreditDebitcard () {
                     <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Expiry Date</Text>
                     <TextInput
                         style={ [ {
-                            width: "80%", height: 50,
-                            borderColor: '#A3A8A1',
-                            borderWidth: .01,
+                            height: 50,
+                            borderColor: '#7B8799',
+                            borderWidth: 1,
                             borderRadius: 3,
-                            // paddingHorizontal: 10,
+                            paddingHorizontal: 10,
                             fontSize: 16,
-                            marginBottom: 20,
+                            marginBottom: 10,
+                            width: width * .5
                         }, isDarkMode ? styles.darkInput : styles.lightInput ] }
                         placeholder=" MM/YY"
                         placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
@@ -58,17 +61,17 @@ export default function AddCreditDebitcard () {
                 </View>
 
                 {/* CVV Input */ }
-                <View style={ { flexDirection: "column" } }>
+                <View style={ { flexDirection: "column" , marginLeft:5} }>
                     <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>CVC </Text>
                     <TextInput
                         style={ [ {
-                            width: "85%", height: 50,
-                            borderColor: '#A3A8A1',
-                            borderWidth: .01,
+                            height: 50,
+                            borderColor: '#7B8799',
+                            borderWidth: 1,
                             borderRadius: 3,
-                            // paddingHorizontal: 10,
+                            paddingHorizontal: 10,
                             fontSize: 16,
-                            marginBottom: 20,
+                            marginBottom: 10, width: width * .4
                         }, isDarkMode ? styles.darkInput : styles.lightInput ] }
                         placeholder="CVV"
                         placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
@@ -94,8 +97,8 @@ export default function AddCreditDebitcard () {
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="country"
                 placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
+                value={ Country }
+                onChangeText={ setCountry }
             />
             <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
 
@@ -103,8 +106,8 @@ export default function AddCreditDebitcard () {
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="State"
                 placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
+                value={ state }
+                onChangeText={ setSatate }
             />
             <Text style={ styles.darkInput }>By Continuing, you creat a Google Payments account and agree to the Google Payments Terms of Service.</Text>
             <Text style={ styles.darkInput }>The Privacy Notice describes how your data is handled</Text>
@@ -116,8 +119,8 @@ export default function AddCreditDebitcard () {
                     </View>
                     <View style={ { marginLeft: 15 } }>
                         <Text style={ styles.purchaseItem }>15 Super Likes (Tinder
-                            {'\n'}
-                         Dating App: Chat & Date)
+                            { '\n' }
+                            Dating App: Chat & Date)
                         </Text>
                     </View>
                 </View>
@@ -168,10 +171,10 @@ const styles = StyleSheet.create( {
     },
     header: {
         fontSize: 15,
-        height: "3%",
+        height: height * .07,
         // fontWeight: 'bold',
         marginBottom: 20,
-        marginTop: 10,
+        // marginTop: 10,
         backgroundColor: "#111419",
         color: "white",
         flexDirection: "row",
@@ -193,7 +196,7 @@ const styles = StyleSheet.create( {
     input: {
         height: 50,
         borderColor: '#7B8799',
-        borderWidth: .01,
+        borderWidth: 1,
         borderRadius: 3,
         paddingHorizontal: 10,
         fontSize: 16,

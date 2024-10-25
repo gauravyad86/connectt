@@ -4,38 +4,37 @@ import users from '@/assets/data/users';
 
 const ChatTop = () => {
   return (
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <SafeAreaView style={ styles.root }>
-        <View style={ styles.container }>
-          <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }>
-            { users.map( user => (
-              <View style={ styles.user } key={ user.id }>
-                <Image source={ { uri: user.image } } style={ styles.image } />
-                <Text style={ styles.name }> { user.name }</Text>
-              </View>
+    <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
+      <View style={ styles.container }>
+        <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }>
+          { users.map( user => (
+            <View style={ styles.user } key={ user.id }>
+              <Image source={ { uri: user.image } } style={ styles.image } />
+              <Text style={ styles.name }> { user.name }</Text>
+            </View>
 
-            ) ) }
-          </ScrollView>
-        </View>
-      </SafeAreaView>
+          ) ) }
+        </ScrollView>
+      </View>
+
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create( {
-  root: {
-    width: '100%',
-    height: "100%",
-    flex: 1,
-    padding: 10,
-  },
+  // root: {
+  //   width: '100%',
+  //   height: "100%",
+  //   flex: 1,
+  //   padding: 10,
+  // },
   container: {
     padding: 10,
   },
   users: {
     flexDirection: 'row',
     // flexWrap: 'wrap',
-    height: 140,
+    height: 185,
   },
   user: {
     width: 90,

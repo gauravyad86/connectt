@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button, Dimensions } from 'react-native';
 import plans from "@/assets/data/plans"
 import { useNavigation } from 'expo-router';
-const { width, height } = Dimensions.get('window');
+import Bottombar from './Bottombar/bottombar';
+const { width, height } = Dimensions.get( 'window' );
 const UserInfo = () => {
   const [ currentIndex, setCurrentIndex ] = useState( 0 );
   const onSwipe = ( event ) => {
@@ -11,12 +12,10 @@ const UserInfo = () => {
     const index = Math.round( contentOffsetX / 300 );
     setCurrentIndex( index );
   };
-  const activeColor = "#FD297B";
-  const color = "grey";
+  const navigation = useNavigation();
 
-  const [ activScreen, setActivieScreen ] = useState( 'User' );
-  const navigation = useNavigation()
 
+  const showheader = true
   return (
     <ScrollView style={ styles.container }>
       {/* Header */ }
@@ -27,12 +26,12 @@ const UserInfo = () => {
         </View>
         <View style={ styles.righticons }>
           <TouchableOpacity onPress={ () => {
-            navigation.navigate( 'sheild' )
+            navigation.navigate( "shield" )
           } }>
-            <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
+            <FontAwesome6 name="shield" size={ 26 } style={ styles.sheildicon } color="grey" />
           </TouchableOpacity>
           <TouchableOpacity onPress={ () => {
-            navigation.navigate( 'setting' )
+            navigation.navigate( 'setting', { showheader } )
             console.log( "object" )
           } }>
             <Ionicons name="settings" size={ 25 } style={ styles.sheildicon } color="grey" />
@@ -46,8 +45,8 @@ const UserInfo = () => {
             source={ { uri: 'https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain' } }
             style={ styles.profilePic }
           />
-          <TouchableOpacity style={ styles.editIcon }>
-            <Pressable style={ styles.editText }><Text>edit</Text></Pressable>
+          <TouchableOpacity style={ styles.editIcon } onPress={ () => { navigation.navigate( 'editprofile' ) } }>
+            <Text style={ styles.editText }>edit</Text>
           </TouchableOpacity>
         </View>
         <View style={ styles.progressContainer }>
@@ -79,86 +78,74 @@ const UserInfo = () => {
       </View>
 
       {/* Upgrade Section */ }
-      <View style={{height:"54%"}}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={ false }
-          onScroll={ onSwipe }
-          scrollEventThrottle={ 16 }
-        >
-          {plans.map( ( plan, index ) => (
-            <View style={ styles.upgradeSection } key={plan.id}>
-              <View style={ styles.upgrade }>
-                <View style={ styles.upgradeTitle }>
-                  <Fontisto style={ {color:  plan.id===1 ? 'gold' : plan.id === 2 ? 'platinum' : '#FF4500' , marginRight:5,} } size={ 24 } name='tinder' />
-                  <Text style={ { fontSize: 23, fontWeight: "500" } } >tinder</Text>
-                  <View style={ [styles.typesstyle,{ backgroundColor: plan.id === 1 ? 'gold' : plan.id === 2 ?'platinum' : '#FF4500' }] } >
-                    <Text style={ { color: 'black', fontSize: 10, fontWeight: "bold" } }>{plan.type}</Text>
-                  </View>
-                </View>
-                <TouchableOpacity style={ [styles.selectButton , { backgroundColor: plan.id === 1 ? 'gold' : plan.id === 2 ? 'platinum' : '#FF4500' }]} onPress={ () => {
-                  navigation.navigate( "seewholikeyoumore" )
-                } }>
-                  <Text style={ [ styles.selectButtonText] }>Upgrade</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={ styles.whatincluded }>
-                <Text style={ styles.rowValue }>What's Included</Text>
-                <View style={ styles.freeType } >
-                  <Text style={ styles.freeTypeText } >Free</Text>
-                  <Text style={ styles.freeTypeText } >{ plan.type }</Text>
+
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={ false }
+        onScroll={ onSwipe }
+        scrollEventThrottle={ 16 }
+
+      >
+        { plans.map( ( plan, index ) => (
+
+          <View style={ styles.upgradeSection } key={ plan.id }>
+            <View style={ styles.upgrade }>
+              <View style={ styles.upgradeTitle }>
+                <Fontisto style={ { color: plan.id === 1 ? '#d7aa3e' : plan.id === 2 ? 'platinum' : '#ff4d46', marginRight: 5, } } size={ 24 } name='tinder' />
+                <Text style={ { fontSize: 23, fontWeight: "500" } } >tinder</Text>
+                <View style={ [ styles.typesstyle, { backgroundColor: plan.id === 1 ? '#d7aa3e' : plan.id === 2 ? '#4B494D' : '#ff4d46' } ] } >
+                  <Text style={ [ { fontSize: 10, fontWeight: "bold" }, { color: plan.id === 1 ? 'black' : plan.id === 2 ? 'white' : 'black' } ] }>{ plan.type }</Text>
                 </View>
               </View>
-              <View style={ styles.upgradeContent }>
-                <View style={ styles.row }>
-                  <Text style={ styles.rowTitle }>See Who Likes You</Text>
-                  <Text style={ styles.rowValue }> —                     ✓</Text>
-                </View>
-                <View style={ styles.row }>
-                  <Text style={ styles.rowTitle }>Top Picks</Text>
-                  <Text style={ styles.rowValue }>—                    ✓</Text>
-                </View>
-                <TouchableOpacity>
-                  <Text style={ styles.seeAllFeatures }>See All Features</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={ [ styles.selectButton, { backgroundColor: plan.id === 1 ? '#d7aa3e' : plan.id === 2 ? '#4B494D' : '#ff4d46' } ] } onPress={ () => {
+                navigation.navigate( "seewholikeyoumore" )
+              } }>
+                <Text style={ [ styles.selectButtonText, { color: plan.id === 1 ? 'black' : plan.id === 2 ? 'white' : 'black' } ] }>upgrade</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={ styles.whatincluded }>
+              <Text style={ styles.rowValue }>What's Included</Text>
+              <View style={ styles.freeType } >
+                <Text style={ styles.freeTypeText } >Free</Text>
+                <Text style={ styles.freeTypeText } >{ plan.type }</Text>
               </View>
             </View>
-          ) ) }
-        </ScrollView>
-        <View style={ styles.indicatorContainer }>
-          {plans.map( ( val, index ) => (
-            <View
-              key={val.id}
-              style={ [
-                styles.indicator,
-                { backgroundColor: index === currentIndex ? '#fff' : '#888' },
-              ] }
-            />
-          ) ) }
-        </View>
-        <View style={styles.bottomBar}>
-                    <TouchableOpacity onPress={() => { navigation.navigate("Home"); setActivieScreen("Home"); }}>
-                        <Fontisto size={30} name='tinder' color={activScreen === 'Home' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("gridscreen"); setActivieScreen("Grid"); }}>
-                        <MaterialCommunityIcons name="view-grid" size={24} color={activScreen === 'Grid' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("4starscreen"); setActivieScreen("Star"); }}>
-                        <MaterialCommunityIcons size={30} name='star-four-points' color={activScreen === 'Star' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("chatscreen"); setActivieScreen("Chat"); }}>
-                        <Ionicons name='chatbubbles' size={30} color={activScreen === 'Chat' ? activeColor : color} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => { navigation.navigate("user"); setActivieScreen("User"); }}>
-                        <FontAwesome name='user' size={30} color={activScreen === 'User' ? activeColor : color} />
-                    </TouchableOpacity>
+            {/* <View style={ styles.upgradeContent }> */}
+              <View style={ styles.whatincluded }>
+                <Text style={ styles.rowTitle }>{plan.title1}</Text>
+                <View style={ styles.freeType } >
+                  {/* <Text style={ styles.freeTypeText }>—      </Text> */}
+                  <Text style={ styles.freeTypeText } >✓  </Text>
                 </View>
+              </View>
+              <View style={ styles.row }>
+                <Text style={ styles.rowTitle }>{plan.title2}</Text>
+                <View style={ styles.freeType } >
+                  {/* <Text style={ styles.freeTypeText } >—     </Text> */}
+                  <Text style={ styles.freeTypeText } >✓  </Text>
+                </View>
+              </View>
+              <TouchableOpacity>
+                <Text style={ [ styles.seeAllFeatures, { color: plan.id === 1 ? 'gold' : plan.id === 2 ? '#4B494D' : '#ff4d46' } ] }>See All Features</Text>
+              </TouchableOpacity>
+            {/* </View> */}
+          </View>
+        ) ) }
+      </ScrollView>
+      <View style={ styles.indicatorContainer }>
+        { plans.map( ( val, index ) => (
+          <View
+            key={ val.id }
+            style={ [
+              styles.indicator,
+              { backgroundColor: index === currentIndex ? '#fff' : '#888' },
+            ] }
+          />
+        ) ) }
       </View>
+      <Bottombar />
+
     </ScrollView>
   );
 };
@@ -180,8 +167,8 @@ const styles = StyleSheet.create( {
     height: 35,
   },
   selectButton: {
-    height: height*.06,
-    width: width*.5,
+    height: height * .04,
+    width: width * .3,
     // backgroundColor: "gold",
     justifyContent: "center",
     alignItems: "center",
@@ -190,10 +177,10 @@ const styles = StyleSheet.create( {
   selectButtonText: {
     fontSize: 20,
     fontWeight: "700",
-    
-
   },
-  typesstyle: { justifyContent: "center", alignItems: "center", height: "7%", width: "40%", marginTop: 7.5 },
+  typesstyle: {
+    justifyContent: "center", alignItems: "center", height: height * .02, width: "26%", marginTop: 7.5, borderRadius: 5
+  },
   topIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -203,6 +190,7 @@ const styles = StyleSheet.create( {
     top: 231,
     alignItems: 'center',
     // zIndex: 10,
+
 
   },
   headerIcons: {
@@ -238,7 +226,7 @@ const styles = StyleSheet.create( {
   },
   profileSection: {
     alignItems: 'center',
-    height: "59%",
+    height: "43%",
     backgroundColor: "#111419",
     borderRadius: 5,
     flexDirection: "column",
@@ -286,7 +274,7 @@ const styles = StyleSheet.create( {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 10,
-    height: "15%",
+    height: "12%",
 
   },
   upgrade: {
@@ -318,9 +306,8 @@ const styles = StyleSheet.create( {
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    height: 220,
-    width: 348
-
+    height: height * .65,
+    width: 420,
   },
   upgradeTitle: {
     // fontSize: ,
@@ -338,6 +325,7 @@ const styles = StyleSheet.create( {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
+    alignItems:"center"
   },
   rowTitle: {
     // fontWeight: 'bold',
@@ -349,7 +337,7 @@ const styles = StyleSheet.create( {
     fontSize: 16,
   },
   seeAllFeatures: {
-    color: '#ffcc00',
+    // color: '#ffcc00',
     fontWeight: 'bold',
     marginTop: 10,
     fontSize: 16,
@@ -387,13 +375,15 @@ const styles = StyleSheet.create( {
   },
   navbar: {
     width: '100%',
-    height: '9%',
+    height: '7%',
     backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     position: "absolute",
-    zIndex: 100,
+    zIndex: 10,
+    top: 0,
+    padding: 10,
   },
   righticons: {
     flexDirection: "row",
@@ -433,7 +423,8 @@ const styles = StyleSheet.create( {
     bottom: 0,
     borderTopWidth: 1,
     borderTopColor: "grey",
-},
+    height: "7%"
+  },
 } );
 
 

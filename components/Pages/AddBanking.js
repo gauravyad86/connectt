@@ -1,8 +1,9 @@
 import { Fontisto, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView, Dimensions } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
+const { width, height } = Dimensions.get('window');
 
 export default function AddBanking () {
     const colorScheme = Appearance.getColorScheme();  // Detect light or dark mode
@@ -120,10 +121,10 @@ const styles = StyleSheet.create( {
     },
     header: {
         fontSize: 15,
-        height: "3%",
+        height: height*.07,
         // fontWeight: 'bold',
-        marginBottom: 20,
-        marginTop: 10,
+        marginBottom: 15,
+       
         backgroundColor: "#111419",
         color: "white",
         flexDirection: "row",
@@ -145,7 +146,7 @@ const styles = StyleSheet.create( {
     input: {
         height: 50,
         borderColor: '#7B8799',
-        borderWidth: .01,
+        borderWidth: 2,
         borderRadius: 3,
         paddingHorizontal: 10,
         fontSize: 16,
