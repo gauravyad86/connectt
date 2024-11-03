@@ -1,21 +1,36 @@
 import { View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import image from "@/assets/images/splash.png"
 import tw from "tailwind-react-native-classnames";
 import { useNavigation } from "expo-router";
-
-
+// import { fetchData } from "@/api.js";
+import axios from "axios";
+import { MyContext } from "../MyContext";
+const API_URL = 'http://localhost:4001/auth';
 const LoginScreen = () => {
     const [ type, setType ] = useState( 0 ); // 1: signin 2: signup
-    // 1: signin 2: signup
     const [ name, setName ] = useState( "" );
     const [ email, setEmail ] = useState( "" );
     const [ password, setPasssword ] = useState( "" );
     const navigation = useNavigation();
-    const SignIn = () => {
+
+    const { User, setUser } = useContext( MyContext )
+
+
+    const SignIn = async () => {
         console.log( email )
-        if ( name.trim() === "" || email.trim() === "" || password.trim() === "" ) {
-            //    return  Alert.alert.("ohh! , Your have not entered all details correctly")
+        console.log( password )
+        setUser( true );
+        console.log(User)
+        try {
+            const response = await axios.post( `${ API_URL }/login`, {
+                email: email,
+                password: password
+            } );
+            return response.data;
+        } catch ( error ) {
+            console.error( 'Error fetching data:', error );
+            throw error;
         }
     }
     return (

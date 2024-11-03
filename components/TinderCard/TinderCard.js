@@ -41,10 +41,10 @@ const TinderCard = ( { item, isFirst, swipe, ...rest } ) => {
     <Animated.View
       style={ [
         {
-          width: width - 40,
-          height: height * 0.7,
+          width: width - 10,
+          height: height * 0.8,
           position: 'absolute',
-          top: height * 0.1,
+          top: height * 0.08,
           justifyContent: 'center',
           alignItems: 'center',
           alignSelf: 'center',
@@ -83,7 +83,7 @@ const styles = {
     color: 'white',
     fontWeight: 'bold',
     paddingHorizontal: 20,
-    paddingTop: height*.2,
+    paddingTop: height*.15,
   },
   bio: {
     fontSize: width * 0.045,

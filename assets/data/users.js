@@ -11,8 +11,9 @@ export default [
   {
     id: '1',
     name: 'Zohn',
-    image:          'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg',
-    bio:'Happiness often sneaks in through a door you didn’t know you left open',
+    image:'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg',
+    bio:'Happiness often sneaks in through a door',
+    age:'20',
   },
   {
     id: '2',

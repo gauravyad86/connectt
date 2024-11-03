@@ -1,9 +1,10 @@
-import { FontAwesome, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { Entypo, FontAwesome, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useContext, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Pressable, Button, Dimensions } from 'react-native';
 import plans from "@/assets/data/plans"
 import { useNavigation } from 'expo-router';
 import Bottombar from './Bottombar/bottombar';
+import { MyContext } from '../MyContext';
 const { width, height } = Dimensions.get( 'window' );
 const UserInfo = () => {
   const [ currentIndex, setCurrentIndex ] = useState( 0 );
@@ -13,9 +14,8 @@ const UserInfo = () => {
     setCurrentIndex( index );
   };
   const navigation = useNavigation();
-
-
-  const showheader = true
+  const showheader = true;
+  const {setUser} = useContext(MyContext)
   return (
     <ScrollView style={ styles.container }>
       {/* Header */ }
@@ -25,16 +25,22 @@ const UserInfo = () => {
           <Text style={ styles.text }  >tinder</Text>
         </View>
         <View style={ styles.righticons }>
-          <TouchableOpacity onPress={ () => {
+          {/* <TouchableOpacity onPress={ () => {
             navigation.navigate( "shield" )
           } }>
             <FontAwesome6 name="shield" size={ 26 } style={ styles.sheildicon } color="grey" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={ () => {
             navigation.navigate( 'setting', { showheader } )
             console.log( "object" )
           } }>
             <Ionicons name="settings" size={ 25 } style={ styles.sheildicon } color="grey" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={ () => {
+            setUser(false)
+          } }>
+           
+            <Entypo name="log-out" size={ 25 } style={ styles.sheildicon } color="grey" />
           </TouchableOpacity>
         </View>
       </View>
@@ -111,25 +117,25 @@ const UserInfo = () => {
                 <Text style={ styles.freeTypeText } >{ plan.type }</Text>
               </View>
             </View>
-            {/* <View style={ styles.upgradeContent }> */}
-              <View style={ styles.whatincluded }>
-                <Text style={ styles.rowTitle }>{plan.title1}</Text>
-                <View style={ styles.freeType } >
-                  {/* <Text style={ styles.freeTypeText }>—      </Text> */}
-                  <Text style={ styles.freeTypeText } >✓  </Text>
-                </View>
+            {/* <View style={ styles.upgradeContent }> */ }
+            <View style={ styles.whatincluded }>
+              <Text style={ styles.rowTitle }>{ plan.title1 }</Text>
+              <View style={ styles.freeType } >
+                {/* <Text style={ styles.freeTypeText }>—      </Text> */ }
+                <Text style={ styles.freeTypeText } >✓  </Text>
               </View>
-              <View style={ styles.row }>
-                <Text style={ styles.rowTitle }>{plan.title2}</Text>
-                <View style={ styles.freeType } >
-                  {/* <Text style={ styles.freeTypeText } >—     </Text> */}
-                  <Text style={ styles.freeTypeText } >✓  </Text>
-                </View>
+            </View>
+            <View style={ styles.row }>
+              <Text style={ styles.rowTitle }>{ plan.title2 }</Text>
+              <View style={ styles.freeType } >
+                {/* <Text style={ styles.freeTypeText } >—     </Text> */ }
+                <Text style={ styles.freeTypeText } >✓  </Text>
               </View>
-              <TouchableOpacity>
-                <Text style={ [ styles.seeAllFeatures, { color: plan.id === 1 ? 'gold' : plan.id === 2 ? '#4B494D' : '#ff4d46' } ] }>See All Features</Text>
-              </TouchableOpacity>
-            {/* </View> */}
+            </View>
+            <TouchableOpacity>
+              <Text style={ [ styles.seeAllFeatures, { color: plan.id === 1 ? 'gold' : plan.id === 2 ? '#4B494D' : '#ff4d46' } ] }>See All Features</Text>
+            </TouchableOpacity>
+            {/* </View> */ }
           </View>
         ) ) }
       </ScrollView>
@@ -145,7 +151,6 @@ const UserInfo = () => {
         ) ) }
       </View>
       <Bottombar />
-
     </ScrollView>
   );
 };
@@ -226,7 +231,7 @@ const styles = StyleSheet.create( {
   },
   profileSection: {
     alignItems: 'center',
-    height: "43%",
+    height: "44%",
     backgroundColor: "#111419",
     borderRadius: 5,
     flexDirection: "column",
@@ -325,7 +330,7 @@ const styles = StyleSheet.create( {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
-    alignItems:"center"
+    alignItems: "center"
   },
   rowTitle: {
     // fontWeight: 'bold',
