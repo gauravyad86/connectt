@@ -1,35 +1,35 @@
 
-import React, { useState } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ScrollView,Platform, Dimensions } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, ImageBackground, StyleSheet, ScrollView, Platform, Dimensions, Image } from 'react-native';
 import { FontAwesome, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from 'expo-router';
 import GridBox from '../Pages/GridBox';
 import Bottombar from './Bottombar/bottombar';
-
+import connectlogo from "@/assets/images/connect.jpg"
+import { MyContext } from '../MyContext';
 const { width, height } = Dimensions.get( 'window' );
 
 export default function GridScreen () {
-   
-    const navigation = useNavigation();
 
+    const navigation = useNavigation();
+    const {  bgColor,lightTheme} = useContext( MyContext )
     return (
-        <SafeAreaView style={ styles.root }>
+        <SafeAreaView style={ [styles.root,{ backgroundColor:lightTheme} ]}>
             {/* Navbar */ }
-            <View style={ styles.navbar }>
+            <View style={[styles.navbar, {backgroundColor:lightTheme}]}>
                 <View style={ styles.icontext }>
-                    <Fontisto style={ styles.icon } size={ 22 } name='tinder' color={ "red" } />
-                    <Text style={ styles.text }>tinder</Text>
+                  
+                    <Image source={ connectlogo } style={ { height: 22, width: 22 } } />
+                    <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
                 </View>
                 <View style={ styles.righticons }>
                     <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
-                        <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color="grey" />
+                        <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={bgColor} />
                     </TouchableOpacity>
-                   
                 </View>
             </View>
-
             {/* Scrollable content */ }
             <ScrollView contentContainerStyle={ styles.scrollContent }>
                 {/* Welcome message */ }
@@ -53,12 +53,11 @@ export default function GridScreen () {
                     <Text style={ styles.goaltext }>Find people with similar relationship goals</Text>
                 </View>
 
-                {/* GridBox component */ }
-                <GridBox />
+                {/* <GridBox /> */}
             </ScrollView>
 
             {/* Fixed Bottom Navigation Bar */ }
-           <Bottombar/>
+            <Bottombar />
         </SafeAreaView>
     );
 }
@@ -66,20 +65,19 @@ export default function GridScreen () {
 const styles = StyleSheet.create( {
     root: {
         flex: 1,
-        backgroundColor: "black",
-        paddingBottom:50,
+        // backgroundColor: "black",
+        paddingBottom: 50,
     },
     navbar: {
         width: '100%',
         height: '7%',
-        backgroundColor: "black",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         position: "absolute",
         zIndex: 10,
-        top:0,
-        padding:10,
+        top: 0,
+        padding: 10,
     },
     icontext: {
         flexDirection: "row",
@@ -158,6 +156,6 @@ const styles = StyleSheet.create( {
         bottom: 0,
         borderTopWidth: 1,
         borderTopColor: "grey",
-         height:"7%"
+        height: "7%"
     },
 } );

@@ -4,6 +4,11 @@ import React, { useState } from 'react'
 import { SafeAreaView, View, ScrollView, } from 'react-native'
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import connectlogo from "@/assets/images/connectremovebg.png"
+const bgColor="#FFA500";
+const lightTheme="white";
+const lightColor="black"
+
 export default function SeeWhoLikeYou () {
     const userss = [
         {
@@ -33,7 +38,7 @@ export default function SeeWhoLikeYou () {
                 {/* Close button on top-left */ }
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
                     <LinearGradient
-                        colors={ [ '#d7aa3e', 'black' ] } // Adjust the second color for the gradient
+                        colors={ [ '#d7aa3e', 'white' ] } // Adjust the second color for the gradient
                         style={ { width: "100%" , flexDirection:"row",alignItems:"center"} }>
 
                         <TouchableOpacity onPress={ () => navigation.goBack() } style={ styles.closeButton }>
@@ -42,9 +47,9 @@ export default function SeeWhoLikeYou () {
 
                         {/* Tinder+ logo and text */ }
                         <View style={ styles.header }>
-                            <Fontisto name="tinder" size={ 22 } color="#d7aa3e" style={ styles.icon } />
-                            <Text style={ styles.headerText }>tinder</Text>
-                            <Text style={ { color: 'black', backgroundColor: "#d7aa3e", fontSize: 9, marginTop: 8, fontWeight: "700" } }>GOLD</Text>
+                        <Image source={connectlogo}style={{height:22, width:22}} />
+                            <Text style={ styles.headerText }>Connect</Text>
+                            <Text style={ { color: 'black', fontSize: 9, marginTop: 8, fontWeight: "700" } }>GOLD</Text>
                         </View>
                     </LinearGradient>
                 </View>
@@ -55,7 +60,7 @@ export default function SeeWhoLikeYou () {
                     Tinder Gold™
 
                 </Text>
-                <Text style={ styles.planText }> Select a plan</Text>
+                <Text style={ styles.planText }>Select a plan</Text>
 
                 <View style={ styles.container2 }>
                     {/* <Text style={{fontWeight: 'bold', fontSize: 24, color: '#F63A6E'}}>
@@ -80,23 +85,23 @@ export default function SeeWhoLikeYou () {
                     <View style={ styles.benefitItem }>
                         {/* <View style={ styles.benefitLabel }> */ }
 
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 }color={lightColor} />
                         <Text style={ styles.benefitLabel }>Unlimited Likes</Text>
                         {/* </View> */ }
                     </View>
                     <View style={ styles.benefitItem }>
                         {/* <View style={ styles.benefitLabel }> */ }
 
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <Text style={ styles.benefitLabel }>See Who Likes You</Text>
                         {/* </View> */ }
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <Text style={ styles.benefitLabel }>Unlimited Rewinds</Text>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>1 Free Boost per month </Text>
                             <Text style={ styles.benefitLabel2 }>Free monthly Boost only available for {'\n'}1 month or longer subscriptions
@@ -104,14 +109,14 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor}/>
                         <View >
                             <Text style={ styles.benefitLabel }>2 Free Super Likes per week</Text>
 
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 }color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>Unlimited Passport™ Mode</Text>
                             <Text style={ styles.benefitLabel2 }>Add a note to your Super Likes
@@ -119,7 +124,7 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>Control Your Profile</Text>
                             <Text style={ styles.benefitLabel2 }>Only show what you want them to know
@@ -127,7 +132,7 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 }color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>Top Picks</Text>
                             <Text style={ styles.benefitLabel2 }>Browse through a daily curated selection
@@ -136,7 +141,7 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>Control Who Sees You </Text>
                             <Text style={ styles.benefitLabel2 }>Mangage  who you're seen by.
@@ -145,7 +150,7 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                     <View style={ styles.benefitItem }>
-                        <Entypo name="check" size={ 24 } color="white" />
+                        <Entypo name="check" size={ 24 } color={lightColor} />
                         <View >
                             <Text style={ styles.benefitLabel }>Control Who You See </Text>
                             <Text style={ styles.benefitLabel2 }>Choose the type of people you want to
@@ -155,13 +160,7 @@ export default function SeeWhoLikeYou () {
                         </View>
                     </View>
                 </View>
-                <View style={ styles.benefitItem }>
-                    <Entypo name="check" size={ 24 } color="white" />
-                    <View >
-                        <Text style={ styles.benefitLabel }>Hide Aids </Text>
-
-                    </View>
-                </View>
+               
             </ScrollView>
             <TouchableOpacity style={ [ { flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%" }, styles.bottomTextBTn ] }>
                 <Text style={ styles.termsText }>
@@ -181,7 +180,7 @@ const styles = StyleSheet.create( {
     container: {
         flex: 1,
         // flexDirection:"row",
-        backgroundColor: 'black',
+        backgroundColor: lightTheme,
         paddingHorizontal: 10,
         // justifyContent:"flex-start",
         // alignItems:"center",
@@ -201,18 +200,19 @@ const styles = StyleSheet.create( {
     termsText: {
         // textAlign: 'center',
         fontSize: 13,
-        color: 'white',
+        color: 'black',
         marginVertical: 10,
+
     },
     Week: {
-        color: 'white',
+        color: lightColor,
         fontSize: 25,
         fontWeight: 'bold',
         marginTop: 3,
         marginLeft: 9,
     },
     rsValue: {
-        color: 'white',
+        color: lightColor,
         fontSize: 17,
         fontWeight: 'bold',
         marginTop: 30,
@@ -243,8 +243,6 @@ const styles = StyleSheet.create( {
     icon: {
         marginRight: 5
     },
-
-
     header: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -274,7 +272,7 @@ const styles = StyleSheet.create( {
         width: "100%",
     },
     headingg: {
-        color: '#FFDE59',
+        color: bgColor,
         fontSize: 17,
         justifyContent: "flex-start",
         // textAlign: 'center',
@@ -309,7 +307,7 @@ const styles = StyleSheet.create( {
         marginRight: 5,
     },
     mainHeading: {
-        color: 'white',
+        color: lightColor,
         fontSize: 28,
         justifyContent: "flex-start",
         // textAlign: 'center',
@@ -317,7 +315,7 @@ const styles = StyleSheet.create( {
         marginVertical: 8,
     },
     planText: {
-        color: 'white',
+        color: lightColor,
         fontSize: 20,
         fontWeight: 'bold',
     },
@@ -330,7 +328,7 @@ const styles = StyleSheet.create( {
         borderColor: 'white',
     },
     upgradeSection: {
-        backgroundColor: '#111419',
+        backgroundColor: lightTheme,
         borderWidth: 1
         , borderRadius: 8,
         borderColor: "#7B8799",
@@ -341,10 +339,10 @@ const styles = StyleSheet.create( {
         // marginTop:10
     },
     upgradeTitle: {
-        color: 'white',
+        color: lightColor,
         fontSize: 15,
         fontWeight: '400',
-        marginBottom: -10,
+        marginBottom: 1,
         marginTop: 10,
         zIndex: 100,
         marginLeft: "25%"
@@ -365,7 +363,7 @@ const styles = StyleSheet.create( {
         flexDirection: "row", marginLeft: 15,
     },
     benefitLabel: {
-        color: 'white',
+        color:lightColor,
         fontSize: 17,
         fontWeight: "500",
         flexDirection: "column",
@@ -392,11 +390,12 @@ const styles = StyleSheet.create( {
     bottomTextBTn: {
         // position: "absolute",
         bottom: 0,
-        backgroundColor: "black",
-        height: "20%"
+        backgroundColor: "white",
+        height: "20%",
+        borderWidth:1,
     }, continueButton: {
         // position: "absolute",
-        backgroundColor: '#d7aa3e',
+        backgroundColor: "#FFA500",
         height: "27%",
         width: "90%",
         borderRadius: 20,

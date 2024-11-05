@@ -53,7 +53,7 @@ export default function MysubStarting () {
                         {'\n'}
                         Tinder Gold™
                     </Text>
-                    <Text style={ styles.planText }> Select a plan</Text>
+                    <Text style={ styles.planText }>Select a plan</Text>
 
                     <View style={ styles.container2 }>
                         <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.use }>

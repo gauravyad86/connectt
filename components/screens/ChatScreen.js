@@ -1,206 +1,159 @@
-import React from 'react'
-import Message from "@/components/screens/message"
 
-import { View, Text, Image, StyleSheet, Platform, Pressable, Button, Modal, ScrollView, Dimensions } from 'react-native';
-import 'react-native-gesture-handler'
-import { useState } from 'react';
-import { FontAwesome, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
-import ChatTop from "@/components/screens/ChatTop.js"
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useContext, useState } from 'react';
+import { View, Text, Image, StyleSheet, TextInput, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from 'expo-router';
+import { MyContext } from '../MyContext';
+import users from '@/assets/data/users';
+import connectlogo from "@/assets/images/connect2.jpg";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Bottombar from './Bottombar/bottombar';
+import { FontAwesome6 } from '@expo/vector-icons';
+
 const { width, height } = Dimensions.get('window');
-export default function Chatscreen () {
- 
-  const [ modalVisible, setModalVisible ] = useState( false );
-  const [ onoff, setOnoff ] = useState( false );
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-};
-  const handleTurnOn = () => {
-    setOnoff(true);
-    toggleModal();
+
+export default function Chatscreen() {
+  const { bgColor, lightTheme, lightColor } = useContext(MyContext);
+  const [filteredData, setFilteredData] = useState(users);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation();
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const filtered = query
+      ? users.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()))
+      : users;
+    setFilteredData(filtered);
   };
 
-  const handleNotNow = () => {
-    setOnoff(false);
-    toggleModal();
-  };
-  const navigation = useNavigation()
   return (
-    <GestureHandlerRootView style={ { flex: 1 } }>
-      <SafeAreaView style={ styles.root } >
-        <View style={ styles.navbar }>
-          <View style={ styles.icontext }>
-            <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
-            <Text style={ styles.text }  >tinder</Text>
-          </View>
-          <TouchableOpacity style={ styles.righticons } onPress={()=>{
-            navigation.navigate("shield")
-          }}>  
-            <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color="grey" />
-          </TouchableOpacity>
+    <View style={[styles.root, { backgroundColor: lightTheme }]}>
+      <View style={styles.navbar}>
+        <View style={styles.icontext}>
+          <Image source={connectlogo} style={{ height: 25, width: 25 }} />
+          <Text style={[styles.text, { color: "#FF8C00" }]}>Connect</Text>
         </View>
-        <View style={ styles.messagess }>
-          <Text style={ styles.message } >New matches</Text>
-          <TouchableOpacity onPress={ () => setModalVisible( true ) }>
-            <Text style={ styles.mymoveoff } >
-              MY MOVE<Text style={ styles.mymoveoff2 }>{ !onoff ? "OFF" : "ON" }</Text>
-            </Text>
+        <TouchableOpacity style={ styles.righticons } onPress={ () => {
+            navigation.navigate( "shield" )
+          } }>
+            <FontAwesome6 name="shield" size={ 25 } style={ styles.sheildicon } color={ bgColor } />
           </TouchableOpacity>
-        </View>
-        <ChatTop></ChatTop>
-        <Message></Message>
-         <Bottombar/>
-      </SafeAreaView>
-      <View style={ styles2.container }>
-        {/* Modal */ }
-        <Modal
-          animationType="fade"
-          transparent={ true }
-          visible={ modalVisible }
-          onRequestClose={ () => setModalVisible( false ) }
-        >
-          <View style={ styles2.modalOverlay }>
-            <View style={ styles2.modalView }>
-              <Text style={ styles2.modalText }>Are you sure you want to turn My Move on?</Text>
-              <Text style={ styles2.subText }>
-                My Move will apply to all new matches going forward.
-              </Text>
-              {/* Modal Buttons */ }
-              <View style={ styles2.buttonContainer }>
-                <TouchableOpacity
-                  style={ styles2.cancelButton }
-                  onPress={handleNotNow}
-                >
-                  <Text style={ styles2.cancelText }>NOT NOW</Text>
-                </TouchableOpacity>
+      </View>
+      
+      <TextInput
+        style={styles.searchBox}
+        placeholder="Search"
+        value={searchQuery}
+        onChangeText={handleSearch}
+      />
 
-                <TouchableOpacity
-                  style={ styles2.confirmButton }
-                  onPress={handleTurnOn}
-                >
-                  <Text style={ styles.confirmText }>TURN IT ON</Text>
-                </TouchableOpacity>
+      <View style={styles.messHeading}>
+        <Text style={[styles.messagetext, { color: lightColor }]}>Messages</Text>
+        <Text style={[styles.messagetext, { color: bgColor }]}>({filteredData.length})</Text>
+      </View>
+
+      <ScrollView style={styles.users}>
+        {filteredData.map((user) => (
+          <TouchableOpacity key={user.id} onPress={() => navigation.navigate("chatsection")}>
+            <View style={styles.mess}>
+              <Image source={{ uri: user.image }} style={styles.image} />
+              <View style={styles.messageContent}>
+                <Text style={[styles.name, { color: lightColor }]}>{user.name}</Text>
+                <Text style={styles.bio}>{user.bio}</Text>
+                <View style={styles.underline} />
               </View>
             </View>
-          </View>
-        </Modal>
-      </View>
-    </GestureHandlerRootView>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      <Bottombar />
+    </View>
   );
 }
 
-const styles = StyleSheet.create( {
-  pageContainer: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // flex: 1,
-    flexDirection: "column"
-
-  },
+const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "black"
-    ,
-     paddingBottom:30,
-  },
-
-  icons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '85%',
-    padding: 10,
-    position: "absolute",
-    top: 550
-
-  },
-  buttons: {
-    backgroundColor: "grey",
-    borderRadius: 50,
-
-
-    width: 50,
-    height: 50,
-    padding: 7,
-    justifyContent: 'center',
-    alignItems: "center"
-
-  },
-
-  topIcons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: '100%',
-    padding: 10,
-    position: "absolute",
-    top: 669,
-    borderTopColor: "black",
-    zIndex: 10000,
-    opacity: 1000,
-    backgroundColor: "black"
-  },
-  messagetext: {
-    color: "white",
-    fontSize: 17,
-    fontWeight: "500",
-    marginTop: 5,
-    marginLeft: 10,
-    marginBottom: 0
-  },
-  messagess: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "90%",
-    marginTop: 10,
-   
-    // position:"absolute",
-  },
-  message: {
-    color: "white",
-    fontSize: 19,
-    fontWeight: "500",
-    //  backgroundColor:"red",
-    // //  justifyContent:"flex-end",
-    marginLeft: 10,
-  },
-  mymoveoff: {
-    color: "white",
-    fontSize: 16.5,
-    fontWeight: "500",
-    // marginLeft:100,
-    marginRight: -20,
-  },
-  mymoveoff2: {
-    fontSize: 16.5,
-    fontWeight: "500",
-    color: "red"
   },
   navbar: {
-    width: '100%',
-    height: '7%',
-    backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    position: "absolute",
+    padding: 10,
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: height*.07,
+    // backgroundColor: "white",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // position: "absolute",
     zIndex: 10,
-    top:0,
-    padding:10,
+    // top:0,
+    // padding:10,
+
   },
-  righticons: {
+  searchBox: {
+    height: 40,
+    marginTop: 15,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 5,
+    width: "95%",
+    marginLeft: 10,
+    paddingLeft: 4,
+  },
+  messHeading: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    marginRight: 5,
+    marginVertical: 10,
+  },
+  messagetext: {
+    fontSize: 17,
+    fontWeight: "500",
+    marginLeft: 5,
+  },
+  users: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  mess: {
+    width: width - 20,
+    height: 90,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  image: {
+    width: 65,
+    height: 65,
+    borderRadius: 32.5,
+  },
+  name: {
+    fontWeight: "600",
+    fontSize: 18,
+  },
+  bio: {
+    fontSize: 13,
+  },
+  messageContent: {
+    flexDirection: "column",
+    justifyContent: "center",
+    marginLeft: 12,
+    flex: 1,
+  },
+  underline: {
+    borderBottomColor: '#555962',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginTop: 10,
+    flex: 1,
   },
   icontext: {
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    //  marginLeft:6,
+    justifyContent:"center"
   },
   text: {
     color: "red",
@@ -208,115 +161,4 @@ const styles = StyleSheet.create( {
     fontSize: 22,
     fontWeight: "500",
   },
-  icon: {
-    color: "red",
-    marginLeft: 6,
-    fontSize: 22,
-    fontWeight: "500",
-  },
-  sheildicon: {
-    marginRight: 8,
-    marginLeft: 15,
-  }
-  , bottomBar: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: '100%',
-    paddingVertical: 10,
-    backgroundColor: "black",
-    position: "absolute",
-    bottom: 0,
-    borderTopWidth: 1,
-    borderTopColor: "grey",
-},
-} );
-const styles2 = StyleSheet.create( {
-  container2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Creates the dimmed background effect
-  },
-  modalView: {
-    width: 300,
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    backgroundColor: '#ff5b5b',
-    padding: 10,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  // modalOverlay: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: 'rgba(0, 0, 0, 0.5)', // Creates the dimmed background effect
-  // },
-  // modalView: {
-  //   width: 300,
-  //   padding: 20,
-  //   backgroundColor: 'white',
-  //   borderRadius: 10,
-  //   alignItems: 'center',
-  //   shadowColor: '#000',
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 4,
-  //   elevation: 5,
-  // },
-  modalText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  subText: {
-    fontSize: 14,
-    color: '#555',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  cancelButton: {
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  confirmButton: {
-    backgroundColor: '#ff5b5b',
-    padding: 10,
-    borderRadius: 5,
-  },
-  cancelText: {
-    color: '#333',
-    fontWeight: 'bold',
-  },
-  confirmText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-} );
+});

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "newproject",
-    "slug": "newproject",
+    "slug": "helloworld",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -35,9 +35,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "7be1a556-4a7e-4be5-967e-dcd4036a0cad"
+        "projectId": "4eb71583-e39e-416a-b772-e14264d588df"
       }
     },
-    "owner": "priyankakataria123"
+    "owner": "es1221812"
   }
 }

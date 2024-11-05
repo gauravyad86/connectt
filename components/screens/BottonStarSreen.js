@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, StatusBar, Pressable, SafeAreaView, ScrollView } from 'react-native';
 import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
@@ -7,64 +7,45 @@ import Bottombar from './Bottombar/bottombar';
 import Chat_Picks_click from '../Pages/Chat_Picks_click';
 const { width, height } = Dimensions.get( 'window' );
 import users from '@/assets/data/users';
-import { LinearGradient } from 'expo-linear-gradient';
+import connectlogo from "@/assets/images/connect2.jpg"
+import { MyContext } from '../MyContext';
 const BottomStarScreen = () => {
-
+    const { bgColor,lightColor,lightTheme } = useContext( MyContext )
     const [ activScreen, setActivieScreen ] = useState( 'picks' );
     const navigation = useNavigation()
     return (
         <View style={ styles.container6 }>
             {/* navbar */ }
-            <View style={ styles.navbar }>
+            <View style={[styles.navbar, {backgroundColor:lightTheme}]}>
                 <View style={ styles.icontext }>
-                    <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
-                    <Text style={ styles.text }  >tinder</Text>
+                    <Image source={ connectlogo } style={ { height: 25, width: 25 } } />
+                    <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
                 </View>
                 <View style={ styles.righticons }>
                     <TouchableOpacity onPress={ () => {
                         navigation.navigate( 'notifications' )
                     } }>
-                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color={bgColor} /></TouchableOpacity>
                     {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
                     <TouchableOpacity onPress={ () => {
                         navigation.navigate( "discoverysetting" )
-                    } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                    } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color={bgColor} /></TouchableOpacity>
 
                 </View>
             </View>
             <View style={ { width: "100%" } }>
                 <View style={ styles.likePageTop }>
-                    <Text style={
-                        styles.likesCount
+                    <Text style={[
+                        styles.likesCount,{color:lightColor}]
                     }>0 likes</Text>
-                    <Text style={
-                        styles.likesCount
-                    }>|</Text>
-                    <TouchableOpacity onPress={ () => {
-                        navigation.navigate( "picks" )
-                    } }>
-                        <Text style={
-                            styles.likesCount
-                        }>Top Picks</Text>
-                    </TouchableOpacity>
                 </View></View>
-            <View style={ styles.underline } />
-            <Text style={ styles.upgradeText }>Upgrade to Gold to see people
-                { '\n' }who have already liked you.</Text>
-            {/* Main Section */ }
-
-            <View style={ styles.heartContainer }>
-                <MaterialCommunityIcons name="heart-flash" size={ 50 } color="#FFDA44" />
-                <Text style={ styles.goldText }>See people who liked you with{ '\n' }Tinder Gold™</Text>
-            </View>
+            <View style={ [styles.underline ,{backgroundColor:lightColor}]} />
             <TouchableOpacity style={ styles.button } onPress={ () => {
                 navigation.navigate( 'seewholikeyoumore' )
             } } >
                 <Text style={ styles.buttonText }>See who likes you</Text>
             </TouchableOpacity>
-            {/* <BottomBar/>   */ }
             <Bottombar />
-
         </View>
     );
 };
@@ -74,7 +55,7 @@ const styles = StyleSheet.create( {
         flex: 1,
         // backgroundColor: 'black', // Dark background color
         alignItems: "center",
-        backgroundColor: "black",
+        backgroundColor: "white",
 
     },
     likePageTop: {
@@ -98,7 +79,7 @@ const styles = StyleSheet.create( {
     underline: {
         width: "100%",
         height: ".05%",
-        backgroundColor: "white"
+       
     },
 
     bottomBar: {
@@ -124,13 +105,13 @@ const styles = StyleSheet.create( {
         marginBottom: 10,
         fontWeight: "500"
     },
-    upgradeText: {
-        color: 'white',
-        fontSize: 17,
-        textAlign: 'center',
-        // marginBottom: 30,
-        marginTop: 20
-    },
+    // upgradeText: {
+       
+    //     fontSize: 17,
+    //     textAlign: 'center',
+    //     // marginBottom: 30,
+    //     marginTop: 20
+    // },
     heartContainer: {
         alignItems: 'center',
         // marginBottom: 30,
@@ -144,7 +125,6 @@ const styles = StyleSheet.create( {
         // marginBottom: 10,
     },
     goldText: {
-        color: 'white', // Gold color
         fontSize: 16,
         textAlign: 'center',
         // marginTop:-30
@@ -169,20 +149,16 @@ const styles = StyleSheet.create( {
         color: '#FFFFFF',
     },
     navbar: {
-        // width: '100%',
-        // height: '6%',
-        // backgroundColor: "black",
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        // alignItems: "center",
         width: '100%',
-        height: '7%',
-        backgroundColor: "black",
+        height: height*.07,
+        // backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         position: "absolute",
         zIndex: 10,
+        top: 0,
+        padding: 10,
     },
     righticons: {
         flexDirection: "row",
@@ -194,7 +170,6 @@ const styles = StyleSheet.create( {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        //  marginLeft:6,
     },
     text: {
         color: "red",
@@ -245,13 +220,11 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
     },
     likesCount: {
-        color: '#FFFFFF',
         fontSize: 18,
         marginBottom: 10,
         fontWeight: "500"
     },
     upgradeText: {
-        color: 'white',
         fontSize: 17,
         textAlign: 'center',
         // marginBottom: 30,

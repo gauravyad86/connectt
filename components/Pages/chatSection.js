@@ -1,184 +1,194 @@
-import { AntDesign, Entypo, Fontisto } from '@expo/vector-icons';
-import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from 'expo-router';
 
-const ChatSection = () => {
-  const navigation = useNavigation()
-  const [modalVisible, setModalVisible] = useState(false);
-  return (
-    <ScrollView vertical={ true } showsHorizontalScrollIndicator={ false } style={ styles.Scrollconatiner} >
-      {/* Header */ }
-      <View style={ styles.container }>
-        <View style={ { flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-          <TouchableOpacity onPress={()=>{
-            navigation.goBack()
-          }}>
-          <AntDesign name="arrowleft" size={  18 } color="white" />
-          </TouchableOpacity>
-          <View style={ styles.header }>
-            {/* <Image source={require('')} style={styles.logo} /> */ }
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={  18 } name='tinder' color="white"  ></Fontisto>
-            </View>
-            <Text style={ styles.headerText }>Team Tinder</Text>
-          </View>
-          <Entypo name="dots-three-vertical" size={ 24 } color="white" />
-        </View>
-        <View
-          style={ {
-            borderBottomColor: 'white',
-            marginTop: 8,
+export default function ChatScreen() {
+  const [messages, setMessages] = useState([
+    { id: '1', text: 'Hello!', sender: 'other' },
+    { id: '2', text: 'How are you?', sender: 'other' },
+    { id: '3', text: 'I am good, thanks!', sender: 'me' },
+  ]);
+  const [inputMessage, setInputMessage] = useState('');
 
-            borderBottomWidth: StyleSheet.hairlineWidth,
-          } }
-        />
-        {/* Chat Messages */ }
-        <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: 7 } } >
-          <Text style={ styles.timeText }>Thursday 9:55 am</Text>
-          <View style={ styles.chatRow }>
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={  18} name='tinder' color="white"  ></Fontisto>
-            </View>
-            <View style={ styles.messageBox }>
-
-              <Text style={ styles.messageText }>
-                Welcome to Tinder! Come back here for tips to make sure you have the best possible experience. And when in doubt? Swipe Right®.
-              </Text>
-            </View>
-          </View>
-        </View>
+  const handleSend = () => {
+    if (inputMessage.trim()) {
+      setMessages((prevMessages) => [
+        { id: Date.now().toString(), text: inputMessage, sender: 'me' },
+        ...prevMessages,
+      ]);
+      setInputMessage('');
+    }
+  };
 
 
-        <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: 7 } } >
-          <Text style={ styles.timeText }>Friday 9:55 am</Text>
-          <View style={ styles.chatRow }>
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={ 18 } name='tinder' color="white"  ></Fontisto>
-            </View>
-            <View style={ styles.messageBox }>
-
-              <Text style={ styles.messageText }>
-                Everyone is here to see you: <Text style={ styles.linkText }>Add more pics</Text> to increase your chances of matching.
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: 7 } } >
-          <Text style={ styles.timeText }>Friday 9:55 am</Text>
-          <View style={ styles.chatRow }>
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={ 18 } name='tinder' color="white"  ></Fontisto>
-            </View>
-            <View style={ styles.messageBox }>
-              <Text style={ styles.timeText }>Friday 10:29 am</Text>
-              <Text style={ styles.messageText }>
-                Take a selfie and prove you’re the person in your pics with <Text style={ styles.linkText }>Photo Verification</Text>.
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: 7 } } >
-          <Text style={ styles.timeText }>Friday 10:55 am</Text>
-          <View style={ styles.chatRow }>
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={ 18 } name='tinder' color="white"  ></Fontisto>
-            </View>
-            <View style={ styles.messageBox }>
-              <Text style={ styles.timeText }>Friday 10:29 am</Text>
-              <Text style={ styles.messageText }>
-                There’s an empty space where your bio should be...fill it out for a chance at more matches. <Text style={ styles.linkText }>Edit My Profile</Text>
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: 7 } } >
-          <Text style={ styles.timeText }>Friday 10:55 am</Text>
-          <View style={ styles.chatRow }>
-            <View style={ styles.tindericonBackground }>
-              <Fontisto size={ 18 } name='tinder' color="white"  ></Fontisto>
-            </View>
-            <View style={ styles.messageBox }>
-              <Text style={ styles.timeText }>Friday 10:29 am</Text>
-              <Text style={ styles.messageText }>
-                There’s an empty space where your bio should be...fill it out for a chance at more matches. <Text style={ styles.linkText }>Edit My Profile</Text>
-              </Text>
-            </View>
-          </View>
-        </View>
-        {/* <View style={ styles.messageContainer }>
-          <Text style={ styles.timeText }>Monday 8:54 am</Text>
-          <Text style={ styles.messageText }>
-            Share your <Text style={ styles.linkText }>Passions</Text> and connect with people who have similar interests.
-          </Text>
-        </View> */}
-      </View>
-    </ScrollView>
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission to access media library is required!');
+      return;
+    }
+  
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    console.log("Image Picker Result:", result); // Log the result
+  
+    if (!result.cancelled && result.uri) {
+      setMessages((prevMessages) => [
+        { id: Date.now().toString(), image: result.uri, sender: 'me' },
+        ...prevMessages,
+      ]);
+    } else {
+      console.log("Image selection failed or URI is undefined.");
+      alert("Unable to load the image. Please try again.");
+    }
+  };
+  
+  const renderMessage = ({ item }) => (
+    <View
+      style={[
+        styles.messageContainer,
+        item.sender === 'me' ? styles.myMessage : styles.otherMessage,
+      ]}
+    >
+      {item.image ? (
+        <Image source={{ uri: item.image }} style={styles.imageMessage} />
+      ) : (
+        <Text style={styles.messageText}>{item.text}</Text>
+      )}
+    </View>
   );
-};
-const styles = StyleSheet.create( {
+  const navigation = useNavigation();
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={80} // Adjust this offset based on your header height
+    >
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={()=>navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.username}>Username</Text>
+      </View>
+      {/* Chat Messages */}
+      <View style={styles.messagesContainer}>
+        <FlatList
+          data={messages}
+          keyExtractor={(item) => item.id}
+          renderItem={renderMessage}
+          contentContainerStyle={styles.messagesList}
+          inverted // Invert the FlatList to show new messages at the bottom
+        />
+      </View>
+
+      {/* Input and Attachment Section */}
+      <View style={styles.inputContainer}>
+        <TouchableOpacity onPress={pickImage} style={styles.attachmentButton}>
+          <Ionicons name="attach" size={24} color="#666" />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Type a message"
+          value={inputMessage}
+          onChangeText={setInputMessage}
+        />
+        <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+          <Ionicons name="send" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
-    // paddingHorizontal: 16,
-    justifyContent: "center",
-    // alignItems:"center"
-    width:"100%",
-    padding:10,
+    backgroundColor: '#f0f0f0',
   },
-  Scrollconatiner: {
-    flex: 1,
-    backgroundColor: '#121212',
-    // paddingHorizontal: 16,
-  },
-  chatRow: {
+  headerContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginVertical: 12,
+    alignItems: 'center',
+    backgroundColor: "#FFA500",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
   },
-  tindericonBackground: {
-    width: 30,
-    height: 30,
-    backgroundColor: "red",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-  },
-  headerText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "500",
-    marginLeft: 5
-  },
-  header: {
-    flexDirection: "row",
-    //  color:"white"
-  },
-  icon: {
-    width: 40,
-    height: 40,
+  backButton: {
     marginRight: 10,
   },
-  messageBox: {
-    flex: 1,
-    backgroundColor: '#1C1C1E',
+  username: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  messagesContainer: {
+    flex: 1, // Makes the messages container take available space
+    padding: 10,
+    paddingBottom:60,
+    justifyContent: 'flex-end', // Align messages to the bottom
+  },
+  messagesList: {
+    paddingBottom: 70, // Padding for input area
+  },
+  messageContainer: {
+    maxWidth: '80%',
     borderRadius: 10,
     padding: 10,
+    marginVertical: 5,
   },
-  timeText: {
-    color: '#888',
-    fontSize: 12,
-    // marginBottom: 5,
-
+  myMessage: {
+    backgroundColor: '#DCF8C6',
+    alignSelf: 'flex-end',
+  },
+  otherMessage: {
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'flex-start',
   },
   messageText: {
-    color: '#fff',
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: 16,
   },
-  linkText: {
-    color: '#FF4E4E', // Tinder red color for links
-    textDecorationLine: 'underline',
+  imageMessage: {
+    width: 200,
+    height: 150,
+    borderRadius: 10,
+    resizeMode: 'cover',
   },
-} );
-export default ChatSection;
+  inputContainer: {
+    flexDirection: 'row',
+    padding: 1,
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    position:"absolute",
+    bottom:0,
+    width:"100%",
+    height:50
+  },
+  attachmentButton: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    backgroundColor: '#f2f2f2',
+    marginRight: 10,
+  },
+  sendButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#25D366',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

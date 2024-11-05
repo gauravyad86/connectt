@@ -19,10 +19,9 @@ const DiscoverySettings = ( props ) => {
 const styles = StyleSheet.create( {
   container9: {
     flex: 1,
-    backgroundColor: 'black',
+    // backgroundColor: 'white',
     color: "green",
-    // display:"none"
-    paddingHorizontal: 15
+    paddingHorizontal: 5
 
   },
 

@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView } from 'react-native';
 import users from '@/assets/data/users';
+import { MyContext } from '../MyContext';
 
 const ChatTop = () => {
+  const {  bgColor,lightTheme} = useContext( MyContext )
   return (
-    <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
-      <View style={ styles.container }>
         <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false } style={ styles.users }>
           { users.map( user => (
-            <View style={ styles.user } key={ user.id }>
+            <View style={ [styles.user,{borderColor:bgColor}] } key={ user.id }>
               <Image source={ { uri: user.image } } style={ styles.image } />
               <Text style={ styles.name }> { user.name }</Text>
             </View>
-
           ) ) }
         </ScrollView>
-      </View>
-
-    </ScrollView>
   );
 };
 
@@ -34,7 +30,7 @@ const styles = StyleSheet.create( {
   users: {
     flexDirection: 'row',
     // flexWrap: 'wrap',
-    height: 185,
+    // height: 185,
   },
   user: {
     width: 90,
@@ -45,7 +41,7 @@ const styles = StyleSheet.create( {
     alignItems: "center",
     borderWidth: 2,
     padding: 3,
-    borderColor: '#F63A6E',
+    // borderColor: '#F63A6E',
   },
   image: {
     width: '100%',

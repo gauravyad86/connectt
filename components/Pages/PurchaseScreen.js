@@ -50,18 +50,18 @@ export default function PurchaseScreen () {
             > <FontAwesome6 name="amazon-pay" size={ 24 } color="#1865BD" /><Text style={ { color: "white", marginLeft: 10 } } >Pay with UPI</Text></View>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.paymentButton } onPress={()=>navigation.navigate("addcarddetails")}>
-            <Text style={ { color: "white" } } > <MaterialIcons name="payment" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } >Add credit or debit card</Text></Text>
+            <Text style={ { color: "white" } } ><MaterialIcons name="payment" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } >Add credit or debit card</Text></Text>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.paymentButton } onPress={()=>{
             navigation.navigate("addbank")
           }}>
-            <Text style={ { color: "white" } } > <FontAwesome name="bank" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } >Add Netbanking</Text></Text>
+            <Text style={ { color: "white" } } ><FontAwesome name="bank" size={ 24 } color="#1865BD" /><Text style={ { color: "white", marginLeft: 10 } } >Add Netbanking</Text></Text>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.paymentButton }>
-            <Text style={ { color: "white" } } > <MaterialIcons name="redeem" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } > Redeem code</Text></Text>
+            <Text style={ { color: "white" } } ><MaterialIcons name="redeem" size={ 24 } color="#1865BD" /><Text style={ { color: "white", marginLeft: 10 } } >Redeem code</Text></Text>
           </TouchableOpacity>
           <TouchableOpacity style={ styles.paymentButton }>
-            <Text style={ { color: "white" } } > <Ionicons name="people-sharp" size={ 24 } color="#1865BD" /> <Text style={ { color: "white", marginLeft: 10 } } >Ask someone else to pay
+            <Text style={ { color: "white" } } ><Ionicons name="people-sharp" size={ 24 } color="#1865BD" /><Text style={ { color: "white", marginLeft: 10 } } >Ask someone else to pay
             {'\n'}
               <Text style={ { color: "red", marginLeft: 35 } }>Unavailable for purchases over ₹1000.00</Text>
             </Text></Text>

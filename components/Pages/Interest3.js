@@ -6,7 +6,8 @@ import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet } from 'r
 const allInterests = [
     "Monogamy", "Ethical non-monogamy", "Polyamory","Open to exploring"
 ];
-
+const lightTheme = "white"; // Background color for light theme
+const lightColor = "black"; // 
 // Main Page Component
 const InterestsInput3 = () => {
     // Changed from single interest to an array of interests
@@ -94,27 +95,28 @@ const InterestsPage3 = ( { route, navigation } ) => {
 // Styles
 const styles = StyleSheet.create( {
     mainContainer: {
-        // flex: 1,
-        // justifyContent: 'center',
+        flex: 1,
         alignItems: 'center',
-        marginTop:10,
-        
+        alignItems:"center",
+        marginTop: 10,
+        backgroundColor: lightTheme, // White background for main page
     },
-    interestInput: {
+  interestInput: {
         width: '100%',
         padding: 10,
-        backgroundColor: 'white',
+        backgroundColor: lightTheme, 
         // borderRadius: 4,
         borderWidth: 1,
         borderColor: '#ccc',
     },
     inputBox: {
         fontSize: 16,
+        color: lightColor, 
     },
     interestsContainer: {
         flex: 1,
         padding: 20,
-        backgroundColor: 'black',
+        backgroundColor: lightTheme,
     },
     crossIcon: {
         alignSelf: 'flex-end',
@@ -122,8 +124,7 @@ const styles = StyleSheet.create( {
     },
     crossText: {
         fontSize: 20,
-        // color: '#e02d44',
-        color: "white"
+        color: lightColor,// Change close icon color to black
     },
     searchBox: {
         width: '100%',
@@ -132,15 +133,16 @@ const styles = StyleSheet.create( {
         borderRadius: 8,
         backgroundColor: '#f2f2f2',
         fontSize: 16,
+        color: lightColor,
     },
     interestItem: {
-        padding: 15,
-        borderBottomColor: 'white',
+        paddingVertical: 10,
+        borderBottomColor: lightColor, // Use orange for bottom border
         borderBottomWidth: 1,
     },
     interestText: {
         fontSize: 16,
-        color: "white"
+        color: lightColor,
     },
 } );
 

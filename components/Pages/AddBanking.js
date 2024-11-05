@@ -2,114 +2,122 @@ import { Fontisto, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView, Dimensions } from 'react-native';
-import tw from 'tailwind-react-native-classnames';
-const { width, height } = Dimensions.get('window');
 
-export default function AddBanking () {
-    const colorScheme = Appearance.getColorScheme();  // Detect light or dark mode
-    const isDarkMode = colorScheme === 'dark';  // Boolean to check if dark mode is active
+const { width, height } = Dimensions.get('window');
+const lightTheme = "white"; // Background color for light theme
+const lightColor = "black"; // Text color for light theme
+
+export default function AddBanking() {
+    const navigation = useNavigation();
 
     // Use state to store card details
-    const [ cardNumber, setCardNumber ] = useState( '' );
-    const [ expiryDate, setExpiryDate ] = useState( '' );
-    const [ cvv, setCvv ] = useState( '' );
-    const [ cardholderName, setCardholderName ] = useState( '' );
-    const navigation = useNavigation()
+    const [cardNumber, setCardNumber] = useState('');
+    const [expiryDate, setExpiryDate] = useState('');
+    const [cvv, setCvv] = useState('');
+    const [cardholderName, setCardholderName] = useState('');
+
     return (
-        <ScrollView style={ styles.container } vertical={ true }>
-            <TouchableOpacity onPress={ () => {
-                navigation.goBack()
-            } } style={ styles.header }>
-                <Ionicons name="arrow-back" size={ 24 } color="white" />
-                <Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text>
+        <ScrollView style={styles.container}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.header}>
+                <Ionicons name="arrow-back" size={24} color={lightColor} />
+                <Text style={{ color: lightColor, marginLeft: 5, fontSize: 20, fontWeight: "500" }}>
+                    Add credit or debit card
+                </Text>
             </TouchableOpacity>
 
-            {/* Card Number Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
+            {/* Card Number Input */}
+            <Text style={{ color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 }}>
+                Card number
+            </Text>
             <TextInput
-                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
+                style={[styles.input, { backgroundColor: lightTheme, color: lightColor }]}
                 placeholder="Card Number"
-                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
+                placeholderTextColor={lightColor}
                 keyboardType="numeric"
-                value={ cardNumber }
-                onChangeText={ setCardNumber }
+                value={cardNumber}
+                onChangeText={setCardNumber}
             />
-            {/* Cardholder Name Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 17, marginTop: 10, marginBottom: 15 } }>India</Text>
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
-            <TextInput
-                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
-                placeholder="State"
-                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
-            />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }> Phone number</Text>
-            <TextInput
-                style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
-                placeholder="country"
-                placeholderTextColor={ isDarkMode ? '#aaa' : '#555' }
-                value={ cardholderName }
-                onChangeText={ setCardholderName }
-            />
-            <Text style={ styles.darkInput }> By Continuing, you creat a Google Payments account and agree to the Google Payments Terms of Service.</Text>
-            <Text style={ styles.darkInput }> The Privacy Notice describes how your data is handled                       </Text>
-            {/* Submit Button */ }
-            <View
-                style={ {
-                    borderBottomColor: 'white',
-                    borderBottomWidth: StyleSheet.hairlineWidth, marginTop: 120,
-                } }
-            />
-            <View style={ styles.purchaseDetails }>
-                <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
-                    <View style={ styles.tindericonBackground }>
-                        <Fontisto size={ 21 } name='tinder' color="white"/>
-                    </View>
-                    <View style={ { marginLeft: 15 } }>
-                        <Text style={ styles.purchaseItem }>15 Super Likes (Tinder
-                            {'\n'}
-                            Dating App: Chat & Date)
-                        </Text>
 
+            {/* State Input */}
+            <Text style={{ color: lightColor, zIndex: 100, opacity: 100, fontSize: 17, marginTop: 10, marginBottom: 15 }}>
+                India
+            </Text>
+            <Text style={{ color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 }}>State</Text>
+            <TextInput
+                style={[styles.input, { backgroundColor: lightTheme, color: lightColor }]}
+                placeholder="State"
+                placeholderTextColor={lightColor}
+                value={cardholderName}
+                onChangeText={setCardholderName}
+            />
+            <Text style={{ color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 }}>Phone number</Text>
+            <TextInput
+                style={[styles.input, { backgroundColor: lightTheme, color: lightColor }]}
+                placeholder="Phone Number"
+                placeholderTextColor={lightColor}
+                value={cardholderName}
+                onChangeText={setCardholderName}
+            />
+
+            <Text style={{ color: lightColor }}>
+                By continuing, you create a Google Payments account and agree to the Google Payments Terms of Service.
+            </Text>
+            <Text style={{ color: lightColor }}>
+                The Privacy Notice describes how your data is handled.
+            </Text>
+
+            {/* Divider */}
+            <View style={{ borderBottomColor: lightColor, borderBottomWidth: StyleSheet.hairlineWidth, marginTop: 120 }} />
+
+            {/* Purchase Details */}
+            <View style={styles.purchaseDetails}>
+                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                    <View style={styles.tindericonBackground}>
+                        <Fontisto size={21} name='tinder' color={lightColor} />
+                    </View>
+                    <View style={{ marginLeft: 15 }}>
+                        <Text style={styles.purchaseItem}>
+                            15 Super Likes (Tinder{'\n'}Dating App: Chat & Date)
+                        </Text>
                     </View>
                 </View>
-                <Text style={ styles.purchasePrice }>₹2,700.00</Text>
+                <Text style={styles.purchasePrice}>₹2,700.00</Text>
             </View>
-            <TouchableOpacity style={ styles.button }>
-                <Text style={ styles.buttonText }>Save Card</Text>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Save Card</Text>
             </TouchableOpacity>
         </ScrollView>
     );
 }
 
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 15,
-        backgroundColor: 'black',
+        backgroundColor: lightTheme, // Set background color for light mode
     },
-    darkBackground: {
-        backgroundColor: '#000',
-    },
-    lightBackground: {
-        backgroundColor: '#fff',
+    header: {
+        fontSize: 15,
+        height: height * .07,
+        marginBottom: 20,
+        backgroundColor: "#f2f2f2", // Light background for header
+        color: lightColor,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center"
     },
     purchaseItem: {
-        color: 'white',
+        color: lightColor,
         fontSize: 18,
     },
     purchaseDetails: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 15,
+        marginVertical: 40,
     },
     purchasePrice: {
-        color: 'white',
+        color: lightColor,
         fontSize: 18,
-    },
-    email: {
-        color: '#999',
     },
     tindericonBackground: {
         width: 30,
@@ -119,58 +127,24 @@ const styles = StyleSheet.create( {
         alignItems: "center",
         borderRadius: 2,
     },
-    header: {
-        fontSize: 15,
-        height: height*.07,
-        // fontWeight: 'bold',
-        marginBottom: 15,
-       
-        backgroundColor: "#111419",
-        color: "white",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center"
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        textAlign: 'center',
-    },
-    darkText: {
-        color: '#fff',
-    },
-    lightText: {
-        color: '#000',
-    },
     input: {
         height: 50,
-        borderColor: '#7B8799',
+        borderColor: '#ccc',
         borderWidth: 2,
         borderRadius: 3,
         paddingHorizontal: 10,
         fontSize: 16,
         marginBottom: 10,
-
-    },
-    darkInput: {
-        backgroundColor: 'black',
-        color: '#fff',
-    },
-    lightInput: {
-        backgroundColor: '#f9f9f9',
-        color: '#000',
     },
     button: {
         backgroundColor: 'lightblue',
         padding: 15,
         borderRadius: 30,
         alignItems: 'center',
-        // marginTop:
     },
     buttonText: {
-        color: 'black',
+        color: lightColor,
         fontSize: 18,
         fontWeight: 'bold',
     },
-} );
+});

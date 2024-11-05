@@ -64,4 +64,18 @@ export default [
       'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/jeff.jpeg',
     bio: 'Behind every successful woman is herself.',
   },
+  {
+    id: '9',
+    name: 'Elon Musk',
+    image:
+    'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png',
+    bio: 'A dude with a rocket is looking for a gal with fuel',
+  },
+  {
+    id: '10',
+    name: 'Elon Musk',
+    image:
+    'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/elon.png',
+    bio: 'A dude with a rocket is looking for a gal with fuel',
+  },
 ];

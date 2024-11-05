@@ -3,7 +3,9 @@ import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Appearance, ScrollView, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get( 'window' );
-
+const bgColor = "#FFA500";
+const lightTheme = "#dee0db";
+const lightColor = "black";
 export default function AddCreditDebitcard () {
     const colorScheme = Appearance.getColorScheme();  // Detect light or dark mode
     const isDarkMode = colorScheme === 'dark';  // Boolean to check if dark mode is active
@@ -21,13 +23,13 @@ export default function AddCreditDebitcard () {
             <TouchableOpacity onPress={ () => {
                 navigation.goBack()
             } } style={ styles.header }>
-                <Ionicons name="arrow-back" size={ 24 } color="white" />
-                <Text style={ { color: "white", marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text>
+                <Ionicons name="arrow-back" size={ 24 } color={lightColor} />
+                <Text style={ { color: lightColor, marginLeft: 5, fontSize: 20, fontWeight: "500" } }>Add credit or debit card</Text>
             </TouchableOpacity>
 
             {/* Card Number Input */ }
             <Text style={ { color: "red", marginBottom: 10 } }>*All feild required</Text>
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
+            <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>Card number</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="Card Number"
@@ -40,7 +42,7 @@ export default function AddCreditDebitcard () {
             {/* Expiry Date Input */ }
             <View style={ { flexDirection: "row", alignItems: "center" } }>
                 <View style={ { flexDirection: "column", justifyContent: "center", } }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Expiry Date</Text>
+                    <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>Expiry Date</Text>
                     <TextInput
                         style={ [ {
                             height: 50,
@@ -49,6 +51,7 @@ export default function AddCreditDebitcard () {
                             borderRadius: 3,
                             paddingHorizontal: 10,
                             fontSize: 16,
+                            backgroundColor:"white",
                             marginBottom: 10,
                             width: width * .5
                         }, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -62,7 +65,7 @@ export default function AddCreditDebitcard () {
 
                 {/* CVV Input */ }
                 <View style={ { flexDirection: "column" , marginLeft:5} }>
-                    <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>CVC </Text>
+                    <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>CVC </Text>
                     <TextInput
                         style={ [ {
                             height: 50,
@@ -71,6 +74,7 @@ export default function AddCreditDebitcard () {
                             borderRadius: 3,
                             paddingHorizontal: 10,
                             fontSize: 16,
+                            backgroundColor:"white",
                             marginBottom: 10, width: width * .4
                         }, isDarkMode ? styles.darkInput : styles.lightInput ] }
                         placeholder="CVV"
@@ -84,7 +88,7 @@ export default function AddCreditDebitcard () {
             </View>
 
             {/* Cardholder Name Input */ }
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Cardholder Name</Text>
+            <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>Cardholder Name</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="Cardholder Name"
@@ -92,7 +96,7 @@ export default function AddCreditDebitcard () {
                 value={ cardholderName }
                 onChangeText={ setCardholderName }
             />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>Country/region</Text>
+            <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>Country/region</Text>
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
                 placeholder="country"
@@ -100,7 +104,7 @@ export default function AddCreditDebitcard () {
                 value={ Country }
                 onChangeText={ setCountry }
             />
-            <Text style={ { color: "white", zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
+            <Text style={ { color: lightColor, zIndex: 100, opacity: 100, fontSize: 16 } }>State</Text>
 
             <TextInput
                 style={ [ styles.input, isDarkMode ? styles.darkInput : styles.lightInput ] }
@@ -114,9 +118,9 @@ export default function AddCreditDebitcard () {
             {/* Submit Button */ }
             <View style={ styles.purchaseDetails }>
                 <View style={ { flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
-                    <View style={ styles.tindericonBackground }>
+                    {/* <View style={ styles.tindericonBackground }>
                         <Fontisto size={ 21 } name='tinder' color="white" />
-                    </View>
+                    </View> */}
                     <View style={ { marginLeft: 15 } }>
                         <Text style={ styles.purchaseItem }>15 Super Likes (Tinder
                             { '\n' }
@@ -137,89 +141,84 @@ const styles = StyleSheet.create( {
     container: {
         flex: 1,
         padding: 15,
-        backgroundColor: 'black',
+        backgroundColor: lightTheme,
     },
-    darkBackground: {
-        backgroundColor: '#000',
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#f2f2f2", // Light background for header
+        padding: 10,
+        borderRadius: 5,
     },
-    lightBackground: {
-        backgroundColor: '#fff',
+    headerText: {
+        color: lightColor,
+        marginLeft: 5,
+        fontSize: 20,
+        fontWeight: "500",
     },
-    purchaseItem: {
-        color: 'white',
-        fontSize: 18,
+    requiredField: {
+        color: "red",
+        marginBottom: 10,
+    },
+    label: {
+        color: lightColor,
+        fontSize: 16,
+        marginBottom: 5,
+    },
+    input: {
+        height: 50,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        fontSize: 16,
+        marginBottom: 10,
+        backgroundColor: '#fff', // Light input background
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    column: {
+        flex: 1,
+        marginRight: 5,
+    },
+    infoText: {
+        color: lightColor,
+        marginTop: 10,
     },
     purchaseDetails: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginVertical: 40,
     },
-    purchasePrice: {
-        color: 'white',
+    purchaseItemContainer: {
+        marginLeft: 15,
+    },
+    purchaseItem: {
+        color: lightColor,
         fontSize: 18,
     },
-    email: {
-        color: '#999',
+    purchasePrice: {
+        color: lightColor,
+        fontSize: 18,
     },
-    tindericonBackground: {
+    tinderIconBackground: {
         width: 30,
         height: 30,
         backgroundColor: "red",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 2,
-    },
-    header: {
-        fontSize: 15,
-        height: height * .07,
-        // fontWeight: 'bold',
-        marginBottom: 20,
-        // marginTop: 10,
-        backgroundColor: "#111419",
-        color: "white",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center"
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 30,
-        textAlign: 'center',
-    },
-    darkText: {
-        color: '#fff',
-    },
-    lightText: {
-        color: '#000',
-    },
-    input: {
-        height: 50,
-        borderColor: '#7B8799',
-        borderWidth: 1,
-        borderRadius: 3,
-        paddingHorizontal: 10,
-        fontSize: 16,
-        marginBottom: 10,
-
-    },
-    darkInput: {
-        backgroundColor: 'black',
-        color: '#fff',
-    },
-    lightInput: {
-        backgroundColor: '#f9f9f9',
-        color: '#000',
+        borderRadius: 15,
     },
     button: {
-        backgroundColor: 'lightblue',
+        backgroundColor: bgColor,
         padding: 15,
         borderRadius: 30,
         alignItems: 'center',
-        // marginTop:
     },
     buttonText: {
-        color: 'black',
+        color: lightColor,
         fontSize: 18,
         fontWeight: 'bold',
     },

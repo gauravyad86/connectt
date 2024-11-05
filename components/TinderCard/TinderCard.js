@@ -44,7 +44,7 @@ const TinderCard = ( { item, isFirst, swipe, ...rest } ) => {
           width: width - 10,
           height: height * 0.8,
           position: 'absolute',
-          top: height * 0.08,
+          top: height*.04,
           justifyContent: 'center',
           alignItems: 'center',
           alignSelf: 'center',
@@ -52,7 +52,7 @@ const TinderCard = ( { item, isFirst, swipe, ...rest } ) => {
         isFirst && { transform: [ ...swipe.getTranslateTransform(), { rotate: rotate } ] },
       ] }
       { ...rest }>
-      <Image source={image } style={ { width: '100%', height: '100%', borderRadius: 10 } } />
+      <Image source={image } style={ { width: '100%', height: '100%', borderBottomLeftRadius:10,  borderBottomRightRadius:10 } } />
       { isFirst && renderChoice() }
       {/* <LinearGradient
         colors={['rgba(0,0,0,0.5)','rgba(0,0,0,0.8)']}

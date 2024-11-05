@@ -1,15 +1,18 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions , Platform,} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions , Platform, Image,} from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Fontisto, Ionicons, FontAwesome5, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Bottombar from "./Bottombar/bottombar"
 import { useNavigation } from 'expo-router';
+import connectlogo from "@/assets/images/connect2.jpg"
 import TinderSwipeDemo from "@/components/TinderCard/TinderSwipeDemo";
+import { MyContext } from '../MyContext';
 const { width, height } = Dimensions.get('window');
+
 export default function () {
-   
+    const {  bgColor,lightTheme} = useContext( MyContext )
     const navigation = useNavigation();
     const onpressHandler = () => {
         navigation.navigate("tindercard");
@@ -18,18 +21,19 @@ export default function () {
         <GestureHandlerRootView style={styles.flexOne}>
             <SafeAreaView style={styles.root}>
                 {/* Navbar */}
-                <View style={styles.navbar}>
+                <View style={[styles.navbar, {backgroundColor:lightTheme}]}>
                     <View style={styles.icontext}>
-                        <Fontisto style={styles.icon} size={22} name='tinder' color={"red"} />
-                        <Text style={styles.text}>tinder</Text>
+                        {/* <Fontisto style={styles.icon} size={22} name='tinder' color={"red"} /> */}
+                        <Image source={connectlogo}style={{height:25, width:25}} />
+                        <Text style={[styles.text, {color:"#FF8C00"}]}>Connect</Text>
                     </View>
                     <View style={styles.righticons}>
                         <TouchableOpacity onPress={() => navigation.navigate('notifications')}>
-                            <Ionicons name="notifications" size={26} style={styles.sheildicon} color="grey" />
+                            <Ionicons name="notifications" size={26} style={styles.sheildicon} color={bgColor} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate("discoverysetting")}>
-                            <FontAwesome5 name="bars" size={26} style={styles.sheildicon} color="grey" />
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity onPress={() => navigation.navigate("setting")}>
+                            <Ionicons name="settings" size={26} style={styles.sheildicon}  color={bgColor}  />
+                        </TouchableOpacity> */}
                     </View>
                 </View>
                 <TinderSwipeDemo />
@@ -45,12 +49,11 @@ const styles = StyleSheet.create({
     },
     root: {
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "white",
     },
     navbar: {
         width: '100%',
-        height: '7%',
-        backgroundColor: "black",
+        height: height*.07,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     icontext: {
         flexDirection: "row",
         alignItems: "center",
-
+        justifyContent:"center"
     },
     text: {
         color: "red",

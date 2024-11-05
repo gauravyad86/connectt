@@ -1,12 +1,14 @@
 
-import { FontAwesome, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MyContext } from '@/components/MyContext';
+import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 export default function Bottombar () {
-    const activeColor = "#FD297B";
+    const { bgColor} = useContext( MyContext )
+    const activeColor = bgColor;
     const color = "grey";
     const [ activeScreen, setActiveScreen ] = useState( 'Home' );
     const navigation = useNavigation();
@@ -27,19 +29,15 @@ export default function Bottombar () {
             justifyContent: "space-around",
             width: '100%',
             paddingVertical: 10,
-            backgroundColor: "black",
+            backgroundColor: "white",
             position: "absolute",
             bottom: 0,
             borderTopWidth: 1,
             borderTopColor: "grey",
-            height: "7%"
+            height: "6%"
         } }>
             <TouchableOpacity onPress={ () => handlePress( "Home" ) }>
                 <Fontisto size={ 30 } name='tinder' color={ activeScreen === 'Home' ? activeColor : color } />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={ () => handlePress( "gridscreen" ) }>
-                <MaterialCommunityIcons name="view-grid" size={ 24 } color={ activeScreen === 'gridscreen' ? activeColor : color } />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={ () => handlePress( "4starscreen" ) }>
@@ -53,6 +51,10 @@ export default function Bottombar () {
             <TouchableOpacity onPress={ () => handlePress( "user" ) }>
                 <FontAwesome name='user' size={ 30 } color={ activeScreen === 'user' ? activeColor : color } />
             </TouchableOpacity>
+            <TouchableOpacity onPress={ () => handlePress( "setting" ) }>
+                <Ionicons name="settings" size={ 24 } color={ activeScreen === 'gridscreen' ? activeColor : color } />
+            </TouchableOpacity>
+
         </View>
     );
 }

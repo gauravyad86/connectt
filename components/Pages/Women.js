@@ -4,16 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 
 const Women = () => {
   const [selectedOption, setSelectedOption] = useState('Everyone');
-
   const options = ['Men', 'Women', 'Everyone'];
-const navigation= useNavigation();
+  const navigation = useNavigation();
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={()=>{
-           navigation.goBack()
-        }}>
-        <Text style={styles.backButton}>{'<'}</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>{'<'}</Text>
         </TouchableOpacity>
         <Text style={styles.headerText}>Show Me</Text>
       </View>
@@ -49,7 +47,7 @@ const navigation= useNavigation();
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: 'white', // Light mode background
     paddingHorizontal: 20,
   },
   header: {
@@ -60,16 +58,16 @@ const styles = StyleSheet.create({
   },
   backButton: {
     fontSize: 24,
-    color: '#fff',
+    color: 'black', // Light mode text color
   },
   headerText: {
     fontSize: 18,
-    color: '#fff',
+    color: 'black', // Light mode text color
     marginLeft: 10,
   },
   title: {
     fontSize: 24,
-    color: '#fff',
+    color: 'black', // Light mode text color
     fontWeight: 'bold',
     marginBottom: 20,
   },
@@ -79,33 +77,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#333',
+    borderBottomColor: '#ccc', // Light mode border color
   },
   optionText: {
     fontSize: 18,
-    color: '#fff',
+    color: 'black', // Light mode text color
   },
   checkMark: {
     fontSize: 18,
-    color: '#ff0000',
+    color: '#ff0000', // Keep check mark color
   },
   infoContainer: {
     marginTop: 30,
   },
   infoText: {
     fontSize: 16,
-    color: '#fff',
+    color: 'black', // Light mode text color
     fontWeight: 'bold',
     marginBottom: 10,
   },
   description: {
     fontSize: 14,
-    color: '#aaa',
+    color: '#333', // Darker grey for readability in light mode
     marginBottom: 20,
   },
   learnMore: {
     fontSize: 14,
-    color: '#ff4500',
+    color: '#ff4500', // Keep the learn more link color
     textDecorationLine: 'underline',
   },
 });

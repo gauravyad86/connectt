@@ -1,132 +1,3 @@
-// import React, { useState } from 'react';
-// import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
-// export default function ProfileEditPage() {
-//   const [media, setMedia] = useState([null, null, null, null, null, null]);
-//   const [aboutMe, setAboutMe] = useState('');
-//   const [prompt, setPrompt] = useState('');
-
-//   const promptOptions = ['Prompt 1', 'Prompt 2', 'Prompt 3'];
-
-//   return (
-//     <ScrollView contentContainerStyle={styles.container}>
-
-//       {/* Media Section */}
-//       <Text style={styles.title}>Edit Profile</Text>
-
-//       <View style={styles.mediaContainer}>
-//         {media.map((item, index) => (
-//           <TouchableOpacity key={index} style={styles.mediaBox}>
-//             <Text style={styles.addText}>+</Text>
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-
-//       <View style={styles.footer}>
-//         <Text style={styles.percentageText}>+40%</Text>
-//       </View>
-
-//       {/* About Me Section */}
-//       <Text style={styles.sectionTitle}>About Me</Text>
-//       <TextInput
-//         style={styles.textInput}
-//         placeholder="Write about yourself"
-//         placeholderTextColor="#aaa"
-//         multiline
-//         value={aboutMe}
-//         onChangeText={setAboutMe}
-//       />
-
-//       {/* Prompt Section */}
-//       <Text style={styles.sectionTitle}>Prompts</Text>
-//       <TouchableOpacity style={styles.promptSelector} onPress={() => setPrompt(promptOptions[0])}>
-//         <Text style={styles.promptText}>{prompt || 'Select a Prompt'}</Text>
-//       </TouchableOpacity>
-
-//       <View style={styles.footer}>
-//         <TouchableOpacity style={styles.saveButton}>
-//           <Text style={styles.saveButtonText}>Save</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </ScrollView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     padding: 20,
-//     backgroundColor: '#000',
-//   },
-//   title: {
-//     color: '#fff',
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     marginBottom: 20,
-//   },
-//   mediaContainer: {
-//     flexDirection: 'row',
-//     flexWrap: 'wrap',
-//     justifyContent: 'space-between',
-//   },
-//   mediaBox: {
-//     width: '30%',
-//     height: 120,
-//     backgroundColor: '#222',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginBottom: 10,
-//     borderRadius: 8,
-//   },
-//   addText: {
-//     color: '#ff3d3d',
-//     fontSize: 24,
-//     fontWeight: 'bold',
-//   },
-//   percentageText: {
-//     color: '#fff',
-//     fontSize: 18,
-//     marginBottom: 10,
-//   },
-//   sectionTitle: {
-//     color: '#fff',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginTop: 20,
-//     marginBottom: 10,
-//   },
-//   textInput: {
-//     backgroundColor: '#222',
-//     color: '#fff',
-//     padding: 10,
-//     borderRadius: 8,
-//     marginBottom: 20,
-//     height: 120,
-//     textAlignVertical: 'top',
-//   },
-//   promptSelector: {
-//     backgroundColor: '#222',
-//     padding: 10,
-//     borderRadius: 8,
-//     justifyContent: 'center',
-//     marginBottom: 20,
-//   },
-//   promptText: {
-//     color: '#fff',
-//   },
-//   saveButton: {
-//     backgroundColor: '#ff3d3d',
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     borderRadius: 8,
-//   },
-//   saveButtonText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-// });
-
 
 import { Entypo, FontAwesome6, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
@@ -138,7 +9,9 @@ import InterestsInput2 from "@/components/Pages/Interest2"
 import InterestsInput3 from "@/components/Pages/Interest3"
 import { Picker } from '@react-native-picker/picker';
 import InterestsInput4 from './Interest4';
-
+const bgColor = "#FFA500";
+const lightTheme = "white";
+const lightColor = "black";
 export default function ProfileEditPage () {
   const [ media, setMedia ] = useState( [ null, null, null, null, null, null ] );
   const [ aboutMe, setAboutMe ] = useState( '' );
@@ -249,7 +122,7 @@ export default function ProfileEditPage () {
       {/* interest */ }
       <Text style={ styles.sectionTitle }>Interests</Text>
       <InterestsInput />
-      <Text style={ styles.sectionTitle }>Languages I kKow</Text>
+      <Text style={ styles.sectionTitle }>Languages I Know</Text>
       <InterestsInput2 />
       <Text style={ styles.sectionTitle }>Relationship Type</Text>
       <InterestsInput3 />
@@ -570,12 +443,11 @@ export default function ProfileEditPage () {
 const styles = StyleSheet.create( {
   container: {
     flexGrow: 1,
-    //  paddingVertical:20,
     padding: 10,
-    backgroundColor: '#000',
+    backgroundColor: lightTheme, // Light background
   },
   title: {
-    color: '#fff',
+    color: lightColor, // Black text
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -589,7 +461,7 @@ const styles = StyleSheet.create( {
   mediaBox: {
     width: '47%',
     height: 150,
-    backgroundColor: "#243437",
+    backgroundColor: bgColor, // Orange background for media boxes
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
@@ -598,92 +470,53 @@ const styles = StyleSheet.create( {
   settingRow: {
     flexDirection: 'row',
     justifyContent: "space-between",
-    // alignItems: 'center',
     width: "100%",
-    height: height * .06,
-    paddingHorizontal: 10
-
-
+    height: height * 0.06,
+    paddingHorizontal: 10,
   },
   label: {
     fontSize: 18,
-    color: "white",
+    color: lightColor, // Black text
     fontWeight: "400",
     marginLeft: 10,
-  },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 1,
-    overflow: 'hidden',
-    width: 60,
-    height: "50%"
   },
   imagePreview: {
     width: '100%',
     height: '100%',
     borderRadius: 8,
   },
-  addText: {
-    color: '#ff3d3d',
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  percentageText: {
-    color: '#fff',
-    fontSize: 18,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
   sectionTitle: {
-    color: '#fff',
+    color: lightColor, // Black text
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 10,
-    // paddingHorizontal:10,
-    // marginBottom: 10,
   },
   textInput: {
-    backgroundColor: "#111419",
-    color: '#fff',
+    backgroundColor: "#f5f5f5", // Light grey background for text input
+    color: lightColor, // Black text
     padding: 10,
-    // borderRadius: 8,
     marginBottom: 20,
     height: 120,
     textAlignVertical: 'top',
   },
-
-  saveButton: {
-    backgroundColor: '#ff3d3d',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   promptButton: {
-    backgroundColor: '#e02d44',
+    backgroundColor: '#ff6f00', // Darker shade of orange for button
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
   promptButtonText: {
-    color: '#fff',
+    color: lightTheme, // White text
     fontSize: 16,
   },
-  // Modal background dimming the main screen
   modalBackground: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dimmed effect
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // Modal container that appears at the middle
   modalContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: lightTheme, // White background for modal
     padding: 20,
     borderRadius: 10,
     width: '80%',
@@ -694,6 +527,7 @@ const styles = StyleSheet.create( {
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: lightColor, // Black text
   },
   promptItem: {
     padding: 10,
@@ -702,43 +536,16 @@ const styles = StyleSheet.create( {
   },
   promptText: {
     fontSize: 16,
+    color: lightColor, // Black text
   },
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  picker: {
+    height: height * 0.04,
+    width: width * 0.3,
+    color: lightColor, // Black text
+    backgroundColor: lightTheme, // White background
+    borderWidth: 2,
+    borderColor: "black", // Black border
   },
-  interestInput: {
-    width: '90%',
-    padding: 10,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  inputBox: {
-    fontSize: 16,
-  },
-  interestsContainer: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  crossIcon: {
-    alignSelf: 'flex-end',
-    padding: 10,
-  },
-  crossText: {
-    fontSize: 20,
-    color: '#e02d44',
-  },
-  picker:{
-    height:height*.04,
-    width:width*.3,
-    color:"white", backgroundColor:"black",
-    borderWidth:1,
-    borderColor:"white"
-   },
   searchBox: {
     width: '100%',
     padding: 10,

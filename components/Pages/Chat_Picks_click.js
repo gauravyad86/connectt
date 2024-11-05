@@ -3,57 +3,62 @@ import users from '@/assets/data/users';
 import { FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Bottombar from '../screens/Bottombar/bottombar';
-
+import connectlogo from "@/assets/images/connect.jpg"
+import { MyContext } from '../MyContext';
 const Chat_Picks_click = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const { bgColor,lightColor,lightTheme } = useContext( MyContext )
     return (
-        <View style={ styles.container }>
-            <View style={ styles.navbar }>
+        <View style={[styles.container,{backgroundColor:lightTheme}] }>
+             <View style={[styles.navbar, {backgroundColor:lightTheme}]}>
                 <View style={ styles.icontext }>
-                    <Fontisto style={ styles.icon } size={ 30 } name='tinder' ></Fontisto>
-                    <Text style={ styles.text }  >tinder</Text>
+                    <Image source={ connectlogo } style={ { height: 22, width: 22 } } />
+                    <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
                 </View>
                 <View style={ styles.righticons }>
                     <TouchableOpacity onPress={ () => {
                         navigation.navigate( 'notifications' )
                     } }>
-                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                        <Ionicons name="notifications" size={ 24 } style={ styles.sheildicon } color={bgColor} /></TouchableOpacity>
                     {/* <FontAwesome6 name="shield" size={25} style={styles.sheildicon}color="grey" /> */ }
                     <TouchableOpacity onPress={ () => {
                         navigation.navigate( "discoverysetting" )
-                    } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color="grey" /></TouchableOpacity>
+                    } }><FontAwesome5 name="bars" size={ 24 } style={ styles.sheildicon } color={bgColor} /></TouchableOpacity>
+
                 </View>
             </View>
             <View style={ styles.likePageTop }>
                 <TouchableOpacity onPress={ () => {
                     navigation.goBack()
                 } }>
-                    <Text style={
-                        styles.likesCount
+                    <Text style={[
+                        styles.likesCount,{color:lightColor}]
                     }>0likes</Text>
                 </TouchableOpacity>
-                <Text style={
-                    styles.likesCount
-                }> |</Text>
+                <Text style={[
+                        styles.likesCount,{color:lightColor}]
+                    }> |</Text>
                 <TouchableOpacity onPress={ () => {
                     navigation.navigate( "picks" )
                 } }>
-                    <Text style={
-                        styles.likesCount
+                    <Text style={[
+                        styles.likesCount,{color:lightColor}]
                     }>  Top Picks</Text>
                 </TouchableOpacity>
             </View>
             <View
                 style={ {
-                    borderBottomColor: 'white',
+                    borderBottomColor: {lightColor},
                     borderBottomWidth: StyleSheet.hairlineWidth,
                 } }
             />
-            <Text style={ styles.message } >Recommended</Text>
+            <Text style={[
+                        styles.message,{color:lightColor}]
+                    } >Recommended</Text>
             <SafeAreaView style={ styles.root }>
                 <View style={ styles.container }>
                     {/* <Text style={{fontWeight: 'bold', fontSize: 24, color: '#F63A6E'}}>
@@ -76,8 +81,10 @@ const Chat_Picks_click = () => {
                     </ScrollView>
                 </View>
             </SafeAreaView>
-            <TouchableOpacity style={ styles.priceButton }>
-                <Text style={ styles.priceText }>SEE MORE</Text>
+            <TouchableOpacity style={[
+                        styles.priceButton,{backgroundColor:lightColor}]
+                    }>
+                <Text style={ [styles.priceText, {color:lightTheme} ]}>SEE MORE</Text>
             </TouchableOpacity>
             <Bottombar/>
         </View>
@@ -89,7 +96,6 @@ const styles = StyleSheet.create( {
         flex: 1,
         // backgroundColor: 'black', // Dark background color
         // alignItems:"center",
-        backgroundColor: "black"
     },
     message: {
         color: "white",
@@ -258,20 +264,16 @@ const styles = StyleSheet.create( {
         color: '#FFFFFF',
     },
     navbar: {
-        // width: '100%',
-        // height: '6%',
-        // backgroundColor: "black",
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        // alignItems: "center",
         width: '100%',
         height: '7%',
-        backgroundColor: "black",
+        // backgroundColor: "white",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        position:"absolute",
-        zIndex:10,
+        position: "absolute",
+        zIndex: 10,
+        top: 0,
+        padding: 10,
       },
       righticons: {
         flexDirection: "row",
