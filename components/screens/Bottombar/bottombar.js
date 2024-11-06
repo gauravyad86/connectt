@@ -1,13 +1,13 @@
 
 import { MyContext } from '@/components/MyContext';
-import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import React, { useCallback, useContext, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-
+import { Image, TouchableOpacity, View } from 'react-native';
+import connectlogo from "@/assets/images/connect2.jpg"
 export default function Bottombar () {
-    const { bgColor} = useContext( MyContext )
+    const { bgColor } = useContext( MyContext )
     const activeColor = bgColor;
     const color = "grey";
     const [ activeScreen, setActiveScreen ] = useState( 'Home' );
@@ -37,24 +37,21 @@ export default function Bottombar () {
             height: "6%"
         } }>
             <TouchableOpacity onPress={ () => handlePress( "Home" ) }>
-                <Fontisto size={ 30 } name='tinder' color={ activeScreen === 'Home' ? activeColor : color } />
+                {/* <Fontisto size={ 30 } name='tinder' color={ activeScreen === 'Home' ? activeColor : color } /> */ }
+                <Image source={ connectlogo } style={ { height: 25, width: 25, } } />
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={ () => handlePress( "4starscreen" ) }>
-                <MaterialCommunityIcons size={ 30 } name='star-four-points' color={ activeScreen === '4starscreen' ? activeColor : color } />
-            </TouchableOpacity>
-
             <TouchableOpacity onPress={ () => handlePress( "chatscreen" ) }>
-                <Ionicons name='chatbubbles' size={ 30 } color={ activeScreen === 'chatscreen' ? activeColor : color } />
+                <AntDesign name="message1" size={ 24 } color="black" />
+                {/* <Entypo name="chat"  size={ 30 } color={ activeScreen === 'chatscreen' ? activeColor : color } /> */ }
             </TouchableOpacity>
 
             <TouchableOpacity onPress={ () => handlePress( "user" ) }>
-                <FontAwesome name='user' size={ 30 } color={ activeScreen === 'user' ? activeColor : color } />
+                {/* <FontAwesome name='user' size={ 30 } color={ activeScreen === 'user' ? activeColor : color } /> */ }
+                <FontAwesome5 name="user-circle" size={ 24 } color="black" />
             </TouchableOpacity>
             <TouchableOpacity onPress={ () => handlePress( "setting" ) }>
                 <Ionicons name="settings" size={ 24 } color={ activeScreen === 'gridscreen' ? activeColor : color } />
             </TouchableOpacity>
-
         </View>
     );
 }

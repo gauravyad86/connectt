@@ -72,13 +72,7 @@ export default function ChatScreen() {
       keyboardVerticalOffset={80} // Adjust this offset based on your header height
     >
       {/* Header */}
-      <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={()=>navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.username}>Username</Text>
-      </View>
-      {/* Chat Messages */}
+
       <View style={styles.messagesContainer}>
         <FlatList
           data={messages}
@@ -131,7 +125,7 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1, // Makes the messages container take available space
     padding: 10,
-    paddingBottom:60,
+    paddingBottom:80,
     justifyContent: 'flex-end', // Align messages to the bottom
   },
   messagesList: {
@@ -168,7 +162,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     backgroundColor: '#fff',
     position:"absolute",
-    bottom:0,
+    bottom:40,
     width:"100%",
     height:50
   },
@@ -190,5 +184,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#25D366',
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
 });

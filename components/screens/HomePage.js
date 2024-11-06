@@ -9,6 +9,7 @@ import { useNavigation } from 'expo-router';
 import connectlogo from "@/assets/images/connect2.jpg"
 import TinderSwipeDemo from "@/components/TinderCard/TinderSwipeDemo";
 import { MyContext } from '../MyContext';
+import ImageSwipeComponent from "@/components/screens/Middlesection"
 const { width, height } = Dimensions.get('window');
 
 export default function () {
@@ -36,7 +37,8 @@ export default function () {
                         </TouchableOpacity> */}
                     </View>
                 </View>
-                <TinderSwipeDemo />
+                {/* <TinderSwipeDemo /> */}
+                <ImageSwipeComponent/>
                <Bottombar/>
             </SafeAreaView>
         </GestureHandlerRootView>
