@@ -11,7 +11,7 @@ import { Picker } from '@react-native-picker/picker';
 import InterestsInput4 from './Interest4';
 const bgColor = "#FFA500";
 const lightTheme = "white";
-const lightColor = "black";
+// const lightColor = "black";
 export default function ProfileEditPage () {
   const [ media, setMedia ] = useState( [ null, null, null, null, null, null ] );
   const [ aboutMe, setAboutMe ] = useState( '' );
@@ -447,7 +447,7 @@ const styles = StyleSheet.create( {
     backgroundColor: lightTheme, // Light background
   },
   title: {
-    color: lightColor, // Black text
+    color: "black", // Black text
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -476,7 +476,7 @@ const styles = StyleSheet.create( {
   },
   label: {
     fontSize: 18,
-    color: lightColor, // Black text
+    color: "black", // Black text
     fontWeight: "400",
     marginLeft: 10,
   },
@@ -486,14 +486,14 @@ const styles = StyleSheet.create( {
     borderRadius: 8,
   },
   sectionTitle: {
-    color: lightColor, // Black text
+    color: "black", // Black text
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 10,
   },
   textInput: {
     backgroundColor: "#f5f5f5", // Light grey background for text input
-    color: lightColor, // Black text
+    color: "black", // Black text
     padding: 10,
     marginBottom: 20,
     height: 120,
@@ -527,7 +527,7 @@ const styles = StyleSheet.create( {
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
-    color: lightColor, // Black text
+    color: "black", // Black text
   },
   promptItem: {
     padding: 10,
@@ -536,12 +536,12 @@ const styles = StyleSheet.create( {
   },
   promptText: {
     fontSize: 16,
-    color: lightColor, // Black text
+    color: "black", // Black text
   },
   picker: {
     height: height * 0.04,
     width: width * 0.3,
-    color: lightColor, // Black text
+    color: "black", // Black text
     backgroundColor: lightTheme, // White background
     borderWidth: 2,
     borderColor: "black", // Black border

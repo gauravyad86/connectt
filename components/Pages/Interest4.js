@@ -1,12 +1,12 @@
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get( 'window' );
 // List of predefined interests
 const allInterests = [
     "Female", "Male",
 ];
-
+const lightColor="black"
 // Main Page Component
 const InterestsInput4 = () => {
     // Changed from single interest to an array of interests
@@ -110,6 +110,8 @@ const styles = StyleSheet.create( {
     },
     inputBox: {
         fontSize: 16,
+        color: lightColor, 
+        width:width*.85
     },
     interestsContainer: {
         flex: 1,

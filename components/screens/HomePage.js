@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions , Platform, Image,} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform, Image, } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Fontisto, Ionicons, FontAwesome5, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,42 +10,55 @@ import connectlogo from "@/assets/images/connect2.jpg"
 import TinderSwipeDemo from "@/components/TinderCard/TinderSwipeDemo";
 import { MyContext } from '../MyContext';
 import ImageSwipeComponent from "@/components/screens/Middlesection"
-const { width, height } = Dimensions.get('window');
+import Home1 from "@/components/screens/Home1"
+import Home2 from "@/components/screens/Home2"
+const { width, height } = Dimensions.get( 'window' );
 
 export default function () {
-    const {  bgColor,lightTheme} = useContext( MyContext )
+    const { bgColor, lightTheme } = useContext( MyContext )
     const navigation = useNavigation();
-    const onpressHandler = () => {
-        navigation.navigate("tindercard");
-    }
+ 
+    const [activeSubTabMatchesTile, setActiveSubTabMatchesTile] = useState('parents');
+    const handleSubTabChange3 = (subTab) => {
+        setActiveSubTabMatchesTile(subTab);
+        if (subTab === 'parents') {
+            console.log("Switching to Parents tab");
+        } else {
+            console.log("Switching to Child tab");
+        }
+    };
     return (
-        <GestureHandlerRootView style={styles.flexOne}>
-            <SafeAreaView style={styles.root}>
-                {/* Navbar */}
-                <View style={[styles.navbar, {backgroundColor:lightTheme}]}>
-                    <View style={styles.icontext}>
-                        {/* <Fontisto style={styles.icon} size={22} name='tinder' color={"red"} /> */}
-                        <Image source={connectlogo}style={{height:25, width:25}} />
-                        <Text style={[styles.text, {color:"#FF8C00"}]}>Connect</Text>
+        <GestureHandlerRootView style={ styles.flexOne }>
+            <SafeAreaView style={ styles.root }>
+                {/* Navbar */ }
+                <View style={ [ styles.navbar, { backgroundColor: lightTheme } ] }>
+                    <View style={ styles.icontext }>
+                        {/* <Fontisto style={styles.icon} size={22} name='tinder' color={"red"} /> */ }
+                        <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
+                        <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
                     </View>
-                    <View style={styles.righticons}>
-                        <TouchableOpacity onPress={() => navigation.navigate('notifications')}>
-                            <Ionicons name="notifications" size={26} style={styles.sheildicon} color={bgColor} />
+                    <View style={ styles.righticons }>
+                        <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
+                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={ bgColor } />
                         </TouchableOpacity>
                         {/* <TouchableOpacity onPress={() => navigation.navigate("setting")}>
                             <Ionicons name="settings" size={26} style={styles.sheildicon}  color={bgColor}  />
                         </TouchableOpacity> */}
                     </View>
                 </View>
-                {/* <TinderSwipeDemo /> */}
-                <ImageSwipeComponent/>
-               <Bottombar/>
+                <View style={styles.subTabContainer}>
+                    <TouchableOpacity onPress={() => handleSubTabChange3('parents')}>
+                        <Text style={[styles.subTabText, activeSubTabMatchesTile === 'parents' && styles.activeSubTab]}>Parents</Text>
+                    </TouchableOpacity>
+                </View>
+              <Home1></Home1>
+                <Bottombar />
             </SafeAreaView>
         </GestureHandlerRootView>
     );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     flexOne: {
         flex: 1,
     },
@@ -55,19 +68,19 @@ const styles = StyleSheet.create({
     },
     navbar: {
         width: '100%',
-        height: height*.07,
+        height: height * .07,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         position: "absolute",
         zIndex: 10,
-        top:0,
-        padding:10,
+        top: 0,
+        padding: 10,
     },
     icontext: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent:"center"
+        justifyContent: "center"
     },
     text: {
         color: "red",
@@ -92,7 +105,23 @@ const styles = StyleSheet.create({
         bottom: 0,
         borderTopWidth: 1,
         borderTopColor: "grey",
-         height:"7%"
+        height: "7%"
     },
-});
+    subTabContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10,
+        marginTop:50,
+    },
+    subTabText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginHorizontal: 50,
+        color: 'grey',
+    },
+    activeSubTab: {
+        color: '#FF8C00',
+    },
+} );
 

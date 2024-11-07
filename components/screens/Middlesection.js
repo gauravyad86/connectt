@@ -257,8 +257,10 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { useContext, useState } from 'react';
 import { MyContext } from '../MyContext';
 import { AntDesign, Entypo, Feather, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import Data from './usersection/Data';
 
 const { width, height } = Dimensions.get( 'window' );
+
 const data = [
 
     {
@@ -285,16 +287,16 @@ const data = [
 ];
 
 export default function ImageSwipeComponent () {
-    const [ currentPersonIndex, setCurrentPersonIndex ] = useState( 0 );
-    const [ currentImageIndex, setCurrentImageIndex ] = useState( 0 );
 
-    const currentUser = data[ currentPersonIndex ];
-    const currentImage = currentUser.images[ currentImageIndex ];
+    const childData = Data.parentUser.children
+    let [ currentPersonIndex, setCurrentPersonIndex ] = useState( 0 );
+    console.log( childData[0].image )
+    const currentUser = childData[ currentPersonIndex ];
 
     const [ activeSubTabMatchesTile, setActiveSubTabMatchesTile ] = useState( 'parents' ); // 'All' or 'Focus'
     const onTapHandler = () => {
-        const nextImageIndex = ( currentImageIndex + 1 ) % currentUser.images.length;
-        setCurrentImageIndex( nextImageIndex );
+        setCurrentPersonIndex = ( currentPersonIndex + 1 );
+       
     };
 
     const onSwipeHandler = ( event ) => {
@@ -304,11 +306,10 @@ export default function ImageSwipeComponent () {
             if ( translationX < -100 ) {
                 const nextPersonIndex = ( currentPersonIndex + 1 ) % data.length;
                 setCurrentPersonIndex( nextPersonIndex );
-                setCurrentImageIndex( 0 );
+               
             } else if ( translationX > 100 ) {
                 const prevPersonIndex = ( currentPersonIndex - 1 + data.length ) % data.length;
                 setCurrentPersonIndex( prevPersonIndex );
-                setCurrentImageIndex( 0 );
             }
         }
     };
@@ -320,7 +321,6 @@ export default function ImageSwipeComponent () {
     const nextPerson = () => {
         const nextPersonIndex = ( currentPersonIndex + 1 ) % data.length;
         setCurrentPersonIndex( nextPersonIndex );
-        setCurrentImageIndex( 0 );
     };
 
     const prevPerson = () => {
@@ -332,12 +332,13 @@ export default function ImageSwipeComponent () {
         setActiveSubTabMatchesTile( subTab );
         // setActiveSubTab( null )
         if ( subTab === 'Parents' ) {
-          console.log( "fdfdf" )
+            console.log( "fdfdf" )
         } else {
-          console.log( "else" )
+            console.log( "else" )
         }
-      };
+    };
     const { lightTheme } = useContext( MyContext );
+
 
     return (
         <PanGestureHandler onGestureEvent={ onSwipeHandler } onHandlerStateChange={ onSwipeHandler }>
@@ -352,7 +353,7 @@ export default function ImageSwipeComponent () {
                         <Text style={ [ styles.subTabText, activeSubTabMatchesTile === 'child' && styles.activeSubTab ] }>Child</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={ styles.progressContainer }>
+                {/* <View style={ styles.progressContainer }>
                     { currentUser.images.map( ( _, index ) => (
                         <View
                             key={ index }
@@ -362,20 +363,28 @@ export default function ImageSwipeComponent () {
                             ] }
                         />
                     ) ) }
-                </View>
+                </View> */}
                 <TouchableOpacity onPress={ onTapHandler }>
-                    <Image source={ currentImage } style={ styles.imageStyle } resizeMode="cover" />
+                    <Image source={ currentUser.image } style={ styles.imageStyle } resizeMode="cover" />
                 </TouchableOpacity>
-                <View>
+                <View style={ { width: width * .85, } }>
+                    <View style={ { justifyContent: "space-between", flexDirection: "row", alignItems: "center" } }>
+
+                        <Text style={ styles.caption2 }>Match for tom</Text>
+                        <Text style={ styles.caption2 }>Relation</Text>
+                    </View>
                     <View style={ { justifyContent: "space-between", flexDirection: "row", alignItems: "center" } }>
                         <Text style={ styles.caption }>{ currentUser.name }</Text>
-                        <MaterialCommunityIcons name="share-all-outline" size={ 24 } color="black" />
+                        <TouchableOpacity onPress={ onTapHandler }>
+                            <MaterialCommunityIcons name="share-all-outline" size={ 24 } color="black" />
+                        </TouchableOpacity>
                     </View>
                     <Text style={ styles.quote }>{ currentUser.quote }</Text>
+                    <TouchableOpacity style={ styles.viewMoreButton } onPress={ onViewMorePress }>
+                        <Text style={ styles.viewMoreText }>View More</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={ styles.viewMoreButton } onPress={ onViewMorePress }>
-                    <Text style={ styles.viewMoreText }>View More</Text>
-                </TouchableOpacity>
+
                 <View style={ styles.bottomBar }>
                     <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ prevPerson }>
                         <MaterialCommunityIcons name="undo-variant" size={ width * 0.08 } color="#d4aa37" />
@@ -383,7 +392,7 @@ export default function ImageSwipeComponent () {
                     <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ nextPerson }>
                         <AntDesign name="like2" size={ width * 0.08 } color="green" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] }>
+                    <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ prevPerson }>
                         <AntDesign name="dislike2" size={ width * 0.08 } color="orange" />
                     </TouchableOpacity>
                     <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] }>
@@ -397,7 +406,7 @@ export default function ImageSwipeComponent () {
 
 const styles = StyleSheet.create( {
     middleSection: {
-        marginTop:70,
+        marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
@@ -405,16 +414,17 @@ const styles = StyleSheet.create( {
     progressContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: 300,
-        top: 145,
+        width: width * .85,
+        top: 37,
         position: "absolute",
+
     },
     subTabContainer: {
         flexDirection: "row",
-        justifyContent:"space-between",
+        justifyContent: "space-between",
         alignItems: "center",
-        marginBottom:10,
-      },
+        marginBottom: 10,
+    },
     progressSegment: {
         flex: 1,
         height: 4,
@@ -426,10 +436,10 @@ const styles = StyleSheet.create( {
         fontWeight: "bold",
         marginHorizontal: 50,
         color: 'grey',
-      },
-      activeSubTab: {
+    },
+    activeSubTab: {
         color: '#FF8C00',
-      },
+    },
     activeSegment: {
         backgroundColor: '#FFD700',
     },
@@ -437,14 +447,17 @@ const styles = StyleSheet.create( {
         backgroundColor: '#E0E0E0',
     },
     imageStyle: {
-        width: 300,
-        height: 300,
-        marginVertical: 10,
+        width: width * .85,
+        height: height * .5,
+        marginVertical: 14,
     },
     caption: {
         fontSize: 20,
         fontWeight: 'bold',
         marginVertical: 10,
+    },
+    caption2: {
+        fontSize: 12,
     },
     quote: {
         fontSize: 16,
@@ -453,10 +466,10 @@ const styles = StyleSheet.create( {
     },
     viewMoreButton: {
         backgroundColor: '#FFD700',
-        borderRadius: 20,
+        borderRadius: 5,
         height: 30,
         width: 100,
-        marginTop: 10,
+        // marginTop: 10,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -469,7 +482,7 @@ const styles = StyleSheet.create( {
         width: '85%',
         position: 'absolute',
         height: height * 0.1,
-        bottom: height * 0.1,
+        bottom: -height * .12,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',

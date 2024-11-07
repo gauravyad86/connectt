@@ -10,12 +10,12 @@ import Bottombar from './Bottombar/bottombar';
 import ChatSection from "@/components/Pages/chatSection"
 import { useNavigation } from 'expo-router';
 import TileView from './TileView';
-
+import Data from './usersection/Data';
 const { width, height } = Dimensions.get( 'window' );
 
 export default function Chatscreen () {
   const navigation = useNavigation()
-
+console.log(Data)
   const { bgColor, lightTheme, lightColor } = useContext( MyContext );
   const [ filteredData, setFilteredData ] = useState( users );
   const [ searchQuery, setSearchQuery ] = useState( '' );
@@ -189,7 +189,7 @@ export default function Chatscreen () {
               key={ user.id }
               onPress={ () => {
                 setActiveSubTabMatches( 'Tile' )
-                set
+               
               } }>
               <View style={ styles.mess }>
                 <Image source={ { uri: user.image } } style={ styles.image } />
@@ -209,15 +209,14 @@ export default function Chatscreen () {
             <TouchableOpacity onPress={ () => {
               handleSubTabChange3( 'parents' )
             } }>
-              <Text style={ [ styles.subTabText, activeSubTabMatchesTile === 'parents' && styles.activeSubTab ] }>Parents</Text>
+              <Text style={ [ styles.subTabText2, activeSubTabMatchesTile === 'parents' && styles.activeSubTab ] }>Parents</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={ () => handleSubTabChange3( 'child' ) }>
-              <Text style={ [ styles.subTabText, activeSubTabMatchesTile === 'child' && styles.activeSubTab ] }>Child</Text>
+              <Text style={ [ styles.subTabText2, activeSubTabMatchesTile === 'child' && styles.activeSubTab ] }>Child</Text>
             </TouchableOpacity>
           </View>
-
           {
-            <>
+             <View style={{justifyContent:"center", alignItems:"center"}}>
               <View style={ styles.tileViewContainer }>
                 <Image source={ { uri: tileViewUser.image } } style={ styles.tileViewImage } />
                 <Text style={ styles.tileViewName }>{ tileViewUser.name }</Text>
@@ -225,26 +224,22 @@ export default function Chatscreen () {
               </View>
               <View style={ styles.navigationButtons }>
                 <TouchableOpacity onPress={ () => handleNavigation( 'first' ) }>
-                  <Ionicons name="play-skip-back" size={ 24 } color="black" />
+                  <Ionicons name="play-skip-back" size={ 26 } color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={ () => handleNavigation( 'previous' ) }>
-                  <Ionicons name="play-back-sharp" size={ 24 } color="black" />
+                  <Ionicons name="play-back-sharp" size={ 30 } color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={ () => handleNavigation( 'next' ) }>
-                  <Ionicons name="play-forward-sharp" size={ 24 } color="black" />
+                  <Ionicons name="play-forward-sharp" size={ 30 } color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={ () => handleNavigation( 'last' ) }>
-                  <Ionicons name="play-skip-forward" size={ 24 } color="black" />
+                  <Ionicons name="play-skip-forward" size={ 26 } color="black" />
                 </TouchableOpacity>
               </View>
-            </>
-
+              </View> 
           }
-          {/* <TileView /> */ }
-
         </>
       ) }
-
       <Bottombar />
     </View>
   );
@@ -272,7 +267,7 @@ const styles = StyleSheet.create( {
     fontWeight: "500",
     marginLeft: 5,
   },
-  navigationButtons: { flexDirection: 'row', justifyContent: 'space-around', width: '60%', position: "absolute", top: 550, },
+  navigationButtons: { flexDirection: 'row', justifyContent: 'space-around', width: '60%', position: "absolute", top: 350,  },
   tileViewContainer: { alignItems: 'center', justifyContent: 'center' },
   tileViewImage: { width: 250, height: 250, marginBottom: 10, marginTop: 10, },
   tileViewName: { fontSize: 20, fontWeight: 'bold' },
@@ -296,8 +291,8 @@ const styles = StyleSheet.create( {
   },
   tabText: {
     fontSize: 17,
-    fontWeight: "500",
-    marginHorizontal: 5,
+    fontWeight: "bold",
+    marginHorizontal: 30,
     color: 'grey',
   },
   activeTab: {
@@ -311,9 +306,15 @@ const styles = StyleSheet.create( {
   },
   subTabText: {
     fontSize: 15,
-    fontWeight: "500",
-    marginHorizontal: 10,
-    color: 'grey',
+        fontWeight: "bold",
+        marginHorizontal: 50,
+        color: 'grey',
+  },
+  subTabText2: {
+    fontSize: 15,
+        fontWeight: "bold",
+        marginHorizontal: 65,
+        color: 'grey',
   },
   activeSubTab: {
     color: '#FF8C00',

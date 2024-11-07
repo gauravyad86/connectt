@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Fontisto } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 const { width, height } = Dimensions.get('window');
-
+const lightColor="black"
 export default function CoffyDate() {
     const navigation = useNavigation();
   return (

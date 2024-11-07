@@ -1,7 +1,7 @@
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get( 'window' );
 // List of predefined interests
 const allInterests = [
     "Monogamy", "Ethical non-monogamy", "Polyamory","Open to exploring"
@@ -112,6 +112,7 @@ const styles = StyleSheet.create( {
     inputBox: {
         fontSize: 16,
         color: lightColor, 
+        width:width*.85
     },
     interestsContainer: {
         flex: 1,

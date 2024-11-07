@@ -3,19 +3,16 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import LoginScreen from '@/components/screens/LoginScreen';
 import HomePage from "@/components/screens/HomePage";
 import ChatScreen from "@/components/screens/ChatScreen";
-import BoostScreen from "@/components/screens/BoostScreen";
 import UserInfo from "@/components/screens/UserInfo";
 import ChatSection from "@/components/Pages/chatSection";
 import Getsuperlikes from "@/components/Pages/GetsuperLikes";
 import PurchaseScreen from "@/components/Pages/PurchaseScreen";
-import BottomStarScreen from "@/components/screens/BottonStarSreen"; // Fixed typo
 import Chat_Picks_click from "@/components/Pages/Chat_Picks_click.js"
 import MysubStarting from "@/components/Pages/MysubStarting.js"
 import SeeWhoLikeYou from "@/components/Pages/Seewholikeyoumore"
 import Subsription from "@/components/Pages/Subscription";
 import RedSubscriptionPlanpage from "@/components/Pages/RedSubscriptionPlanpage";
 import AddCreditDebitcard from "@/components/Pages/AddCreditDebitcard";
-import GridScreen from "@/components/screens/GridScreen";
 import Notifications from "@/components/Pages/Notifications";
 import AddBanking from "@/components/Pages/AddBanking";
 import GridBox from "@/components/Pages/GridBox";
@@ -59,11 +56,6 @@ const StackNavigator = () => {
                   options={{ ...TransitionPresets.SlideFromRightIOS }} // Smooth transition
                 />
                 <Stack.Screen
-                  name="gridscreen"
-                  component={GridScreen}
-                  options={{ ...TransitionPresets.SlideFromRightIOS }}
-                />
-                <Stack.Screen
                   name="chatscreen"
                   component={ChatScreen}
                   options={{ ...TransitionPresets.SlideFromRightIOS }}
@@ -73,11 +65,7 @@ const StackNavigator = () => {
                   component={UserInfo}
                   options={{ ...TransitionPresets.SlideFromRightIOS }}
                 />
-                <Stack.Screen
-                  name="4starscreen"
-                  component={BottomStarScreen}
-                  options={{ ...TransitionPresets.SlideFromRightIOS }}
-                />
+            
                 {/* Other screens can be added here without transitions if needed */}
 
 
@@ -96,7 +84,6 @@ const StackNavigator = () => {
                 <Stack.Screen name="gridbox" component={GridBox} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="chatsection" component={ChatSection} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="homepagestarselect" component={HompagestarSelect} options={{ ...TransitionPresets.SlideFromRightIOS }} />
-                <Stack.Screen name="boostscreen" component={BoostScreen} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="boostselect" component={BoostSelect} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="setting" component={Settings} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="tindercard" component={TinderSwipeDemo} options={{ ...TransitionPresets.SlideFromRightIOS }} />

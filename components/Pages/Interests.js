@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     inputBox: {
         fontSize: 16,
         color: lightColor, 
+        width:width*.85
     },
     interestsContainer: {
         flex: 1,

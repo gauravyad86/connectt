@@ -1,7 +1,7 @@
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { View, TextInput, Text, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+const { width, height } = Dimensions.get( 'window' );
 // List of predefined interests
 const allInterests = [
     "Afrikaans", "Albanian", "Amharic", "Breton", "Chinese", "English", "Faroese", "French", "Galician", "German", "Irish",
@@ -60,12 +60,9 @@ const InterestsPage2 = ( { route, navigation } ) => {
 
     return (
         <View style={ styles.interestsContainer }>
-            {/* Cross Icon to close the page */ }
             <TouchableOpacity onPress={ () => navigation.goBack() } style={ styles.crossIcon }>
                 <Text style={ styles.crossText }>✕</Text>
             </TouchableOpacity>
-
-            {/* Search Input */ }
             <TextInput
                 placeholder="Search Languagues"
                 value={ searchTerm }
@@ -73,7 +70,6 @@ const InterestsPage2 = ( { route, navigation } ) => {
                 style={ styles.searchBox }
             />
 
-            {/* List of Interests */ }
             <FlatList
                 data={ filteredInterests }
                 keyExtractor={ ( item, index ) => index.toString() }
@@ -97,7 +93,6 @@ const InterestsPage2 = ( { route, navigation } ) => {
 const styles = StyleSheet.create( {
     mainContainer: {
         flex: 1,
-        alignItems: 'center',
         alignItems:"center",
         marginTop: 10,
         backgroundColor: lightTheme, // White background for main page
@@ -113,6 +108,7 @@ const styles = StyleSheet.create( {
     inputBox: {
         fontSize: 16,
         color: lightColor, 
+        width:width*.85
     },
     interestsContainer: {
         flex: 1,
@@ -128,7 +124,7 @@ const styles = StyleSheet.create( {
         color: lightColor,// Change close icon color to black
     },
     searchBox: {
-        width: '100%',
+        width: width,
         padding: 10,
         marginVertical: 10,
         borderRadius: 8,
