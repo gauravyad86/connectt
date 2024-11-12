@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { View, Button ,StyleSheet, Pressable, Text, Dimensions} from 'react-native';
 import Profile from './Profile';
+import { FontAwesome5 } from '@expo/vector-icons';
 const { width, height } = Dimensions.get( 'window' );
 const ParentProfile = ({ parentData }) => {
   const [index, setIndex] = useState(0);
-  const profiles = [parentData, ...parentData.subParents]; // Combine parent and sub-parents
-
+  // const profiles = parentData.; // Combine parent and sub-parents
+  const profiles = [parentData, ...parentData.subParents || []];
   const nextProfile = () => setIndex((index + 1) % profiles.length);
   const prevProfile = () => setIndex((index - 1 + profiles.length) % profiles.length);
-  console.log(parentData.subParents,"all parent data")
+  console.log(parentData,"all parent data")
   return (
     <View style={{ alignItems: 'center' }}>
-      <Profile profileData={profiles[index]} childrenData={parentData} children={false} />
+      <Profile profileData={profiles[index]} totaluser={parentData} children={false} />
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={prevProfile}>
-          <Text style={styles.buttonText}>{"<"}</Text>
+        <FontAwesome5 name="less-than" size={24} color="black" />
         </Pressable>
-
         <Pressable style={styles.button} onPress={nextProfile}>
-          <Text style={styles.buttonText}>{">"}</Text>
+        <FontAwesome5 name="greater-than" size={24} color="black" />
         </Pressable>
       </View>
     </View>
@@ -33,10 +33,11 @@ const styles = StyleSheet.create({
     width: '90%',
     // paddingHorizontal: 20,
     position:"absolute",
-    marginTop:60
+    marginTop:75,
+    height:height*.1
   },
   button: {
-    backgroundColor: '#007BFF', // Button color (adjust as needed)
+    backgroundColor: 'orange', // Button color (adjust as needed)
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

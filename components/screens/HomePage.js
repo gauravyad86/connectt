@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform, Image, } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform, Image, ScrollView, } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Fontisto, Ionicons, FontAwesome5, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,63 +12,55 @@ import { MyContext } from '../MyContext';
 import ImageSwipeComponent from "@/components/screens/Middlesection"
 import Home1 from "@/components/screens/Home1"
 import Home2 from "@/components/screens/Home2"
+import HomeViewMore from "@/components/screens/HomeViewMore"
 const { width, height } = Dimensions.get( 'window' );
 
 export default function () {
-    const { bgColor, lightTheme } = useContext( MyContext )
+    const { bgColor, lightTheme,showfamily,setShowfamily } = useContext( MyContext )
+    setShowfamily(false)
     const navigation = useNavigation();
- 
-    const [activeSubTabMatchesTile, setActiveSubTabMatchesTile] = useState('parents');
-    const handleSubTabChange3 = (subTab) => {
-        setActiveSubTabMatchesTile(subTab);
-        if (subTab === 'parents') {
-            console.log("Switching to Parents tab");
+    const [ activeSubTabMatchesTile, setActiveSubTabMatchesTile ] = useState( 'parents' );
+    const handleSubTabChange3 = ( subTab ) => {
+        setActiveSubTabMatchesTile( subTab );
+        if ( subTab === 'parents' ) {
+            console.log( "Switching to Parents tab" );
         } else {
-            console.log("Switching to Child tab");
+            console.log( "Switching to Child tab" );
         }
     };
     return (
-        <GestureHandlerRootView style={ styles.flexOne }>
-            <SafeAreaView style={ styles.root }>
-                {/* Navbar */ }
-                <View style={ [ styles.navbar, { backgroundColor: lightTheme } ] }>
-                    <View style={ styles.icontext }>
-                        {/* <Fontisto style={styles.icon} size={22} name='tinder' color={"red"} /> */ }
-                        <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
-                        <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                <View style={[styles.navbar, { backgroundColor: lightTheme }]}>
+                    <View style={styles.icontext}>
+                        <Image source={connectlogo} style={{ height: 30, width: 30 }} />
+                        <Text style={[styles.text, { color: "#FF8C00" }]}>Connect</Text>
                     </View>
-                    <View style={ styles.righticons }>
-                        <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
-                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={ bgColor } />
+                    <View style={styles.righticons}>
+                        <TouchableOpacity onPress={() => navigation.navigate('notifications')}>
+                            <Ionicons name="notifications" size={26} style={styles.sheildicon} color={bgColor} />
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={() => navigation.navigate("setting")}>
-                            <Ionicons name="settings" size={26} style={styles.sheildicon}  color={bgColor}  />
-                        </TouchableOpacity> */}
                     </View>
                 </View>
-                <View style={styles.subTabContainer}>
-                    <TouchableOpacity onPress={() => handleSubTabChange3('parents')}>
-                        <Text style={[styles.subTabText, activeSubTabMatchesTile === 'parents' && styles.activeSubTab]}>Parents</Text>
-                    </TouchableOpacity>
-                </View>
-              <Home1></Home1>
+                
+                {/* Main content, like Home1 */}
+                <Home1/>
                 <Bottombar />
-            </SafeAreaView>
+            </ScrollView>
         </GestureHandlerRootView>
+
     );
 }
 
 const styles = StyleSheet.create( {
-    flexOne: {
-        flex: 1,
-    },
-    root: {
-        flex: 1,
-        backgroundColor: "white",
+  
+    scrollContent: {
+        paddingBottom: height * 0.1,
+        // paddingTop: height * 0.08, // To avoid content under the navbar
     },
     navbar: {
         width: '100%',
-        height: height * .07,
+        height: height * 0.07,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -112,7 +104,7 @@ const styles = StyleSheet.create( {
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: 10,
-        marginTop:50,
+        marginTop: 50,
     },
     subTabText: {
         fontSize: 20,

@@ -1,21 +1,24 @@
+
+
+import { MyContext } from '../MyContext';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Alert, ScrollView } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { useContext, useState } from 'react';
-import { MyContext } from '../MyContext';
-import { AntDesign, Feather, FontAwesome, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { AntDesign, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
 import Data from '../../assets/data/Data';
 import HomeViewMore from "@/components/screens/HomeViewMore"
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 const { width, height } = Dimensions.get( 'window' );
-
-export default function Home1 () {
+import connectlogo from "@/assets/images/connect2.jpg"
+export default function ViewMore ( { route } ) {
+    const { userData } = route.params;
     const [ currentParentIndex, setCurrentParentIndex ] = useState( 0 );
     const [ currentPersonIndex, setCurrentPersonIndex ] = useState( 0 );
     const [ currentImageIndex, setCurrentImageIndex ] = useState( 0 );
     const [ section, setSection ] = useState( "parent" );
     const [ ViewMore, setViewmore ] = useState( false );
-    const { lightTheme , showfamily} = useContext( MyContext );
+    const { lightTheme, showfamily } = useContext( MyContext );
     const currentParent = Data.parentUsers[ currentParentIndex ] || {};
     const subParentData = currentParent.subParents || [];
     const childData = currentParent.children || [];
@@ -68,7 +71,7 @@ export default function Home1 () {
         }
     };
 
- const navigation = useNavigation();
+    const navigation = useNavigation();
     const onSwipeHandler = ( event ) => {
         const { translationX, state } = event.nativeEvent;
         if ( state === State.END ) {
@@ -121,9 +124,9 @@ export default function Home1 () {
 
     const [ isExpanded, setIsExpanded ] = useState( false );
 
-    const onViewMorePress = (data) => {
+    const onViewMorePress = ( data ) => {
         // setIsExpanded( !isExpanded );
-        navigation.navigate('view', {userdata:currentData})
+        navigation.navigate( 'view', { userdata: currentData } )
     };
     const onListPress = () => {
         console.log( "press on list" )
@@ -136,31 +139,20 @@ export default function Home1 () {
     }
     return (
         <PanGestureHandler onGestureEvent={ onSwipeHandler } onHandlerStateChange={ onSwipeHandler }>
-            <ScrollView contentContainerStyle={ { alignItems: 'center', paddingBottom: 30, marginTop:10, } } vertical>
+            
+            <ScrollView contentContainerStyle={ { alignItems: 'center', paddingBottom: 30, marginTop: 10, } } vertical>
+            <View style={ [ styles.navbar, { backgroundColor: lightTheme } ] }>
+                    <View style={ styles.icontext }>
+                        <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
+                        <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
+                    </View>
+                    <View style={ styles.righticons }>
+                        <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
+                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color="orange" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <View style={ styles.middleSection }>
-                    {/* <View style={ styles.imageContainer }>
-                       
-                        <View style={ styles.progressBarContainer2 }>
-                            <View style={ styles.progressBarContainer }>
-                                { images.map( ( _, index ) => (
-                                    <View
-                                        key={ index }
-                                        style={ [
-                                            styles.progressBarSegment,
-                                            { backgroundColor: index === currentImageIndex ? 'black' : '#d3d3d3' }
-                                        ] }
-                                    />
-                                ) ) }
-                            </View>
-                        </View>
-                        { currentData ? (
-                            <TouchableOpacity onPress={ onTapHandler } >
-                                <Image source={ { uri: images[ currentImageIndex ] } } style={ styles.imageStyle } resizeMode="cover" />
-                            </TouchableOpacity>
-                        ) : (
-                            <Text>No user data available</Text>
-                        ) }
-                    </View> */}
                     <View style={ styles.imageContainer }>
                         {/* Progress Bar inside Image */ }
                         <View style={ styles.progressBarContainer2 }>
@@ -199,7 +191,7 @@ export default function Home1 () {
                                     </View>
                                     <TouchableOpacity style={ styles.viewMoreButton } onPress={ onViewMorePress
 
-                                     }>
+                                    }>
                                         <FontAwesome name="arrow-down" size={ 24 } color="black" />
 
                                         <Text style={ styles.viewMoreText }>view</Text>
@@ -210,131 +202,7 @@ export default function Home1 () {
                             <Text>No user data available</Text>
                         ) }
                     </View>
-                    <View style={ { width: width * 0.85 } }>
-                        <View style={ { justifyContent: "space-between", flexDirection: "row", alignItems: "center" } }>
-                            {/* <Text style={ [ styles.caption2, { textAlign: "left" } ] }>{ currentData.relation }</Text> */ }
-                            <Text style={ [ styles.caption2, { textAlign: "center" } ] }>Match for Tom</Text>
-                            <View style={ styles.relationContainer }>
-                                <Octicons name="dot-fill" size={ 24 } color={ currentData.marriageStatus === 'open to marriage' ? 'green' : 'red' } style={ { marginRight: 2, } } />
-                                <Text style={ [ styles.caption2, { textAlign: "right" } ] }>{ currentData.marriageStatus }</Text>
-                            </View>
-                        </View>
-                        <View>
-                            <Text>Family members-----------------------------</Text>
-                        </View>
-                    </View>
-
-                    {showfamily? ( <Text></Text> ) : (
-                        <View style={ styles.familyContainer }>
-
-                            <LinearGradient
-                                colors={ [ 'rgba(0, 0, 0, 0.3)', 'transparent' ] }
-                                start={ { x: 0, y: 0 } }
-                                end={ { x: 0.5, y: 0 } }
-                                style={ [ styles.shadowGradient, { top: 0, left: 0 } ] }
-                            />
-
-                            {/* List Button */ }
-                          
-                            <TouchableOpacity style={ styles.listButton } onPress={ onListPress }>
-                                <FontAwesome name="list" size={ 24 } color="black" />
-                            </TouchableOpacity>
-
-                            {/* Family Members */ }
-                            <ScrollView horizontal showsHorizontalScrollIndicator={ false }>
-                                <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                                    <Text style={ styles.familyMemberRole }>{ trimName( currentData.name, 7 ) }</Text>
-                                    <TouchableOpacity
-                                        onPress={ () => {
-                                            setSection( "parent" );
-                                            setCurrentPersonIndex( 0 );
-                                        } }
-                                        style={ [
-                                            styles.familyMemberContainer,
-                                            { borderColor: section === "parent" ? 'orange' : 'grey' }
-                                        ] }
-                                    >
-                                        <Image source={ { uri: currentParent.images[ 0 ] } } style={ styles.familyMemberImage } />
-
-                                    </TouchableOpacity>
-                                    <Text style={ styles.familyMemberRole }>Parent</Text>
-                                </View>
-                                {/* Subparent Indicators */ }
-                                { subParentData.map( ( subParent, index ) => (
-                                    <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                                        <Text style={ styles.familyMemberRole }>{ trimName( subParent.name, 7 ) }</Text>
-                                        <TouchableOpacity
-                                            key={ `subparent-${ index }` }
-                                            onPress={ () => {
-                                                setSection( "subparent" );
-                                                setCurrentPersonIndex( index );
-                                            } }
-                                            style={ [
-                                                styles.familyMemberContainer,
-                                                { borderColor: section === "subparent" && currentPersonIndex === index ? 'orange' : 'grey' }
-                                            ] }
-                                        >
-                                            <Image source={ { uri: subParent.images[ 0 ] } } style={ styles.familyMemberImage } />
-                                            {/* <Text style={ styles.familyMemberRole }>Subparent { index + 1 }</Text> */ }
-                                        </TouchableOpacity>
-                                        <Text style={ styles.familyMemberRole }>Subparent { index + 1 }</Text>
-                                    </View>
-                                ) ) }
-
-                                {/* Child Indicators */ }
-                                { childData.map( ( child, index ) => (
-                                    <View style={ { flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                                        <Text style={ styles.familyMemberRole }>{ trimName( child.name, 7 ) }</Text>
-                                        <TouchableOpacity
-                                            key={ `child-${ index }` }
-                                            onPress={ () => {
-                                                setSection( "child" );
-                                                setCurrentPersonIndex( index );
-                                            } }
-                                            style={ [
-                                                styles.familyMemberContainer,
-                                                { borderColor: section === "child" && currentPersonIndex === index ? 'orange' : 'grey' }
-                                            ] }
-                                        >
-                                            <Image source={ { uri: child.images[ 0 ] } } style={ styles.familyMemberImage } />
-
-                                        </TouchableOpacity>
-                                        <Text style={ styles.familyMemberRole }>Child { index + 1 }</Text>
-                                    </View>
-                                ) ) }
-
-                            </ScrollView>
-
-                            {/* Next Button */ }
-                            <TouchableOpacity style={ styles.arrowButton } onPress={ toggleChildSubParentView }>
-                                <FontAwesome name="arrow-right" size={ 24 } color="black" />
-                            </TouchableOpacity>
-                            <LinearGradient
-                                colors={ [ 'rgba(0, 0, 0, 0.3)', 'transparent' ] }
-                                start={ { x: 1, y: 1 } }
-                                end={ { x: 0.5, y: 1 } }
-                                style={ [ styles.shadowGradient, { bottom: 0, right: 0 } ] }
-                            />
-                        </View>
-
-                    ) }
-
-
-                    { showfamily ? ( <HomeViewMore currentData={ currentData } /> ) : <Text></Text> }
-                    <View style={ styles.bottomBar }>
-                        <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ prevParent }>
-                            <MaterialCommunityIcons name="undo-variant" size={ width * 0.08 } color="#d4aa37" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ nextParent }>
-                            <AntDesign name="like2" size={ width * 0.08 } color="green" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ prevParent }>
-                            <AntDesign name="dislike2" size={ width * 0.08 } color="orange" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] }>
-                            <Feather name="share-2" size={ width * 0.08 } color="#1597fa" />
-                        </TouchableOpacity>
-                    </View>
+                    <HomeViewMore currentData={ currentData } />
                 </View>
             </ScrollView>
         </PanGestureHandler>
@@ -342,6 +210,59 @@ export default function Home1 () {
 }
 
 const styles = StyleSheet.create( {
+
+    scrollContent: {
+        paddingBottom: height * 0.1,
+        // paddingTop: height * 0.08, // To avoid content under the navbar
+    },
+    navbar: {
+        width: '100%',
+        height: height * 0.07,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        position: "absolute",
+        zIndex: 10,
+        top: 0,
+        padding: 10,
+    },
+    icontext: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    text: {
+        color: "red",
+        marginLeft: 6,
+        fontSize: 22,
+        fontWeight: "500",
+    },
+    righticons: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    sheildicon: {
+        marginLeft: 25,
+    },
+    bottomBar: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        width: '100%',
+        paddingVertical: 10,
+        backgroundColor: "black",
+        position: "absolute",
+        bottom: 0,
+        borderTopWidth: 1,
+        borderTopColor: "grey",
+        height: "7%"
+    },
+    subTabContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 10,
+        marginTop: 50,
+    },
     middleSection: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -548,5 +469,14 @@ const styles = StyleSheet.create( {
     familyMemberRole: {
         fontSize: 12,
         marginTop: 2,
+    },
+    subTabText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginHorizontal: 50,
+        color: 'grey',
+    },
+    activeSubTab: {
+        color: '#FF8C00',
     },
 } );

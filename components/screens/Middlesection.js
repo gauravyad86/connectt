@@ -257,7 +257,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { useContext, useState } from 'react';
 import { MyContext } from '../MyContext';
 import { AntDesign, Entypo, Feather, FontAwesome, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
-import Data from './usersection/Data';
+import Data from '../../assets/data/Data';
 
 const { width, height } = Dimensions.get( 'window' );
 

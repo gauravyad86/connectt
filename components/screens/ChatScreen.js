@@ -4,20 +4,20 @@ import { View, Text, Image, StyleSheet, TextInput, ScrollView, Dimensions } from
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome6, Ionicons } from '@expo/vector-icons';
 import { MyContext } from '../MyContext';
-import users from '@/assets/data/users';
+
 import connectlogo from "@/assets/images/connect2.jpg";
 import Bottombar from './Bottombar/bottombar';
 import ChatSection from "@/components/Pages/chatSection"
 import { useNavigation } from 'expo-router';
-import TileView from './TileView';
-import Data from './usersection/Data';
+
+import Data from '../../assets/data/Data';
 const { width, height } = Dimensions.get( 'window' );
 
+import Home2 from './Home2';
 export default function Chatscreen () {
   const navigation = useNavigation()
-console.log(Data)
   const { bgColor, lightTheme, lightColor } = useContext( MyContext );
-  const [ filteredData, setFilteredData ] = useState( users );
+  const [ filteredData, setFilteredData ] = useState( Data.parentUsers );
   const [ searchQuery, setSearchQuery ] = useState( '' );
   const [ activeTab, setActiveTab ] = useState( 'Messages' ); // 'Messages' or 'Matches'
   const [ activeSubTab, setActiveSubTab ] = useState( 'All' ); // 'All' or 'Focus'
@@ -26,10 +26,10 @@ console.log(Data)
   const [ focusChatUser, setFocusChatUser ] = useState( null ); // To hold the user in "Focus" chat
 
   const [ messages, setMessages ] = useState( [] ); // **Added state for messages**
+  const [ TileUser, setTileUser ] = useState(); // **Added state for messages**
   const [ currentMessage, setCurrentMessage ] = useState( '' ); // **State for current message input**
-  const scrollViewRef = useRef(); // **Reference for ScrollView to auto-scroll**
   const [ tileViewUser, setTileViewUser ] = useState( filteredData[ 0 ] ); // Var
-
+  const [tileViewUserIndex, setTileViewUserIndex] = useState(0);
   const handleSearch = ( query ) => {
     setSearchQuery( query );
     const filtered = query
@@ -74,33 +74,40 @@ console.log(Data)
       console.log( "else" )
     }
   };
-  const handleUserClickInListView = ( user ) => {
-    setTileViewUser( user ); // Set selected user in Tile View
-    setActiveSubTabMatches( 'Tile' ); // Switch to Tile View
+
+  const handleUserClickInListView = (index) => {
+    setTileViewUserIndex(index);
+    setActiveSubTabMatches('Tile');
   };
 
-  const handleNavigation = ( action ) => {
-    const currentIndex = filteredData.findIndex( ( user ) => user === tileViewUser );
-    if ( action === 'next' && currentIndex < filteredData.length - 1 ) {
-      setTileViewUser( filteredData[ currentIndex + 1 ] );
-    } else if ( action === 'previous' && currentIndex > 0 ) {
-      setTileViewUser( filteredData[ currentIndex - 1 ] );
-    } else if ( action === 'first' ) {
-      setTileViewUser( filteredData[ 0 ] );
-    } else if ( action === 'last' ) {
-      setTileViewUser( filteredData[ filteredData.length - 1 ] );
-    }
+  const handleNavigation = (direction) => {
+    let newIndex = tileViewUserIndex;
+    if (direction === 'first') newIndex = 0;
+    else if (direction === 'last') newIndex = Data.parentUsers.length - 1;
+    else if (direction === 'previous') newIndex = Math.max(tileViewUserIndex - 1, 0);
+    else if (direction === 'next') newIndex = Math.min(tileViewUserIndex + 1, Data.parentUsers.length - 1);
+    setTileViewUserIndex(newIndex);
   };
+ 
   return (
     <View style={ [ styles.root, { backgroundColor: lightTheme } ] }>
       <View style={ styles.navbar }>
         <View style={ styles.icontext }>
-          <Image source={ connectlogo } style={ { height: 25, width: 25 } } />
+          <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
           <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
         </View>
-        <TouchableOpacity style={ styles.righticons } onPress={ () => navigation.navigate( 'shield' ) }>
-          <FontAwesome6 name="shield" size={ 25 } color={ bgColor } />
-        </TouchableOpacity>
+     
+        {/* <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
+                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={ bgColor } />
+       </TouchableOpacity> */}
+       <View style={ styles.righticons }>
+                <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
+                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={ bgColor } />
+                </TouchableOpacity>
+                <TouchableOpacity style={ styles.sheildicon } onPress={ () => navigation.navigate( 'shield' ) }>
+                     <FontAwesome6 name="shield" size={ 25 } color={ bgColor } />
+                </TouchableOpacity>
+         </View>
       </View>
 
       {/* Tabs for Messages and Matches */ }
@@ -152,7 +159,7 @@ console.log(Data)
         activeSubTab === 'Focus' && focusChatUser ? (
           <View style={ styles.chatSection }>
             <View style={ styles.chatHeader }>
-              <Image source={ { uri: focusChatUser.image } } style={ styles.chatUserImage } />
+              <Image source={ { uri: focusChatUser.images[0] } } style={ styles.chatUserImage } />
               <Text style={ styles.chatUserName }>{ focusChatUser.name }</Text>
             </View>
             <ChatSection />
@@ -161,7 +168,7 @@ console.log(Data)
           <ScrollView style={ styles.users }>
             <View style={ styles.messHeading }>
               <Text style={ [ styles.messagetext, { color: lightColor } ] }>Messages</Text>
-              <Text style={ [ styles.messagetext, { color: bgColor } ] }>({ filteredData.length })</Text>
+              <Text style={ [ styles.messagetext, { color: bgColor } ] }>({ Data.parentUsers.length })</Text>
             </View>
             { filteredData.map( ( user ) => (
               <TouchableOpacity
@@ -171,10 +178,10 @@ console.log(Data)
                   setFocusChatUser( user );
                 } }>
                 <View style={ styles.mess }>
-                  <Image source={ { uri: user.image } } style={ styles.image } />
+                  <Image source={ { uri: user.images[0] } } style={ styles.image } />
                   <View style={ styles.messageContent }>
                     <Text style={ [ styles.name, { color: lightColor } ] }>{ user.name }</Text>
-                    <Text style={ styles.bio }>{ user.bio }</Text>
+                    <Text style={ styles.bio }>{ user.quote }</Text>
                     <View style={ styles.underline } />
                   </View>
                 </View>
@@ -183,61 +190,31 @@ console.log(Data)
           </ScrollView>
         )
       ) : activeTab === 'Matches' && activeSubTabMatches === 'List' ? (
-        <ScrollView style={ styles.listView }>
-          { filteredData.map( ( user ) => (
-            <TouchableOpacity
-              key={ user.id }
-              onPress={ () => {
-                setActiveSubTabMatches( 'Tile' )
-               
-              } }>
-              <View style={ styles.mess }>
-                <Image source={ { uri: user.image } } style={ styles.image } />
-                <View style={ styles.messageContent }>
-                  <Text style={ [ styles.name, { color: lightColor } ] }>{ user.name }</Text>
-                  <Text style={ styles.bio }>{ user.bio }</Text>
-                  <View style={ styles.underline } />
-                </View>
-              </View>
-            </TouchableOpacity>
-          ) ) }
-        </ScrollView>
+        // <ScrollView style={ styles.listView }>
+        //   { Data.parentUsers.map( ( user ) => (
+        //     <TouchableOpacity
+        //       key={ user.id }
+        //       onPress={ () => {
+        //         setActiveSubTabMatches( 'Tile' )
+                  
+        //       } }>
+        //       <View style={ styles.mess }>
+        //         <Image source={ { uri: user.image } } style={ styles.image } />
+        //         <View style={ styles.messageContent }>
+        //           <Text style={ [ styles.name, { color: lightColor } ] }>{ user.name }</Text>
+        //           <Text style={ styles.bio }>{ user.quote }</Text>
+        //           <View style={ styles.underline } />
+        //         </View>
+        //       </View>
+        //     </TouchableOpacity>
+        //   ) ) }
+        // </ScrollView>
+        <Home2 activeSubTabMatches={'list'} />
+        // <TileView2 user={}></TileView2>
+        // <ListView users={Data.parentUsers} onUserClick={handleUserClickInListView} lightColor={lightColor} />
       ) : (
         <>
-
-          <View style={ styles.subTabContainer }>
-            <TouchableOpacity onPress={ () => {
-              handleSubTabChange3( 'parents' )
-            } }>
-              <Text style={ [ styles.subTabText2, activeSubTabMatchesTile === 'parents' && styles.activeSubTab ] }>Parents</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={ () => handleSubTabChange3( 'child' ) }>
-              <Text style={ [ styles.subTabText2, activeSubTabMatchesTile === 'child' && styles.activeSubTab ] }>Child</Text>
-            </TouchableOpacity>
-          </View>
-          {
-             <View style={{justifyContent:"center", alignItems:"center"}}>
-              <View style={ styles.tileViewContainer }>
-                <Image source={ { uri: tileViewUser.image } } style={ styles.tileViewImage } />
-                <Text style={ styles.tileViewName }>{ tileViewUser.name }</Text>
-                <Text style={ styles.tileViewBio }>{ tileViewUser.bio }</Text>
-              </View>
-              <View style={ styles.navigationButtons }>
-                <TouchableOpacity onPress={ () => handleNavigation( 'first' ) }>
-                  <Ionicons name="play-skip-back" size={ 26 } color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => handleNavigation( 'previous' ) }>
-                  <Ionicons name="play-back-sharp" size={ 30 } color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => handleNavigation( 'next' ) }>
-                  <Ionicons name="play-forward-sharp" size={ 30 } color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={ () => handleNavigation( 'last' ) }>
-                  <Ionicons name="play-skip-forward" size={ 26 } color="black" />
-                </TouchableOpacity>
-              </View>
-              </View> 
-          }
+           <Home2 activeSubTabMatches={'Tile'} />
         </>
       ) }
       <Bottombar />
@@ -249,6 +226,9 @@ const styles = StyleSheet.create( {
   root: {
     flex: 1,
   },
+  sheildicon: {
+    marginLeft: 25,
+},
   navbar: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -257,6 +237,10 @@ const styles = StyleSheet.create( {
     width: '100%',
     height: height * 0.07,
   },
+  righticons: {
+    flexDirection: "row",
+    alignItems: "center",
+},
   messHeading: {
     flexDirection: "row",
     alignItems: "center",
@@ -267,7 +251,7 @@ const styles = StyleSheet.create( {
     fontWeight: "500",
     marginLeft: 5,
   },
-  navigationButtons: { flexDirection: 'row', justifyContent: 'space-around', width: '60%', position: "absolute", top: 350,  },
+  navigationButtons: { flexDirection: 'row', justifyContent: 'space-around', width: '60%', position: "absolute", top: 350, },
   tileViewContainer: { alignItems: 'center', justifyContent: 'center' },
   tileViewImage: { width: 250, height: 250, marginBottom: 10, marginTop: 10, },
   tileViewName: { fontSize: 20, fontWeight: 'bold' },
@@ -306,28 +290,31 @@ const styles = StyleSheet.create( {
   },
   subTabText: {
     fontSize: 15,
-        fontWeight: "bold",
-        marginHorizontal: 50,
-        color: 'grey',
+    fontWeight: "bold",
+    marginHorizontal: 50,
+    color: 'grey',
   },
   subTabText2: {
     fontSize: 15,
-        fontWeight: "bold",
-        marginHorizontal: 65,
-        color: 'grey',
+    fontWeight: "bold",
+    marginHorizontal: 65,
+    color: 'grey',
   },
   activeSubTab: {
     color: '#FF8C00',
   },
   chatSection: {
     flex: 1,
-    padding: 10,
+    // padding: 10,
     backgroundColor: '#f0f0f0',
+    paddingBottom:50,
   },
   chatHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    paddingLeft:10,
+    backgroundColor:"orange", height:height*.07
   },
   chatUserImage: {
     width: 40,
@@ -410,3 +397,224 @@ const styles = StyleSheet.create( {
   },
 
 } );
+// import React, { useContext, useRef, useState } from 'react';
+// import { View, Text, Image, StyleSheet, TextInput, ScrollView, Dimensions } from 'react-native';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { FontAwesome6, Ionicons } from '@expo/vector-icons';
+// import { MyContext } from '../MyContext';
+// import connectlogo from "@/assets/images/connect2.jpg";
+// import Bottombar from './Bottombar/bottombar';
+// import { useNavigation } from 'expo-router';
+// import Data from '@/assets/data/Data';
+// const { width, height } = Dimensions.get('window');
+
+// export default function Chatscreen() {
+//   const navigation = useNavigation();
+//   const { bgColor, lightTheme, lightColor } = useContext(MyContext);
+  
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [activeTab, setActiveTab] = useState('Messages'); // 'Messages' or 'Matches'
+//   const [activeSubTab, setActiveSubTab] = useState('All'); // 'All' or 'Focus'
+//   const [activeSubTabMatches, setActiveSubTabMatches] = useState('List'); // 'List' or 'Tile'
+//   const [focusChatUser, setFocusChatUser] = useState(null); // For Focus chat user
+//   const [tileViewUser, setTileViewUser] = useState(Data.parentUsers[0]); // For Tile View user
+
+//   const handleSearch = (query) => {
+//     setSearchQuery(query);
+//   };
+
+//   const handleTabChange = (tab) => {
+//     setActiveTab(tab);
+//     setActiveSubTab('All');
+//     setFocusChatUser(null);
+//     setSearchQuery('');
+//   };
+
+//   const handleTabChange2 = (tab) => {
+//     setActiveTab(tab);
+//     setActiveSubTabMatches('Tile');
+//   };
+
+//   const handleSubTabChange2 = (subTab) => {
+//     setActiveSubTabMatches(subTab);
+//     setActiveSubTab(null);
+//   };
+
+//   const handleUserClickInListView = (user) => {
+//     setTileViewUser(user);
+//     setActiveSubTabMatches('Tile');
+//   };
+
+//   const handleNavigation = (action) => {
+//     const currentIndex = Data.parentUsers.findIndex((user) => user === tileViewUser);
+//     if (action === 'next' && currentIndex < Data.parentUsers.length - 1) {
+//       setTileViewUser(Data.parentUsers[currentIndex + 1]);
+//     } else if (action === 'previous' && currentIndex > 0) {
+//       setTileViewUser(Data.parentUsers[currentIndex - 1]);
+//     } else if (action === 'first') {
+//       setTileViewUser(Data.parentUsers[0]);
+//     } else if (action === 'last') {
+//       setTileViewUser(Data.parentUsers[Data.parentUsers.length - 1]);
+//     }
+//   };
+
+//   return (
+//     <View style={[styles.root, { backgroundColor: lightTheme }]}>
+//       <View style={styles.navbar}>
+//         <View style={styles.icontext}>
+//           <Image source={connectlogo} style={{ height: 25, width: 25 }} />
+//           <Text style={[styles.text, { color: "#FF8C00" }]}>Connect</Text>
+//         </View>
+//         <TouchableOpacity style={styles.righticons} onPress={() => navigation.navigate('shield')}>
+//           <FontAwesome6 name="shield" size={25} color={bgColor} />
+//         </TouchableOpacity>
+//       </View>
+
+//       <View style={styles.tabContainer}>
+//         <TouchableOpacity onPress={() => handleTabChange('Messages')}>
+//           <Text style={[styles.tabText, activeTab === 'Messages' && styles.activeTab]}>Messages</Text>
+//         </TouchableOpacity>
+//         <Text> | </Text>
+//         <TouchableOpacity onPress={() => handleTabChange2('Matches')}>
+//           <Text style={[styles.tabText, activeTab === 'Matches' && styles.activeTab]}>Matches</Text>
+//         </TouchableOpacity>
+//       </View>
+
+//       <TextInput
+//         style={styles.searchBox}
+//         placeholder="Search"
+//         value={searchQuery}
+//         onChangeText={handleSearch}
+//       />
+
+//       {activeTab === 'Messages' ? (
+//         <ScrollView style={styles.users}>
+//           <View style={styles.messHeading}>
+//             <Text style={[styles.messagetext, { color: lightColor }]}>Messages</Text>
+//             <Text style={[styles.messagetext, { color: bgColor }]}>({Data.parentUsers.length})</Text>
+//           </View>
+//           {Data.parentUsers.map((user) => (
+//             <TouchableOpacity
+//               key={user.name}
+//               onPress={() => {
+//                 setActiveSubTab('Focus');
+//                 setFocusChatUser(user);
+//               }}>
+//               <View style={styles.mess}>
+//                 <Image source={{ uri: user.image }} style={styles.image} />
+//                 <View style={styles.messageContent}>
+//                   <Text style={[styles.name, { color: lightColor }]}>{user.name}</Text>
+//                   <Text style={styles.bio}>{user.marriageStatus}</Text>
+//                   <View style={styles.underline} />
+//                 </View>
+//               </View>
+//             </TouchableOpacity>
+//           ))}
+//         </ScrollView>
+//       ) : activeTab === 'Matches' && activeSubTabMatches === 'List' ? (
+//         <ScrollView style={styles.listView}>
+//           {Data.parentUsers.map((user) => (
+//             <TouchableOpacity
+//               key={user.name}
+//               onPress={() => handleUserClickInListView(user)}>
+//               <View style={styles.mess}>
+//                 <Image source={{ uri: user.image }} style={styles.image} />
+//                 <View style={styles.messageContent}>
+//                   <Text style={[styles.name, { color: lightColor }]}>{user.name}</Text>
+//                   <Text style={styles.bio}>{user.marriageStatus}</Text>
+//                   <View style={styles.underline} />
+//                 </View>
+//               </View>
+//             </TouchableOpacity>
+//           ))}
+//         </ScrollView>
+//       ) : (
+//         <View style={{ justifyContent: "center", alignItems: "center" }}>
+//           <View style={styles.tileViewContainer}>
+//             <Image source={{ uri: tileViewUser.image }} style={styles.tileViewImage} />
+//             <Text style={styles.tileViewName}>{tileViewUser.name}</Text>
+//             <Text style={styles.tileViewBio}>{tileViewUser.marriageStatus}</Text>
+//           </View>
+//           <View style={styles.navigationButtons}>
+//             <TouchableOpacity onPress={() => handleNavigation('first')}>
+//               <Ionicons name="play-skip-back" size={26} color="black" />
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={() => handleNavigation('previous')}>
+//               <Ionicons name="play-back-sharp" size={30} color="black" />
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={() => handleNavigation('next')}>
+//               <Ionicons name="play-forward-sharp" size={30} color="black" />
+//             </TouchableOpacity>
+//             <TouchableOpacity onPress={() => handleNavigation('last')}>
+//               <Ionicons name="play-skip-forward" size={26} color="black" />
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       )}
+
+//       <Bottombar />
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   root: { flex: 1 },
+//   navbar: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     padding: 10,
+//     width: '100%',
+//     height: height * 0.07,
+//   },
+//   icontext: { flexDirection: "row", alignItems: "center" },
+//   text: { color: "red", marginLeft: 6, fontSize: 22, fontWeight: "500" },
+//   tabContainer: {
+//     flexDirection: "row",
+//     justifyContent: "center",
+//     alignItems: "center",
+//     marginTop: 10,
+//   },
+//   tabText: {
+//     fontSize: 17,
+//     fontWeight: "bold",
+//     marginHorizontal: 30,
+//     color: 'grey',
+//   },
+//   activeTab: { color: '#FF8C00' },
+//   searchBox: {
+//     height: 40,
+//     marginTop: 15,
+//     borderColor: 'black',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     marginBottom: 5,
+//     width: "95%",
+//     marginLeft: 10,
+//     paddingLeft: 4,
+//   },
+//   users: { marginVertical: 10 },
+//   mess: {
+//     width: width - 20,
+//     height: 90,
+//     flexDirection: "row",
+//     alignItems: "center",
+//     marginTop: 10,
+//     paddingHorizontal: 10,
+//   },
+//   image: { width: 65, height: 65, borderRadius: 32.5 },
+//   name: { fontWeight: "600", fontSize: 18 },
+//   bio: { fontSize: 13 },
+//   messageContent: { flexDirection: "column", marginLeft: 12, flex: 1 },
+//   underline: {
+//     borderBottomColor: '#555962',
+//     borderBottomWidth: StyleSheet.hairlineWidth,
+//     marginTop: 10,
+//     flex: 1,
+//   },
+//   tileViewContainer: { alignItems: "center" },
+//   tileViewImage: { width: 200, height: 200, borderRadius: 100 },
+//   tileViewName: { fontSize: 24, fontWeight: "600", marginVertical: 10 },
+//   tileViewBio: { fontSize: 18 },
+//   navigationButtons: { flexDirection: "row", justifyContent: "space-evenly", width: "80%", marginTop: 20 },
+// });

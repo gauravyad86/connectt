@@ -7,9 +7,9 @@ import React, { createContext, useState } from 'react';
   const bgColor="#FFA500";
   const lightTheme="white";
   const lightColor="black"
-
+  const [showfamily, setShowfamily] = useState(true);
   return (
-    <MyContext.Provider value={{ User, setUser, bgColor,lightColor ,lightTheme}}>
+    <MyContext.Provider value={{ User, setUser, bgColor,lightColor ,lightTheme,setShowfamily,showfamily}}>
       {children}
     </MyContext.Provider>
   );

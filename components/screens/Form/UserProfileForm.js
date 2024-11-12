@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, Button, Dimensions, Modal, TouchableOpacity } from 'react-native';
+import { MyContext } from '@/components/MyContext';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, ScrollView, StyleSheet, Button, Dimensions, Modal, TouchableOpacity, Alert } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -8,7 +9,7 @@ const UserProfileForm = ({profileData}) => {
     UID: '',
     email: '',
     mobileNumber: '',
-    name: '',
+    name: 'emmely',
     age: '',
     gender: '',
     height: '',
@@ -38,7 +39,7 @@ const UserProfileForm = ({profileData}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [currentField, setCurrentField] = useState('');
-
+const {setUser}= useContext(MyContext)
   const options = {
     gender: ['Male', 'Female', 'Other'],
     religion: ['Hindu', 'Muslim', 'Christian', 'Other'],
@@ -70,18 +71,27 @@ const UserProfileForm = ({profileData}) => {
     // Displaying the submitted data in the input fields (already set in formData)
     console.log('Form Data:', formData);
   };
+  const handleShareProfile = () => {
+    Alert.alert( "Share Profile", `Share ${ formData.name }'s profile` );
+};
 
+const handleReportProfile = () => {
+setUser(false)
+    Alert.alert( "Report Profile", `Report ${ formData.name }'s profile` );
+};
+
+const handleBlockProfile = () => {
+    Alert.alert( "Block Profile", `Block ${ formData.name }'s profile` );
+};
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Edit Profile</Text>
-
+   <Text style={styles.title}>Profile View</Text>
       {/* Form Fields */}
-      <LabelledInput label="Open for marriage" value={formData.openTomarriage} onChange={(text) => handleChange('openformarriage', text)} />
+    <LabelledInput label="Open for marriage" value={formData.openTomarriage} onChange={(text) => handleChange('openformarriage', text)} />
       <LabelledInput label="Email" value={formData.email} onChange={(text) => handleChange('email', text)} />
       <LabelledInput label="Mobile Number" value={formData.mobileNumber} onChange={(text) => handleChange('mobileNumber', text)} />
       <LabelledInput label="Name" value={formData.name} onChange={(text) => handleChange('name', text)} />
-      <LabelledInput label="Age" value={formData.age} onChange={(text) => handleChange('age', text)} keyboardType="numeric" />
-      
+      <LabelledInput label="Age" value={formData.age} onChange={(text) => handleChange('age', text)} keyboardType="numeric" /> 
       {/* Modal Selection Fields */}
       <LabelledInput label="Gender" value={formData.gender} onPressSelect={() => handleSelect('gender')} />
       <LabelledInput label="Religion" value={formData.religion} onPressSelect={() => handleSelect('religion')} />
@@ -91,10 +101,10 @@ const UserProfileForm = ({profileData}) => {
       <LabelledInput label="Alcohol" value={formData.alcohol} onPressSelect={() => handleSelect('alcohol')} />
       <LabelledInput label="Travel" value={formData.smoking} onPressSelect={() => handleSelect('travel')} />
       <LabelledInput label="Exercise" value={formData.smoking} onPressSelect={() => handleSelect('exercise')} />
-      <LabelledInput label="Sports" value={formData.smoking} onPressSelect={() => handleSelect('sports')} />
+      <LabelledInput label="Sports" value={formData.smoking} onPressSelect={() => handleSelect('sports')} /> 
 
       {/* Other Fields */}
-      <LabelledInput label="Height" value={formData.height} onChange={(text) => handleChange('height', text)} />
+    <LabelledInput label="Height" value={formData.height} onChange={(text) => handleChange('height', text)} />
       <LabelledInput label="Location (State, District, City)" value={formData.location} onChange={(text) => handleChange('location', text)} />
       <LabelledInput label="Income" value={formData.income} onChange={(text) => handleChange('income', text)} />
       <LabelledInput label="Education" value={formData.education} onChange={(text) => handleChange('education', text)} />
@@ -104,9 +114,20 @@ const UserProfileForm = ({profileData}) => {
       <LabelledInput label="Caste" value={formData.caste} onChange={(text) => handleChange('caste', text)} />
       <LabelledInput label="Places" value={formData.places} onChange={(text) => handleChange('places', text)} />
       <LabelledInput label="Description/Bio" value={formData.bio} onChange={(text) => handleChange('bio', text)} />
-      <LabelledInput label="Languages Known" value={formData.languages} onChange={(text) => handleChange('languages', text)} />
+      <LabelledInput label="Languages Known" value={formData.languages} onChange={(text) => handleChange('languages', text)} />  
 
-      <Button title="Submit" onPress={handleSubmit} />
+      <Button title="Save" onPress={handleSubmit}  style={{backgroundColor:"orange"}}/>
+      <View style={ styles.actionButtons }>
+                <TouchableOpacity style={ styles.actionButton } onPress={ handleShareProfile }>
+                    <Text style={ styles.actionButtonText }>Disable { formData.name }'s Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={ styles.actionButton } onPress={ handleReportProfile }>
+                    <Text style={ styles.actionButtonText }>Logout</Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity style={ styles.actionButton } onPress={ handleBlockProfile }>
+                    <Text style={ styles.actionButtonText }>Block { formData.name }'s Profile</Text>
+                </TouchableOpacity> */}
+            </View>
 
       {/* Modal for Selection */}
       <Modal transparent={true} visible={modalVisible} animationType="slide">
@@ -152,6 +173,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.05,
     alignItems: 'center',
   },
+  actionButtons: {
+    marginTop: 20,
+},
+  actionButton: {
+    backgroundColor: 'orange',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+},
+actionButtonText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
+},
+
   title: {
     fontSize: 20,
     fontWeight: 'bold',

@@ -32,6 +32,7 @@ import { InterestsPage4 } from "@/components/Pages/Interest4";
 import DiscoverySettings from '../Pages/DiscoverySetting';
 import TinderSwipeDemo from '@/components/TinderCard/TinderSwipeDemo.js';
 import PlatinumSubscription from '@/components/Pages/PlatinumSubscription';
+import ViewMore from '@/components/screens/Viewmore';
 import { useContext } from 'react';
 import { MyContext, MyProvider } from '../MyContext';
 const Stack = createStackNavigator();
@@ -70,6 +71,7 @@ const StackNavigator = () => {
 
 
                 <Stack.Screen name="getsuperlikes" component={Getsuperlikes} options={{ ...TransitionPresets.SlideFromRightIOS }} />
+                <Stack.Screen name="view" component={ViewMore} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="purchase" component={PurchaseScreen} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="subsription" component={Subsription} options={{ ...TransitionPresets.SlideFromRightIOS }} />
                 <Stack.Screen name="redsubscription" component={RedSubscriptionPlanpage} options={{ ...TransitionPresets.SlideFromRightIOS }} />

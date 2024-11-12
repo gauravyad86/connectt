@@ -1,139 +1,208 @@
-import { View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, TextInput, StyleSheet, TouchableOpacity, Image, Dimensions } from "react-native";
 import React, { useContext, useState } from "react";
-import image from "@/assets/images/splash.png"
-import tw from "tailwind-react-native-classnames";
+import image from "@/assets/images/splash.png";
+import logo from "@/assets/images/connect2.jpg"; // Add the logo image here
 import { useNavigation } from "expo-router";
-// import { fetchData } from "@/api.js";
 import axios from "axios";
 import { MyContext } from "../MyContext";
+
 const API_URL = 'http://localhost:4001/auth';
+const { width, height } = Dimensions.get('window'); // Get device dimensions
+
 const LoginScreen = () => {
-    const [ type, setType ] = useState( 0 ); // 1: signin 2: signup
-    const [ name, setName ] = useState( "" );
-    const [ email, setEmail ] = useState( "" );
-    const [ password, setPasssword ] = useState( "" );
+    const [type, setType] = useState(1); // 1: signin, 2: signup
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigation = useNavigation();
-
-    const { User, setUser , bgColor} = useContext( MyContext )
-
+    const { User, setUser, bgColor } = useContext(MyContext);
 
     const SignIn = async () => {
-        console.log( email )
-        console.log( password )
-        setUser( true );
-        console.log(User)
+        console.log(email, password);
+        setUser(true);
         try {
-            const response = await axios.post( `${ API_URL }/login`, {
-                email: email,
-                password: password
-            } );
+            const response = await axios.post(`${API_URL}/login`, { email, password });
             return response.data;
-        } catch ( error ) {
-            console.error( 'Error fetching data:', error );
+        } catch (error) {
+            console.error('Error fetching data:', error);
             throw error;
         }
     }
+
     return (
         <ImageBackground
-            style={ [styles.imageBackground , {backgroundColor: bgColor}]}
+            // source={image}
+            style={[styles.imageBackground]}
             resizeMode="cover"
-            
         >
-            {
-                type === 1 ? (
-                    <View style={ tw.style( "flex-1 justify-center items-center w-full" ) }>
-                        <Text style={ tw.style( "font-bold text-2xl" ) }>Sign In</Text>
-                        <Text style={ tw.style( "text-black text-2xl" ) }> Access your account</Text>
-                        <View style={ tw.style( "w-full p-5" ) }>
-                            <Text style={ tw.style( "font-semibold pb-1 text-black " ) }>Email</Text>
-                            <TextInput
-                                keyboardType="email-address"
-                                style={ tw.style(
-                                    "w-full  h-12 bg-gray-50 border border-gray-300 text-xl text-gray-900 rounded-lg"
-                                ) }
-                                onChange={ ( text ) => setEmail( text.target.value ) }
-                                value={ email }
-                            />
-                            <Text style={ tw.style( "font-semibold pb-1 text-black mt-3" ) }>Password</Text>
-                            <TextInput
-                                secureTextEntry={ true }
-                                style={ tw.style(
-                                    "h-12 w-full bg-gray-50 border border-gray-300 text-xl text-gray-900 rounded-lg"
-                                ) }
-                                onChange={ ( text ) => setPasssword( text.target.value ) }
-                                value={ password }
-                            />
-                            <TouchableOpacity onPress={
-                                SignIn
-                            } style={ tw.style( "w-full rounded-lg mt-8 bg-black py-3" ) }>
-                                <Text style={ tw.style( "text-center text-gray-100 text-xl font-bold" ) }>
-                                    Sign In</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={ () => setType( 2 ) } >
-                                <Text style={ tw.style( "text-center text-gray-100 pt-3 text-xl font-bold" ) }>
-                                    Doesn't  have an account?
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+            <View style={styles.headerContainer}>
+                {/* <View style={styles.logoContainer}> */}
+                    <Image source={logo} style={styles.logo} />
+                    <Text style={styles.logoText}>family</Text>
+                {/* </View> */}
+            </View>
 
-                ) : (
-                    <View style={ tw.style( "flex-1 justify-center items-center w-full" ) }>
-                        <Text style={ tw.style( "font-bold text-2xl" ) }>Sign Up</Text>
-                        <Text style={ tw.style( "text-black text-2xl" ) }>Create a new account</Text>
-                        <View style={ tw.style( "w-full p-5" ) }>
-                            <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Name</Text>
-                            <TextInput
-                                style={ tw.style(
-                                    " h-10 w-full bg-gray-50 border border-gray-300 text-sm text-gray-900 rounded-lg"
-                                ) }
-                                onChange={ ( text ) => setName( text.target.value ) }
-                                value={ name }
-                            />
-                            <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Email</Text>
-                            <TextInput
-                                keyboardType="email-address"
-                                style={ tw.style(
-                                    "w-full  h-10 bg-gray-50 border border-gray-300 text-sm text-gray-900 rounded-lg"
-                                ) }
-                                onChange={ ( text ) => setEmail( text.target.value ) }
-                                value={ email }
-                            />
-                            <Text style={ tw.style( "font-semibold pb-2 text-black" ) }>Password</Text>
-                            <TextInput
-                                secureTextEntry={ true }
-                                style={ tw.style(
-                                    "h-10 w-full bg-gray-50 border border-gray-300 text-sm text-gray-900 rounded-lg"
-                                ) }
-                                onChange={ ( text ) => setPasssword( text.target.value ) }
-                                value={ password }
-                            />
-                            <TouchableOpacity style={ tw.style( "w-full rounded-lg mt-8 bg-black py-3" ) }>
-                                <Text style={ tw.style( "text-center text-gray-100 text-xl font-bold" ) }>
-                                    Sign Up</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={ () => setType( 1 ) } >
-                                <Text style={ tw.style( "text-center text-gray-100 pt-3 text-xl font-bold" ) }>
-                                    Already have an account?
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+            {type === 1 ? (
+                <View style={styles.container}>
+                    {/* <Text style={styles.title}>Sign In</Text> */}
+                    <Text style={styles.subtitle}>Access your account</Text>
+                    <View style={styles.form}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput
+                            placeholder="Enter Mail ID"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={text => setEmail(text)}
+                            value={email}
+                        />
+
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput
+                            placeholder="Enter Password"
+                            secureTextEntry={true}
+                            style={styles.input}
+                            onChangeText={text => setPassword(text)}
+                            value={password}
+                        />
+
+                        <TouchableOpacity onPress={SignIn} style={styles.button}>
+                            <Text style={styles.buttonText}>Log In</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setType(2)}>
+                            <Text style={styles.switchText}>Don't have an account?</Text>
+                        </TouchableOpacity>
                     </View>
-                ) }
+                </View>
+            ) : (
+                <View style={styles.container}>
+                    {/* <Text style={styles.title}>Sign Up</Text> */}
+                    <Text style={styles.subtitle}>Create a new account</Text>
+                    <View style={styles.form}>
+                        <Text style={styles.label}>Name</Text>
+                        <TextInput
+                            placeholder="Enter Name"
+                            style={styles.input}
+                            onChangeText={text => setName(text)}
+                            value={name}
+                        />
+
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput
+                            placeholder="Enter Mail ID"
+                            keyboardType="email-address"
+                            style={styles.input}
+                            onChangeText={text => setEmail(text)}
+                            value={email}
+                        />
+
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput
+                            placeholder="Enter Password"
+                            secureTextEntry={true}
+                            style={styles.input}
+                            onChangeText={text => setPassword(text)}
+                            value={password}
+                        />
+
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Sign Up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setType(1)}>
+                            <Text style={styles.switchText}>Already have an account?</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            )}
         </ImageBackground>
     );
 };
 
 export default LoginScreen;
 
-
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
     imageBackground: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
         width: '100%',
-        height: "100%",
-        
-    }
-} );
+        height: '100%', 
+        backgroundColor:"white"// Ensure the background covers the whole screen
+    },
+    headerContainer: {
+        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: 'center',
+        marginBottom:6,
+        // marginBottom: height * 0.1, // Adds more space on larger screens
+    },
+  
+    logo: {
+        width: width * 0.2, // Relative size to screen width
+        height: width * 0.2, // Maintain aspect ratio
+        marginRight: 10,
+    },
+    logoText: {
+        fontSize: width * 0.07, // Responsive font size
+        fontWeight: "bold",
+        color: "#FFA500",
+    },
+    container: {
+        // flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        paddingHorizontal: width * 0.05, // Responsive horizontal padding
+    },
+    title: {
+        fontSize: width * 0.08, // Responsive title size
+        fontWeight: "bold",
+        color: "#FFA500",
+        marginBottom: height * 0.02, // Margin to provide space between title and subtitle
+    },
+    subtitle: {
+        fontSize: width * 0.05, // Responsive subtitle size
+        color: "#FFA500",
+        marginBottom: height * 0.05, // Adjust bottom margin for larger screens
+    },
+    form: {
+        width: "100%",
+        alignItems: "center",
+    },
+    label: {
+        alignSelf: 'flex-start',
+        marginBottom: height * 0.01, // Margin relative to screen height
+        fontSize: width * 0.035, // Responsive font size for the label
+        color: "#333",
+        fontWeight: "bold",
+    },
+    input: {
+        backgroundColor: "#fff",
+        paddingVertical: height * 0.012, // Vertical padding relative to screen height
+        paddingHorizontal: width * 0.04, // Horizontal padding relative to screen width
+        borderRadius: 8,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        fontSize: width * 0.035, // Responsive font size for input fields
+        color: "#000",
+        width: "100%",
+        marginBottom: height * 0.02, // Adjust margin for spacing between inputs
+    },
+    button: {
+        backgroundColor: "#FFA500",
+        paddingVertical: height * 0.017, // Vertical padding relative to screen height
+        borderRadius: 8,
+        alignItems: "center",
+        width: "100%",
+    },
+    buttonText: {
+        color: "black",
+        fontSize: width * 0.045, // Responsive font size for button text
+        fontWeight: "bold",
+    },
+    switchText: {
+        color: "#FFA500",
+        fontSize: width * 0.04, // Responsive font size for switch text
+        fontWeight: "bold",
+        marginTop: height * 0.03, // Margin for spacing
+        textAlign: "center",
+    },
+});
