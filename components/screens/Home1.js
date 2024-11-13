@@ -301,7 +301,7 @@ export default function Home1 () {
                             end={ { x: 0.5, y: 1 } }
                             style={ [ styles.shadowGradient, { bottom: 0, right: 0 } ] }
                         />
-                    </View>
+                    </View
                     <View style={ styles.bottomBar }>
                         <TouchableOpacity style={ [ styles.bigButton, { backgroundColor: lightTheme } ] } onPress={ prevParent }>
                             <MaterialCommunityIcons name="undo-variant" size={ width * 0.08 } color="#d4aa37" />
