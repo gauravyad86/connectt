@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform, Image, 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Fontisto, Ionicons, FontAwesome5, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Bottombar from "./Bottombar/bottombar"
 import { useNavigation } from 'expo-router';
 import connectlogo from "@/assets/images/connect2.jpg"
@@ -17,7 +17,9 @@ const { width, height } = Dimensions.get( 'window' );
 
 export default function () {
     const { bgColor, lightTheme,showfamily,setShowfamily } = useContext( MyContext )
-    setShowfamily(false)
+    useEffect(() => {
+        setShowfamily(false);
+    }, [setShowfamily]);
     const navigation = useNavigation();
     const [ activeSubTabMatchesTile, setActiveSubTabMatchesTile ] = useState( 'parents' );
     const handleSubTabChange3 = ( subTab ) => {
@@ -29,7 +31,7 @@ export default function () {
         }
     };
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={[styles.navbar, { backgroundColor: lightTheme }]}>
                     <View style={styles.icontext}>
@@ -42,20 +44,18 @@ export default function () {
                         </TouchableOpacity>
                     </View>
                 </View>
-                
-                {/* Main content, like Home1 */}
                 <Home1/>
                 <Bottombar />
             </ScrollView>
-        </GestureHandlerRootView>
-
     );
 }
 
 const styles = StyleSheet.create( {
   
     scrollContent: {
-        paddingBottom: height * 0.1,
+        flex:1,
+
+        paddingBottom: height * 0.02,
         // paddingTop: height * 0.08, // To avoid content under the navbar
     },
     navbar: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create( {
         position: "absolute",
         zIndex: 10,
         top: 0,
-        padding: 10,
+        paddingHorizontal: 10,
     },
     icontext: {
         flexDirection: "row",

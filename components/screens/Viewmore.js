@@ -8,212 +8,193 @@ import { AntDesign, Feather, FontAwesome, Ionicons, MaterialCommunityIcons, Octi
 import Data from '../../assets/data/Data';
 import HomeViewMore from "@/components/screens/HomeViewMore"
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from 'expo-router';
-const { width, height } = Dimensions.get( 'window' );
 import connectlogo from "@/assets/images/connect2.jpg"
+const { width, height } = Dimensions.get( 'window' );
 export default function ViewMore ( { route } ) {
-    const { userData } = route.params;
-    const [ currentParentIndex, setCurrentParentIndex ] = useState( 0 );
-    const [ currentPersonIndex, setCurrentPersonIndex ] = useState( 0 );
+    const { user } = route.params;
+    const [ gestureState, setGestureState ] = useState( null );
     const [ currentImageIndex, setCurrentImageIndex ] = useState( 0 );
-    const [ section, setSection ] = useState( "parent" );
-    const [ ViewMore, setViewmore ] = useState( false );
-    const { lightTheme, showfamily } = useContext( MyContext );
-    const currentParent = Data.parentUsers[ currentParentIndex ] || {};
-    const subParentData = currentParent.subParents || [];
-    const childData = currentParent.children || [];
+    const [ isExpanded, setIsExpanded ] = useState( true );
+    const [ currentIndex, setCurrentIndex ] = useState( 0 );
 
-    let currentData, images;
-    if ( section === "parent" ) {
-        currentData = currentParent;
-        images = currentParent.images || [];
-    } else if ( section === "subparent" ) {
-        currentData = subParentData[ currentPersonIndex ] || {};
-        images = currentData.images || [];
-    } else if ( section === "child" ) {
-        currentData = childData[ currentPersonIndex ] || {};
-        images = currentData.images || [];
-    }
+    // Prepare the ordered list of users: [user, ...subParents, ...children]
+    const userSequence = [
+        user
+    ];
+    const { bgColor, lightTheme,showfamily,setShowfamily } = useContext( MyContext )
+    const displayedUser = userSequence[ currentIndex ];
+    console.log( "user", displayedUser )
+    // Set images array from displayedUser
+    const images = displayedUser.images || [];
 
-    const activeTabText = section === "parent" ? "Parent" : section === "subparent" ? "Subparent" : "Child";
+    const handleGestureEvent = ( event ) => {
+        const { translationX } = event.nativeEvent;
 
-    const onTapHandler = () => {
-        if ( images.length > 0 ) {
-            const nextImageIndex = ( currentImageIndex + 1 ) % images.length;
-            setCurrentImageIndex( nextImageIndex );
-
-            if ( nextImageIndex === 0 ) {
-                if ( section === "parent" ) {
-                    if ( subParentData.length > 0 ) {
-                        setSection( "subparent" );
-                        setCurrentPersonIndex( 0 );
-                    } else if ( childData.length > 0 ) {
-                        setSection( "child" );
-                        setCurrentPersonIndex( 0 );
-                    }
-                } else if ( section === "subparent" ) {
-                    if ( currentPersonIndex + 1 < subParentData.length ) {
-                        setCurrentPersonIndex( currentPersonIndex + 1 );
-                    } else if ( childData.length > 0 ) {
-                        setSection( "child" );
-                        setCurrentPersonIndex( 0 );
-                    } else {
-                        setSection( "parent" );
-                    }
-                } else if ( section === "child" ) {
-                    if ( currentPersonIndex + 1 < childData.length ) {
-                        setCurrentPersonIndex( currentPersonIndex + 1 );
-                    } else {
-                        setSection( "parent" );
-                    }
-                }
-            }
+        if ( translationX > 100 ) { // Swipe right
+            onTileNavigation( 'previous' );
+        } else if ( translationX < -100 ) { // Swipe left
+            onTileNavigation( 'next' );
         }
     };
 
-    const navigation = useNavigation();
-    const onSwipeHandler = ( event ) => {
-        const { translationX, state } = event.nativeEvent;
-        if ( state === State.END ) {
-            if ( translationX < -100 ) {
-                nextParent();
-            } else if ( translationX > 100 ) {
-                prevParent();
-            }
+    const handleGestureStateChange = ( event ) => {
+        if ( event.nativeEvent.state === 5 ) { // Gesture ended
+            setGestureState( null );
         }
     };
 
-    const nextParent = () => {
-        setCurrentParentIndex( ( currentParentIndex + 1 ) % Data.parentUsers.length );
-        resetViewToParent();
+    const handleImageTap = () => {
+        setCurrentImageIndex( ( prevIndex ) =>
+            ( prevIndex + 1 ) % images.length ); // Cycle through images
     };
 
-    const prevParent = () => {
-        setCurrentParentIndex( ( currentParentIndex - 1 + Data.parentUsers.length ) % Data.parentUsers.length );
-        resetViewToParent();
-    };
+    const toggleExpandView = () => setIsExpanded( !isExpanded );
 
-    const resetViewToParent = () => {
-        setSection( "parent" );
-        setCurrentPersonIndex( 0 );
-        setCurrentImageIndex( 0 );
-    };
-
-    const toggleChildSubParentView = () => {
-        if ( section === "parent" && subParentData.length > 0 ) {
-            setSection( "subparent" );
-            setCurrentPersonIndex( 0 );
-        } else if ( section === "subparent" ) {
-            if ( currentPersonIndex + 1 < subParentData.length ) {
-                setCurrentPersonIndex( currentPersonIndex + 1 );
-            } else if ( childData.length > 0 ) {
-                setSection( "child" );
-                setCurrentPersonIndex( 0 );
-            } else {
-                setSection( "parent" );
-            }
-        } else if ( section === "child" ) {
-            if ( currentPersonIndex + 1 < childData.length ) {
-                setCurrentPersonIndex( currentPersonIndex + 1 );
-            } else {
-                setSection( "parent" );
-            }
+    // Function to handle navigating to the next user in sequence
+    const handleNext = () => {
+        if ( currentIndex < userSequence.length - 1 ) {
+            setCurrentIndex( currentIndex + 1 );
+        } else {
+            setCurrentIndex( 0 ); // Reset to the first user if at the end
         }
-        setCurrentImageIndex( 0 );
     };
 
-    const [ isExpanded, setIsExpanded ] = useState( false );
-
-    const onViewMorePress = ( data ) => {
-        // setIsExpanded( !isExpanded );
-        navigation.navigate( 'view', { userdata: currentData } )
-    };
-    const onListPress = () => {
-        console.log( "press on list" )
-    };
-    function trimName ( name, maxLength ) {
-        if ( name.length > maxLength ) {
-            return name.slice( 0, maxLength ) + '...';
+    // Function to handle navigating to the previous user in sequence
+    const handlePrevious = () => {
+        if ( currentIndex > 0 ) {
+            setCurrentIndex( currentIndex - 1 );
+        } else {
+            setCurrentIndex( userSequence.length - 1 ); // Go to the last user if at the beginning
         }
-        return name;
-    }
+    };
+
     return (
-        <PanGestureHandler onGestureEvent={ onSwipeHandler } onHandlerStateChange={ onSwipeHandler }>
-            
-            <ScrollView contentContainerStyle={ { alignItems: 'center', paddingBottom: 30, marginTop: 10, } } vertical>
+        <ScrollView contentContainerStyle={ styles.scrollContainer } vertical>
             <View style={ [ styles.navbar, { backgroundColor: lightTheme } ] }>
-                    <View style={ styles.icontext }>
-                        <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
-                        <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
-                    </View>
-                    <View style={ styles.righticons }>
-                        <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
-                            <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color="orange" />
-                        </TouchableOpacity>
+                <View style={ styles.icontext }>
+                    <Image source={ connectlogo } style={ { height: 30, width: 30 } } />
+                    <Text style={ [ styles.text, { color: "#FF8C00" } ] }>Connect</Text>
+                </View>
+                <View style={ styles.righticons }>
+                    <TouchableOpacity onPress={ () => navigation.navigate( 'notifications' ) }>
+                        <Ionicons name="notifications" size={ 26 } style={ styles.sheildicon } color={ bgColor } />
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={ styles.imageContainer }>
+                <View style={ styles.progressBarContainer2 }>
+                    <View style={ styles.progressBarContainer }>
+                        { images.map( ( _, index ) => (
+                            <View
+                                key={ index }
+                                style={ [
+                                    styles.progressBarSegment,
+                                    { backgroundColor: index === currentImageIndex ? 'black' : '#d3d3d3' }
+                                ] }
+                            />
+                        ) ) }
                     </View>
                 </View>
-                <View style={ styles.middleSection }>
-                    <View style={ styles.imageContainer }>
-                        {/* Progress Bar inside Image */ }
-                        <View style={ styles.progressBarContainer2 }>
-                            <View style={ styles.progressBarContainer }>
-                                { images.map( ( _, index ) => (
-                                    <View
-                                        key={ index }
-                                        style={ [
-                                            styles.progressBarSegment,
-                                            { backgroundColor: index === currentImageIndex ? 'black' : '#d3d3d3' }
-                                        ] }
-                                    />
-                                ) ) }
+                { images.length > 0 ? (
+                    <TouchableOpacity onPress={ handleImageTap }>
+                        {/* <Image source={ { uri: images[ currentImageIndex ] } } style={ styles.imageStyle } resizeMode="cover" /> */ }
+                        <Image
+                            source={ { uri: images[ currentImageIndex ] } }
+                            style={ styles.imageStyle }
+                            resizeMode="cover"
+                        />
+                        {/* Gradient overlay */ }
+                        <LinearGradient
+                            colors={ [ 'transparent', 'black' ] }
+                            style={ styles.gradientOverlay }
+                        />
+                        {/* Text Overlay with User Name and Details */ }
+                        <View style={ styles.textOverlay }>
+                            <View>
+                                <Text style={ styles.userName }>{ displayedUser.name || 'Unknown' }</Text>
+                                <Text style={ styles.userDetails }>
+                                    { displayedUser.caste || 'N/A' }, { displayedUser.religion || 'N/A' }
+                                </Text>
                             </View>
-                        </View>
+                            <TouchableOpacity style={ styles.viewMoreButton } onPress={ toggleExpandView
 
-                        { currentData ? (
-                            <TouchableOpacity onPress={ onTapHandler }>
-                                <Image
-                                    source={ { uri: images[ currentImageIndex ] } }
-                                    style={ styles.imageStyle }
-                                    resizeMode="cover"
-                                />
-                                {/* Gradient overlay */ }
-                                <LinearGradient
-                                    colors={ [ 'transparent', 'black' ] }
-                                    style={ styles.gradientOverlay }
-                                />
-                                {/* Text Overlay with User Name and Details */ }
-                                <View style={ styles.textOverlay }>
-                                    <View>
-                                        <Text style={ styles.userName }>{ currentData.name || 'Unknown' }</Text>
-                                        <Text style={ styles.userDetails }>
-                                            { currentData.caste || 'N/A' }, { currentData.religion || 'N/A' }
-                                        </Text>
-                                    </View>
-                                    <TouchableOpacity style={ styles.viewMoreButton } onPress={ onViewMorePress
+                            }>
+                                <FontAwesome name="arrow-down" size={ 24 } color="black" />
 
-                                    }>
-                                        <FontAwesome name="arrow-down" size={ 24 } color="black" />
-
-                                        <Text style={ styles.viewMoreText }>view</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                <Text style={ styles.viewMoreText }>view</Text>
                             </TouchableOpacity>
-                        ) : (
-                            <Text>No user data available</Text>
-                        ) }
+                        </View>
+                    </TouchableOpacity>
+                ) : (
+                    <Text>No images available</Text>
+                ) }
+            </View>
+            <View style={ { width: width * 0.85 } }>
+                <View style={ { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } }>
+                    <Text style={ [ styles.caption2, { textAlign: "left" } ] }>{ displayedUser.relation }</Text>
+                    <Text style={ [ styles.caption2, { textAlign: "center" } ] }>Match for Tom</Text>
+                    <View style={ styles.relationContainer }>
+                        <Octicons name="dot-fill" size={ 24 } color={ displayedUser.marriageStatus === 'open to marriage' ? 'green' : 'red' } style={ { marginRight: 2, } } />
+                        <Text style={ [ styles.caption2, { textAlign: "right" } ] }>{ displayedUser.marriageStatus }</Text>
                     </View>
-                    <HomeViewMore currentData={ currentData } />
                 </View>
-            </ScrollView>
-        </PanGestureHandler>
+                <View style={ { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 5 } }>
+                    <Text style={ styles.caption }>{ displayedUser.name || 'Unknown' }</Text>
+                    {/* <TouchableOpacity onPress={ handleNext } style={ styles.arrowButton }>
+                        <MaterialCommunityIcons name="arrow-right" size={ 24 } color="black" />
+                    </TouchableOpacity> */}
+                </View>
+            </View>
+            { isExpanded && (
+                <HomeViewMore currentData={ displayedUser } />
+            ) }
+
+        </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create( {
 
     scrollContent: {
-        paddingBottom: height * 0.1,
-        // paddingTop: height * 0.08, // To avoid content under the navbar
+        alignItems: 'center',
+        paddingBottom: 30,
+    },
+    // imageContainer: {
+    //     borderColor: 'orange',
+    //     borderWidth: 8,
+    //     borderRadius: 10,
+    //     overflow: 'hidden',
+    //     marginBottom: 20,
+    //     width: width * 0.85,
+    //     height: height * 0.45,
+    //     alignItems: 'center',
+    // },
+    // imageStyle: {
+    //     width: '100%',
+    //     height: '100%',
+    // },
+    gradientOverlay: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        height: '50%', // Adjust the height for desired gradient coverage
+    },
+    textOverlay: {
+        // position: 'absolute',
+        flexDirection: "row",
+        bottom: height * .1,
+        width: width * .75,
+        left: 15,
+        justifyContent: "space-between"
+    },
+    userName: {
+        fontSize: 20,
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    userDetails: {
+        fontSize: 14,
+        color: 'white',
     },
     navbar: {
         width: '100%',
@@ -273,7 +254,7 @@ const styles = StyleSheet.create( {
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
-        marginTop: 55,
+       
     },
     relationContainer: {
         flexDirection: 'row',
@@ -322,6 +303,7 @@ const styles = StyleSheet.create( {
         width: width * 0.85,
         height: height * 0.45,
         alignItems: 'center',
+        marginTop:55,
     },
     imageStyle: {
         width: '100%',
