@@ -1,4 +1,3 @@
-
 // import { MyContext } from '@/components/MyContext';
 // import React, { useContext, useState } from 'react';
 // import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
@@ -23,7 +22,6 @@
 
 //             {/* Profile Content */ }
 //             <View style={ styles.profileContent }>
-
 
 //                 <View style={ styles.progressContainer }>
 //                     { profileData.images.map( ( _, index ) => (
@@ -144,205 +142,363 @@
 
 // export default Profile;
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, PanResponder, Animated, Dimensions, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	PanResponder,
+	Animated,
+	Dimensions,
+	TouchableOpacity,
+	Modal,
+} from 'react-native';
 import { MyContext } from '@/components/MyContext';
-import UserProfileForm from "@/components/screens/Form/UserProfileForm";
+import UserProfileForm from '@/components/screens/Form/UserProfileForm';
+import { useNavigation } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const { width } = Dimensions.get( 'window' );
+const { width } = Dimensions.get('window');
+const bgColor = '#FFA500';
+const lightTheme = 'white';
+const Profile = ({ totaluser, profileData }) => {
+	const navigation = useNavigation();
+	const [showModal, setShowModal] = useState(false);
+	const [isModalVisible, setModalVisible] = useState(false);
 
-const Profile = ( { totaluser, profileData } ) => {
-    const { bgColor, User, setUser } = useContext( MyContext );
-    const [ currentImageIndex, setCurrentImageIndex ] = useState( 0 );
-    const images = profileData?.images || [];
-    // Animated values for position and opacity
-    const translateXAnim = useRef( new Animated.Value( 0 ) ).current;
-    const opacityAnim = useRef( new Animated.Value( 1 ) ).current;
-    const handleImageTap = () => {
-        // Animate out the current image and immediately animate the new image in
-        Animated.parallel( [
-            // Slide out the current image and fade out
-            Animated.timing( translateXAnim, {
-                toValue: -width * 0.2, // Move the image a little to the left
-                duration: 150,
-                useNativeDriver: true,
-            } ),
-            Animated.timing( opacityAnim, {
-                toValue: 0, // Fade out the current image
-                duration: 150,
-                useNativeDriver: true,
-            } )
-        ] ).start( () => {
-            // Update the image index and reset the animations for the new image
-            setCurrentImageIndex( ( prevIndex ) => ( prevIndex + 1 ) % images.length );
-            translateXAnim.setValue( width * 0.2 ); // Start the new image slightly off-screen to the right
-            opacityAnim.setValue( 0 );              // Start new image invisible
+	const handleInputChange = (field, value) => {
+		setForm((prevForm) => ({ ...prevForm, [field]: value }));
+	};
+	const closeModal = () => {
+		setModalVisible(false);
+	};
+	const { bgColor, User, setUser } = useContext(MyContext);
+	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+	const images = profileData?.images || [];
+	// Animated values for position and opacity
+	const translateXAnim = useRef(new Animated.Value(0)).current;
+	const opacityAnim = useRef(new Animated.Value(1)).current;
+	const handleImageTap = () => {
+		// Animate out the current image and immediately animate the new image in
+		Animated.parallel([
+			// Slide out the current image and fade out
+			Animated.timing(translateXAnim, {
+				toValue: -width * 0.2, // Move the image a little to the left
+				duration: 150,
+				useNativeDriver: true,
+			}),
+			Animated.timing(opacityAnim, {
+				toValue: 0, // Fade out the current image
+				duration: 150,
+				useNativeDriver: true,
+			}),
+		]).start(() => {
+			// Update the image index and reset the animations for the new image
+			setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+			translateXAnim.setValue(width * 0.2); // Start the new image slightly off-screen to the right
+			opacityAnim.setValue(0); // Start new image invisible
 
-            // Animate the new image to its final position (fading in and sliding to center)
-            Animated.parallel( [
-                Animated.timing( translateXAnim, {
-                    toValue: 0,       // Slide into center
-                    duration: 200,     // Faster transition
-                    useNativeDriver: true,
-                } ),
-                Animated.timing( opacityAnim, {
-                    toValue: 1,       // Fade in the new image
-                    duration: 200,     // Same duration as the slide
-                    useNativeDriver: true,
-                } )
-            ] ).start();
-        } );
-    };
-    console.log( totaluser.subParents, "toataluser" )
-    // Initialize animated value for swiping effect
-    // const pan = useRef(new Animated.ValueXY()).current;
+			// Animate the new image to its final position (fading in and sliding to center)
+			Animated.parallel([
+				Animated.timing(translateXAnim, {
+					toValue: 0, // Slide into center
+					duration: 200, // Faster transition
+					useNativeDriver: true,
+				}),
+				Animated.timing(opacityAnim, {
+					toValue: 1, // Fade in the new image
+					duration: 200, // Same duration as the slide
+					useNativeDriver: true,
+				}),
+			]).start();
+		});
+	};
+	console.log(totaluser.subParents, 'toataluser');
+	// Initialize animated value for swiping effect
+	// const pan = useRef(new Animated.ValueXY()).current;
 
-    // const handleNextImage = () => {
-    //     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    // };
+	// const handleNextImage = () => {
+	//     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+	// };
 
-    // const handlePreviousImage = () => {
-    //     setCurrentImageIndex((prevIndex) =>
-    //         (prevIndex - 1 + images.length) % images.length
-    //     );
-    // };
+	// const handlePreviousImage = () => {
+	//     setCurrentImageIndex((prevIndex) =>
+	//         (prevIndex - 1 + images.length) % images.length
+	//     );
+	// };
 
-    // const panResponder = useRef(
-    //     PanResponder.create({
-    //         onMoveShouldSetPanResponder: (evt, gestureState) => {
-    //             // Start tracking if the horizontal swipe is significant
-    //             return Math.abs(gestureState.dx) > 20;
-    //         },
-    //         onPanResponderMove: Animated.event(
-    //             [
-    //                 null,
-    //                 { dx: pan.x }
-    //             ],
-    //             { useNativeDriver: false }
-    //         ),
-    //         onPanResponderRelease: (evt, gestureState) => {
-    //             if (gestureState.dx > 50) {
-    //                 handlePreviousImage();  // Swipe Right - Show Previous Image
-    //             } else if (gestureState.dx < -50) {
-    //                 handleNextImage();  // Swipe Left - Show Next Image
-    //             }
-    //             Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
-    //         }
-    //     })
-    // ).current;
+	// const panResponder = useRef(
+	//     PanResponder.create({
+	//         onMoveShouldSetPanResponder: (evt, gestureState) => {
+	//             // Start tracking if the horizontal swipe is significant
+	//             return Math.abs(gestureState.dx) > 20;
+	//         },
+	//         onPanResponderMove: Animated.event(
+	//             [
+	//                 null,
+	//                 { dx: pan.x }
+	//             ],
+	//             { useNativeDriver: false }
+	//         ),
+	//         onPanResponderRelease: (evt, gestureState) => {
+	//             if (gestureState.dx > 50) {
+	//                 handlePreviousImage();  // Swipe Right - Show Previous Image
+	//             } else if (gestureState.dx < -50) {
+	//                 handleNextImage();  // Swipe Left - Show Next Image
+	//             }
+	//             Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
+	//         }
+	//     })
+	// ).current;
 
-    return (
-        <View style={ styles.container }>
-            {/* Profile Content */ }
-            <View style={ styles.profileContent }>
-                { images.map( ( _, index ) => (
-                    <View style={ styles.progressContainer }>
+	return (
+		<View style={styles.container}>
+			{/* Profile Content */}
+			<View style={styles.profileContent}>
+				{/* {images.map((_, index) => (
+					<View style={styles.progressContainer}>
+						<View
+							key={index}
+							style={[
+								styles.progressSegment,
+								index === currentImageIndex
+									? styles.activeSegment
+									: styles.inactiveSegment,
+							]}
+						/>
+					</View>
+				))} */}
+				<TouchableOpacity onPress={handleImageTap}>
+					<Animated.Image
+						source={{ uri: images[currentImageIndex] }}
+						style={[
+							styles.image,
+							{
+								transform: [{ translateX: translateXAnim }],
+								opacity: opacityAnim,
+							},
+						]}
+					/>
+				</TouchableOpacity>
 
-                        <View
-                            key={ index }
-                            style={ [
-                                styles.progressSegment,
-                                index === currentImageIndex ? styles.activeSegment : styles.inactiveSegment,
-                            ] }
-                        />
+				{/* User's Name */}
+				<View
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						flexDirection: 'row',
+					}}
+				>
+					<Text style={styles.name}>{profileData.name}</Text>
+				</View>
+				<View style={styles.actionButtonsBelowProfile}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => {
+							setModalVisible(true);
+						}}
+					>
+						<Text style={styles.buttonText}>Add</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => {
+							setModalVisible(true);
+						}}
+					>
+						<Text style={styles.buttonText}>Edit</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => {
+							navigation.navigate('discoverysettings');
+						}}
+					>
+						<Text style={styles.buttonText}>Discovery</Text>
+					</TouchableOpacity>
+				</View>
+			</View>
 
-                    </View> ) ) }
-                <TouchableOpacity onPress={ handleImageTap }>
-                    <Animated.Image
-                        source={ { uri: images[ currentImageIndex ] } }
-                        style={ [
-                            styles.image,
-                            {
-                                transform: [ { translateX: translateXAnim } ],
-                                opacity: opacityAnim,
-                            }
-                        ] }
-                    />
-                </TouchableOpacity>
+			{/* Profile Details Form */}
+			<UserProfileForm profileData={profileData} />
 
-                {/* User's Name */ }
-                <View style={ { justifyContent: "center", alignItems: "center", flexDirection: "row" } }>
-                    <Text style={ styles.name }>{ profileData.name }</Text>
-                </View>
-                <View style={ styles.actionButtonsBelowProfile }>
-                    <TouchableOpacity style={ styles.button } onPress={ () => { console.log( "click on add" ) } }>
-                        <Text style={ styles.buttonText }>Add</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={ styles.button } onPress={ () => console.log( "Preference clicked" ) }>
-                        <Text style={ styles.buttonText }>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={ styles.button } onPress={ () => console.log( "Preference clicked" ) }>
-                        <Text style={ styles.buttonText }>Discovery</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+			<Modal
+				transparent={true}
+				visible={isModalVisible}
+				animationType='fade'
+				onRequestClose={closeModal} // Required for Android back button to close the modal
+			>
+				<View style={styles.modalOverlay}>
+					<View style={styles.modalContent}>
+						{/* <MaterialIcons name='check-circle' size={60} color='#4CAF50' /> */}
+						<Text style={styles.modalTitle}>
+							Choose which profile you need to add
+						</Text>
 
-            {/* Profile Details Form */ }
-            <UserProfileForm profileData={ profileData } />
-        </View>
-    );
+						<TouchableOpacity
+							style={styles.closeButton}
+							onPress={() => {
+								navigation.navigate('profileupdate');
+							}}
+						>
+							<Text style={styles.closeButtonText}>Parent Profile</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={styles.closeButton}
+							onPress={() => {
+								navigation.navigate('profileupdate');
+							}}
+						>
+							<Text style={styles.closeButtonText}>Child Profile</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Modal>
+		</View>
+	);
 };
 
-const styles = StyleSheet.create( {
-    container: {
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: width * 0.05,
-        paddingBottom: 20,
-        marginTop: 10,
-    },
-    progressContainer: {
-        flexDirection: 'row',
-        alignSelf: 'center',
-        marginTop: 5,
-        marginBottom: 5,
-        width: '80%',  // Set width for better alignment
-    },
-    progressSegment: {
-        height: 6, // Increased height for visibility
-        flex: 1,
-        marginHorizontal: 2,
-        borderRadius: 3,
-    },
-    activeSegment: {
-        backgroundColor: 'black',  // Active segment color
-    },
-    inactiveSegment: {
-        backgroundColor: '#ddd',  // Inactive segment color
-    },
-    profileContent: {
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: width * 0.05,
-        // paddingBottom: 20,
-    },
-    image: {
-        width: 170,
-        height: 170,
-        borderRadius: 5,
-        marginVertical: 10,
-    },
-    name: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    actionButtonsBelowProfile: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 5,
-    },
-    button: {
-        borderRadius: 5,
-        paddingVertical: 8,
-        paddingHorizontal: 20,
-        marginHorizontal: 10,
-        borderColor: "black",
-        borderWidth: 1,
-    },
-    buttonText: {
-        color: 'black',
-        fontWeight: 'bold',
-    },
-} );
+const styles = StyleSheet.create({
+	container: {
+		alignItems: 'center',
+		width: '100%',
+		paddingHorizontal: width * 0.05,
+		paddingBottom: 20,
+		marginTop: 10,
+	},
+	progressContainer: {
+		flexDirection: 'row',
+		alignSelf: 'center',
+		marginTop: 5,
+		marginBottom: 5,
+		width: '80%', // Set width for better alignment
+	},
+	progressSegment: {
+		height: 6, // Increased height for visibility
+		flex: 1,
+		marginHorizontal: 2,
+		borderRadius: 3,
+	},
+	activeSegment: {
+		backgroundColor: 'black', // Active segment color
+	},
+	inactiveSegment: {
+		backgroundColor: '#ddd', // Inactive segment color
+	},
+	profileContent: {
+		alignItems: 'center',
+		width: '100%',
+		paddingHorizontal: width * 0.05,
+		// paddingBottom: 20,
+	},
+	image: {
+		width: 170,
+		height: 170,
+		borderRadius: 5,
+		marginVertical: 10,
+	},
+	name: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginBottom: 10,
+	},
+	actionButtonsBelowProfile: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginTop: 5,
+	},
+	button: {
+		borderRadius: 5,
+		paddingVertical: 8,
+		paddingHorizontal: 20,
+		marginHorizontal: 10,
+		borderColor: 'black',
+		borderWidth: 1,
+	},
+	buttonText: {
+		color: 'black',
+		fontWeight: 'bold',
+	},
+	modalBackground: {
+		flex: 1,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dimmed effect
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	modalContainer: {
+		backgroundColor: lightTheme, // White background for modal
+		padding: 20,
+		borderRadius: 10,
+		width: '80%',
+		height: '50%',
+	},
+	modalTitle: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginBottom: 10,
+		textAlign: 'center',
+		color: 'black', // Black text
+	},
+	promptItem: {
+		padding: 10,
+		borderBottomColor: '#ccc',
+		borderBottomWidth: 1,
+	},
+	promptText: {
+		fontSize: 16,
+		color: 'black', // Black text
+	},
+	picker: {
+		height: 100,
+		width: '90%',
+		color: 'black', // Black text
+		backgroundColor: lightTheme, // White background
+		borderWidth: 2,
+		borderColor: 'black', // Black border
+	},
+	modalOverlay: {
+		flex: 1,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	modalContent: {
+		width: '80%',
+		padding: 20,
+		backgroundColor: '#fff',
+		borderRadius: 12,
+		alignItems: 'center',
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.3,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	modalTitle: {
+		fontSize: 20,
+		fontWeight: 'bold',
+		color: 'black',
+		marginTop: 10,
+	},
+	modalText: {
+		fontSize: 16,
+		color: '#F57B21',
+		marginVertical: 10,
+		textAlign: 'center',
+	},
+	closeButton: {
+		backgroundColor: '#F57B21',
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderRadius: 8,
+		marginTop: 15,
+		width: '100%',
+	},
+	closeButtonText: {
+		color: '#fff',
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+});
 
 export default Profile;
