@@ -16,6 +16,7 @@ import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import connectlogo from '@/assets/images/connect2.jpg';
 import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import InputField from '../InputField';
+import Bottombar from './Bottombar/bottombar';
 
 const DiscoverySettings2 = () => {
 	const [distance, setDistance] = useState(80);
@@ -115,7 +116,9 @@ const DiscoverySettings2 = () => {
 					</View>
 				</View>
 			</View>
-			<ScrollView contentContainerStyle={styles.container}>
+			<ScrollView
+				contentContainerStyle={[styles.container, { paddingBottom: 200 }]}
+			>
 				{/* Maximum Distance */}
 				<View style={styles.setting}>
 					<Text style={styles.settingText}>Maximum Distance</Text>
@@ -357,6 +360,8 @@ const DiscoverySettings2 = () => {
 
 				{/* Additional fields for other criteria, such as Occupation, Caste, etc., go here */}
 			</ScrollView>
+
+			<Bottombar />
 		</View>
 	);
 };

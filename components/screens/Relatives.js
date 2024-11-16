@@ -18,6 +18,7 @@ import connectlogo from '@/assets/images/connect2.jpg';
 import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import InputField from '../InputField';
 import { useRoute } from '@react-navigation/native';
+import Bottombar from './Bottombar/bottombar';
 
 const Relatives = () => {
 	const route = useRoute();
@@ -145,7 +146,11 @@ const Relatives = () => {
 			</View>
 			<FlatList
 				data={combinedData}
-				contentContainerStyle={{ flex: 1, justifyContent: 'flex-start' }}
+				contentContainerStyle={{
+					flex: 1,
+					justifyContent: 'flex-start',
+					paddingBottom: 150,
+				}}
 				keyExtractor={(user) => user.id}
 				renderItem={({ item: user }) => (
 					<TouchableOpacity
@@ -169,6 +174,8 @@ const Relatives = () => {
 				// onEndReached={loadMoreUsers} // Load more data when end of list is reached
 				// onEndReachedThreshold={0.5} // Adjust for when to trigger loading more items
 			/>
+
+			<Bottombar />
 		</View>
 	);
 };
