@@ -377,26 +377,26 @@ export const ProfileComp = () => {
 				>
 					<FontAwesome5 name='ban' size={width * 0.08} color='red' />
 				</TouchableOpacity>
-
-				<TouchableOpacity
-					style={[styles.bigButton, { backgroundColor: lightTheme }]}
-					// onPress={prevParent}
-				>
-					<AntDesign name='check' size={width * 0.08} color='red' />
-				</TouchableOpacity>
 				<TouchableOpacity
 					style={[styles.bigButton, { backgroundColor: lightTheme }]}
 					// onPress={nextParent}
 				>
-					<FontAwesome5 name='times' size={width * 0.08} color='green' />
+					<FontAwesome5 name='times' size={width * 0.08} color='red' />
 				</TouchableOpacity>
+				<TouchableOpacity
+					style={[styles.bigButton, { backgroundColor: lightTheme }]}
+					// onPress={prevParent}
+				>
+					<FontAwesome5 name='check' size={width * 0.08} color='green' />
+				</TouchableOpacity>
+
 				<TouchableOpacity
 					style={[
 						styles.bigButton,
 						{ backgroundColor: lightTheme, color: 'black' },
 					]}
 				>
-					<Feather name='share-2' size={width * 0.08} color='black' />
+					<FontAwesome5 name='share-alt' size={width * 0.08} color='green' />
 				</TouchableOpacity>
 			</View>
 		</View>
