@@ -304,7 +304,12 @@ export default function Chatscreen() {
 				//     </TouchableOpacity>
 				//   ) ) }
 				// </ScrollView>
-				<Home2 activeSubTabMatches={'list'} />
+				<Home2
+					activeSubTabMatches={'list'}
+					setAcc={() => {
+						setActiveTab('asdasd');
+					}}
+				/>
 			) : (
 				<View
 					style={{

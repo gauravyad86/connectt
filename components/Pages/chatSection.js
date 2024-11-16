@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation } from 'expo-router';
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([
@@ -15,13 +14,12 @@ export default function ChatScreen() {
   const handleSend = () => {
     if (inputMessage.trim()) {
       setMessages((prevMessages) => [
-        { id: Date.now().toString(), text: inputMessage, sender: 'me' },
         ...prevMessages,
+        { id: Date.now().toString(), text: inputMessage, sender: 'me' },
       ]);
       setInputMessage('');
     }
   };
-
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -29,27 +27,24 @@ export default function ChatScreen() {
       alert('Permission to access media library is required!');
       return;
     }
-  
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-  
-    console.log("Image Picker Result:", result); // Log the result
-  
+
     if (!result.cancelled && result.uri) {
       setMessages((prevMessages) => [
-        { id: Date.now().toString(), image: result.uri, sender: 'me' },
         ...prevMessages,
+        { id: Date.now().toString(), image: result.uri, sender: 'me' },
       ]);
     } else {
-      console.log("Image selection failed or URI is undefined.");
       alert("Unable to load the image. Please try again.");
     }
   };
-  
+
   const renderMessage = ({ item }) => (
     <View
       style={[
@@ -64,24 +59,21 @@ export default function ChatScreen() {
       )}
     </View>
   );
-  const navigation = useNavigation();
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={80} // Adjust this offset based on your header height
     >
-      {/* Header */}
-
-      <View style={styles.messagesContainer}>
-        <FlatList
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={renderMessage}
-          contentContainerStyle={styles.messagesList}
-          inverted // Invert the FlatList to show new messages at the bottom
-        />
-      </View>
+      {/* Messages Container */}
+      <FlatList
+        data={messages}
+        keyExtractor={(item) => item.id}
+        renderItem={renderMessage}
+        contentContainerStyle={styles.messagesList}
+        showsVerticalScrollIndicator={false}
+      />
 
       {/* Input and Attachment Section */}
       <View style={styles.inputContainer}>
@@ -107,29 +99,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f0f0f0',
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "#FFA500",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-  },
-  backButton: {
-    marginRight: 10,
-  },
-  username: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  messagesContainer: {
-    flex: 1, // Makes the messages container take available space
-    padding: 10,
-    paddingBottom:80,
-    justifyContent: 'flex-end', // Align messages to the bottom
-  },
   messagesList: {
-    paddingBottom: 70, // Padding for input area
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 70,
   },
   messageContainer: {
     maxWidth: '80%',
@@ -156,15 +129,15 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    padding: 1,
     alignItems: 'center',
     borderTopWidth: 1,
     borderColor: '#ccc',
     backgroundColor: '#fff',
-    position:"absolute",
-    bottom:45,
-    width:"100%",
-    height:50
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    position: 'absolute',
+    bottom: 25,
+    width: '100%',
   },
   attachmentButton: {
     marginRight: 10,
@@ -184,6 +157,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#25D366',
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
 });
