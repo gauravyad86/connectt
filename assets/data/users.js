@@ -1,12 +1,3 @@
-import p1 from "@/assets/images/exit-sign-8443453_640.webp"
-import p2 from "@/assets/images/girl-7628308_640.webp"
-import p3 from "@/assets/images/istockphoto-510682838-1024x1024.jpg"
-import p4 from "@/assets/images/istockphoto-1094918638-1024x1024.jpg"
-import p5 from "@/assets/images/lighthouse-9073925_640.webp"
-import p6 from "@/assets/images/photo-1722050764765-836958ab98eb.avif"
-import p7 from "@/assets/images/photo-1722050764765-836958ab98eb.avif"
-import p8 from "@/assets/images/photo-1722448614145-551f03e44e1c.avif"
-
 export default [
   {
     id: '1',
