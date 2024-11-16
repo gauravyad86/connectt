@@ -1,157 +1,15 @@
-// import { MyContext } from '@/components/MyContext';
-// import React, { useContext, useState } from 'react';
-// import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-// import UserProfileForm from "@/components/screens/Form/UserProfileForm";
-// import { Entypo, FontAwesome6, Octicons } from '@expo/vector-icons';
-
-// const { width } = Dimensions.get( 'window' );
-
-// const Profile = ( { childrenData, profileData } ) => {
-//     const { bgColor, User, setUser } = useContext( MyContext );
-//     const [ currentChildIndex, setCurrentChildIndex ] = useState( 0 )
-//     const [ currentImageIndex, setCurrentImageIndex ] = useState( 0 );
-
-//     // Cycle to the next image on tap
-//     const handleImageTap = () => {
-//         setCurrentImageIndex( ( prevIndex ) => ( prevIndex + 1 ) % profileData.images.length );
-//     };
-//     const images = profileData?.images || [];
-//     console.log(profileData,"hehhre")
-//     return (
-//         <View style={ styles.container }>
-
-//             {/* Profile Content */ }
-//             <View style={ styles.profileContent }>
-
-//                 <View style={ styles.progressContainer }>
-//                     { profileData.images.map( ( _, index ) => (
-//                         <View
-//                             key={ index }
-//                             style={ [
-//                                 styles.progressSegment,
-//                                 index === currentImageIndex ? styles.activeSegment : styles.inactiveSegment,
-//                             ] }
-//                         />
-//                     ) ) }
-//                 </View>
-//                 <TouchableOpacity onPress={ handleImageTap }>
-//                     <Image
-//                         source={ { uri: profileData.images[ currentImageIndex ] } }
-//                         style={ styles.image }
-//                     />
-//                 </TouchableOpacity>
-//                 <View style={ { justifyContent: "center", alignItems: "center", flexDirection: "row" } }>
-//                     <Text style={ styles.name }>{ profileData.name }</Text>
-//                 </View>
-//                 {/* Action Buttons */ }
-//                 <View style={ styles.actionButtonsBelowProfile }>
-//                     <TouchableOpacity style={ styles.button } onPress={ () => setUser( false ) }>
-//                         <Text style={ styles.buttonText }>Logout</Text>
-//                     </TouchableOpacity>
-//                     <TouchableOpacity style={ styles.button } onPress={ () => {
-//                         // navigation.navigate( 'editprofile' )c
-//                         console.log( "clicked" )
-//                     }
-//                     }>
-//                         <Text style={ styles.buttonText }>Preference</Text>
-//                     </TouchableOpacity>
-//                 </View>
-//             </View>
-//             <UserProfileForm profileData={ profileData } />
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create( {
-//     container: {
-//         alignItems: 'center',
-//         width: '100%',
-//         paddingHorizontal: width * 0.05,
-//         paddingBottom: 20,
-//         marginTop: 10,
-//     },
-//     progressContainer: {
-//         flexDirection: 'row',
-//         alignSelf: 'center',
-//         marginTop: 10,
-//         marginBottom: 10,
-//     },
-//     progressSegment: {
-//         height: 4,
-//         flex: 1,
-//         marginHorizontal: 2,
-//         borderRadius: 2,
-//     },
-//     activeSegment: {
-//         backgroundColor: 'black',  // Active segment color
-//     },
-//     inactiveSegment: {
-//         backgroundColor: '#ddd',  // Inactive segment color
-//     },
-//     profileContent: {
-//         alignItems: 'center',
-//         width: '100%',
-//         paddingHorizontal: width * 0.05,
-//         paddingBottom: 20,
-//         // backgroundColor:"#ccc"
-//     },
-//     image: {
-//         width: 150,
-//         height: 150,
-//         borderRadius: 5,
-//         marginVertical: 10,
-//     },
-//     name: {
-//         fontSize: 18,
-//         fontWeight: 'bold',
-//         marginBottom: 10,
-//     },
-//     actionButtonsBelowProfile: {
-//         flexDirection: 'row',
-//         justifyContent: 'space-around',
-//         marginTop: 20,
-//     },
-//     button: {
-//         borderRadius: 5,
-//         paddingVertical: 8,
-//         paddingHorizontal: 20,
-//         marginHorizontal: 10,
-//         borderColor: "black",
-//         borderWidth: 1,
-//     },
-//     logoutbutton: {
-//         borderRadius: 5,
-//         paddingVertical: 8,
-//         paddingHorizontal: 20,
-//         marginHorizontal: 10,
-//         borderColor: "black",
-
-//         borderWidth: 1,
-//         backgroundColor: "red"
-//     },
-//     buttonText: {
-//         color: 'black',
-//         fontWeight: 'bold',
-//     },
-//     buttonText2: {
-//         color: "white",
-//         fontWeight: 'bold',
-//     },
-
-// } );
-
-// export default Profile;
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-	PanResponder,
-	Animated,
-	Dimensions,
-	TouchableOpacity,
-	Modal,
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    Animated,
+    Dimensions,
+    Modal,
+    TouchableWithoutFeedback,
+    ScrollView,
 } from 'react-native';
 import { MyContext } from '@/components/MyContext';
 import UserProfileForm from '@/components/screens/Form/UserProfileForm';
@@ -159,346 +17,299 @@ import { useNavigation } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
-const bgColor = '#FFA500';
-const lightTheme = 'white';
+
 const Profile = ({ totaluser, profileData }) => {
-	const navigation = useNavigation();
-	const [showModal, setShowModal] = useState(false);
-	const [isModalVisible, setModalVisible] = useState(false);
+    const navigation = useNavigation();
+    const [isAddModalVisible, setAddModalVisible] = useState(false);
+    const [isEditModalVisible, setEditModalVisible] = useState(false);
 
-	const handleInputChange = (field, value) => {
-		setForm((prevForm) => ({ ...prevForm, [field]: value }));
-	};
-	const closeModal = () => {
-		setModalVisible(false);
-	};
-	const { bgColor, User, setUser } = useContext(MyContext);
-	const [currentImageIndex, setCurrentImageIndex] = useState(0);
-	const images = profileData?.images || [];
-	// Animated values for position and opacity
-	const translateXAnim = useRef(new Animated.Value(0)).current;
-	const opacityAnim = useRef(new Animated.Value(1)).current;
-	const handleImageTap = () => {
-		// Animate out the current image and immediately animate the new image in
-		Animated.parallel([
-			// Slide out the current image and fade out
-			Animated.timing(translateXAnim, {
-				toValue: -width * 0.2, // Move the image a little to the left
-				duration: 150,
-				useNativeDriver: true,
-			}),
-			Animated.timing(opacityAnim, {
-				toValue: 0, // Fade out the current image
-				duration: 150,
-				useNativeDriver: true,
-			}),
-		]).start(() => {
-			// Update the image index and reset the animations for the new image
-			setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-			translateXAnim.setValue(width * 0.2); // Start the new image slightly off-screen to the right
-			opacityAnim.setValue(0); // Start new image invisible
+    const { User, setUser } = useContext(MyContext);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const images = profileData?.images || [];
 
-			// Animate the new image to its final position (fading in and sliding to center)
-			Animated.parallel([
-				Animated.timing(translateXAnim, {
-					toValue: 0, // Slide into center
-					duration: 200, // Faster transition
-					useNativeDriver: true,
-				}),
-				Animated.timing(opacityAnim, {
-					toValue: 1, // Fade in the new image
-					duration: 200, // Same duration as the slide
-					useNativeDriver: true,
-				}),
-			]).start();
-		});
-	};
-	console.log(totaluser.subParents, 'toataluser');
-	// Initialize animated value for swiping effect
-	// const pan = useRef(new Animated.ValueXY()).current;
+    // Animated values for image transitions
+    const translateXAnim = useRef(new Animated.Value(0)).current;
+    const opacityAnim = useRef(new Animated.Value(1)).current;
 
-	// const handleNextImage = () => {
-	//     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-	// };
+    const handleImageTap = () => {
+        Animated.parallel([
+            Animated.timing(translateXAnim, {
+                toValue: -width * 0.2,
+                duration: 150,
+                useNativeDriver: true,
+            }),
+            Animated.timing(opacityAnim, {
+                toValue: 0,
+                duration: 150,
+                useNativeDriver: true,
+            }),
+        ]).start(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+            translateXAnim.setValue(width * 0.2);
+            opacityAnim.setValue(0);
 
-	// const handlePreviousImage = () => {
-	//     setCurrentImageIndex((prevIndex) =>
-	//         (prevIndex - 1 + images.length) % images.length
-	//     );
-	// };
+            Animated.parallel([
+                Animated.timing(translateXAnim, {
+                    toValue: 0,
+                    duration: 200,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(opacityAnim, {
+                    toValue: 1,
+                    duration: 200,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        });
+    };
 
-	// const panResponder = useRef(
-	//     PanResponder.create({
-	//         onMoveShouldSetPanResponder: (evt, gestureState) => {
-	//             // Start tracking if the horizontal swipe is significant
-	//             return Math.abs(gestureState.dx) > 20;
-	//         },
-	//         onPanResponderMove: Animated.event(
-	//             [
-	//                 null,
-	//                 { dx: pan.x }
-	//             ],
-	//             { useNativeDriver: false }
-	//         ),
-	//         onPanResponderRelease: (evt, gestureState) => {
-	//             if (gestureState.dx > 50) {
-	//                 handlePreviousImage();  // Swipe Right - Show Previous Image
-	//             } else if (gestureState.dx < -50) {
-	//                 handleNextImage();  // Swipe Left - Show Next Image
-	//             }
-	//             Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
-	//         }
-	//     })
-	// ).current;
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            {/* Profile Content */}
+            <View style={styles.profileContent}>
+                <TouchableOpacity onPress={handleImageTap}>
+                    <Animated.Image
+                        source={{ uri: images[currentImageIndex] }}
+                        style={[
+                            styles.image,
+                            {
+                                transform: [{ translateX: translateXAnim }],
+                                opacity: opacityAnim,
+                            },
+                        ]}
+                    />
+                </TouchableOpacity>
 
-	return (
-		<View style={styles.container}>
-			{/* Profile Content */}
-			<View style={styles.profileContent}>
-				{/* {images.map((_, index) => (
-					<View style={styles.progressContainer}>
-						<View
-							key={index}
-							style={[
-								styles.progressSegment,
-								index === currentImageIndex
-									? styles.activeSegment
-									: styles.inactiveSegment,
-							]}
-						/>
-					</View>
-				))} */}
-				<TouchableOpacity onPress={handleImageTap}>
-					<Animated.Image
-						source={{ uri: images[currentImageIndex] }}
-						style={[
-							styles.image,
-							{
-								transform: [{ translateX: translateXAnim }],
-								opacity: opacityAnim,
-							},
-						]}
-					/>
-				</TouchableOpacity>
+                <View style={styles.nameContainer}>
+                    <Text style={styles.name}>{profileData.name}</Text>
+                </View>
 
-				{/* User's Name */}
-				<View
-					style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						flexDirection: 'row',
-					}}
-				>
-					<Text style={styles.name}>{profileData.name}</Text>
-				</View>
-				<View style={styles.actionButtonsBelowProfile}>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => {
-							setModalVisible(true);
-						}}
-					>
-						<Text style={styles.buttonText}>Add</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => {
-							setModalVisible(true);
-						}}
-					>
-						<Text style={styles.buttonText}>Edit</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={() => {
-							navigation.navigate('discoverysettings');
-						}}
-					>
-						<Text style={styles.buttonText}>Discovery</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
+                {/* Action Buttons */}
+                <View style={styles.actionButtonsBelowProfile}>
+                    {/* Add Button */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setAddModalVisible(true)}
+                        accessibilityLabel="Open Add Profile Modal"
+                        activeOpacity={0.7}
+                    >
+                        <Text style={styles.buttonText}>Add</Text>
+                    </TouchableOpacity>
 
-			{/* Profile Details Form */}
-			<UserProfileForm profileData={profileData} />
+                    {/* Edit Button */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setEditModalVisible(true)}
+                        accessibilityLabel="Open Edit Profile Modal"
+                        activeOpacity={0.7}
+                    >
+                        <Text style={styles.buttonText}>Edit</Text>
+                    </TouchableOpacity>
 
-			<Modal
-				transparent={true}
-				visible={isModalVisible}
-				animationType='fade'
-				onRequestClose={closeModal} // Required for Android back button to close the modal
-			>
-				<View style={styles.modalOverlay}>
-					<View style={styles.modalContent}>
-						{/* <MaterialIcons name='check-circle' size={60} color='#4CAF50' /> */}
-						<Text style={styles.modalTitle}>
-							Choose which profile you need to add
-						</Text>
+                    {/* Discovery Button */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            navigation.navigate('discoverysettings');
+                        }}
+                        accessibilityLabel="Navigate to Discovery Settings"
+                        activeOpacity={0.7}
+                    >
+                        <Text style={styles.buttonText}>Discovery</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
 
-						<TouchableOpacity
-							style={styles.closeButton}
-							onPress={() => {
-								navigation.navigate('profileupdate');
-							}}
-						>
-							<Text style={styles.closeButtonText}>Parent Profile</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={styles.closeButton}
-							onPress={() => {
-								navigation.navigate('profileupdate');
-							}}
-						>
-							<Text style={styles.closeButtonText}>Child Profile</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</Modal>
-		</View>
-	);
+            {/* Profile Details Form */}
+            <UserProfileForm profileData={profileData} />
+
+            {/* Add Modal */}
+            <Modal
+                transparent={true}
+                visible={isAddModalVisible}
+                animationType='fade'
+                onRequestClose={() => setAddModalVisible(false)}
+            >
+                <TouchableWithoutFeedback onPress={() => setAddModalVisible(false)}>
+                    <View style={styles.modalOverlay}>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.addModalContent}>
+                                <TouchableOpacity
+                                    style={styles.modalCloseButton}
+                                    onPress={() => setAddModalVisible(false)}
+                                >
+                                    <MaterialIcons name='close' size={24} color='black' />
+                                </TouchableOpacity>
+
+                                <Text style={styles.modalTitle}>
+                                    Choose which profile you need to add
+                                </Text>
+
+                                <TouchableOpacity
+                                    style={styles.modalButton}
+                                    onPress={() => {
+                                        navigation.navigate('profileupdate', { profileType: 'parent' });
+                                        setAddModalVisible(false);
+                                    }}
+                                >
+                                    <Text style={styles.modalButtonText}>Parent Profile</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.modalButton}
+                                    onPress={() => {
+                                        navigation.navigate('profileupdate', { profileType: 'child' });
+                                        setAddModalVisible(false);
+                                    }}
+                                >
+                                    <Text style={styles.modalButtonText}>Child Profile</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+            {/* Edit Modal */}
+            <Modal
+                transparent={true}
+                visible={isEditModalVisible}
+                animationType='slide'
+                onRequestClose={() => setEditModalVisible(false)}
+            >
+                <TouchableWithoutFeedback onPress={() => setEditModalVisible(false)}>
+                    <View style={styles.modalOverlay}>
+                        <TouchableWithoutFeedback>
+                            <View style={styles.editModalContent}>
+                                <TouchableOpacity
+                                    style={styles.modalCloseButton}
+                                    onPress={() => setEditModalVisible(false)}
+                                >
+                                    <MaterialIcons name='close' size={24} color='black' />
+                                </TouchableOpacity>
+
+                                <Text style={styles.modalTitle}>Edit Profile</Text>
+
+                                {/* Edit Form in Scrollable Modal */}
+                                <ScrollView
+                                    contentContainerStyle={styles.modalFormContainer}
+                                >
+                                    <UserProfileForm
+                                        profileData={profileData}
+                                        onCancel={() => setEditModalVisible(false)}
+                                        isEdit={true}
+                                    />
+                                </ScrollView>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+        </ScrollView>
+    );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		alignItems: 'center',
-		width: '100%',
-		paddingHorizontal: width * 0.05,
-		paddingBottom: 20,
-		marginTop: 10,
-	},
-	progressContainer: {
-		flexDirection: 'row',
-		alignSelf: 'center',
-		marginTop: 5,
-		marginBottom: 5,
-		width: '80%', // Set width for better alignment
-	},
-	progressSegment: {
-		height: 6, // Increased height for visibility
-		flex: 1,
-		marginHorizontal: 2,
-		borderRadius: 3,
-	},
-	activeSegment: {
-		backgroundColor: 'black', // Active segment color
-	},
-	inactiveSegment: {
-		backgroundColor: '#ddd', // Inactive segment color
-	},
-	profileContent: {
-		alignItems: 'center',
-		width: '100%',
-		paddingHorizontal: width * 0.05,
-		// paddingBottom: 20,
-	},
-	image: {
-		width: 170,
-		height: 170,
-		borderRadius: 5,
-		marginVertical: 10,
-	},
-	name: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		marginBottom: 10,
-	},
-	actionButtonsBelowProfile: {
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		marginTop: 5,
-	},
-	button: {
-		borderRadius: 5,
-		paddingVertical: 8,
-		paddingHorizontal: 20,
-		marginHorizontal: 10,
-		borderColor: 'black',
-		borderWidth: 1,
-	},
-	buttonText: {
-		color: 'black',
-		fontWeight: 'bold',
-	},
-	modalBackground: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dimmed effect
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	modalContainer: {
-		backgroundColor: lightTheme, // White background for modal
-		padding: 20,
-		borderRadius: 10,
-		width: '80%',
-		height: '50%',
-	},
-	modalTitle: {
-		fontSize: 18,
-		fontWeight: 'bold',
-		marginBottom: 10,
-		textAlign: 'center',
-		color: 'black', // Black text
-	},
-	promptItem: {
-		padding: 10,
-		borderBottomColor: '#ccc',
-		borderBottomWidth: 1,
-	},
-	promptText: {
-		fontSize: 16,
-		color: 'black', // Black text
-	},
-	picker: {
-		height: 100,
-		width: '90%',
-		color: 'black', // Black text
-		backgroundColor: lightTheme, // White background
-		borderWidth: 2,
-		borderColor: 'black', // Black border
-	},
-	modalOverlay: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	modalContent: {
-		width: '80%',
-		padding: 20,
-		backgroundColor: '#fff',
-		borderRadius: 12,
-		alignItems: 'center',
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.3,
-		shadowRadius: 4,
-		elevation: 5,
-	},
-	modalTitle: {
-		fontSize: 20,
-		fontWeight: 'bold',
-		color: 'black',
-		marginTop: 10,
-	},
-	modalText: {
-		fontSize: 16,
-		color: '#F57B21',
-		marginVertical: 10,
-		textAlign: 'center',
-	},
-	closeButton: {
-		backgroundColor: '#F57B21',
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		borderRadius: 8,
-		marginTop: 15,
-		width: '100%',
-	},
-	closeButtonText: {
-		color: '#fff',
-		fontWeight: 'bold',
-		textAlign: 'center',
-	},
+    container: {
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: width * 0.05,
+        paddingBottom: 20,
+        marginTop: 10,
+    },
+    profileContent: {
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: width * 0.05,
+    },
+    image: {
+        width: 170,
+        height: 170,
+        borderRadius: 5,
+        marginVertical: 10,
+    },
+    nameContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    actionButtonsBelowProfile: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 5,
+    },
+    button: {
+        borderRadius: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 20,
+        marginHorizontal: 10,
+        borderColor: 'black',
+        borderWidth: 1,
+    },
+    buttonText: {
+        color: 'black',
+        fontWeight: 'bold',
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    addModalContent: {
+        width: '80%',
+        maxHeight: '60%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 20,
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    editModalContent: {
+        width: '95%',
+        height: '90%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'black',
+        marginVertical: 10,
+        textAlign: 'center',
+    },
+    modalButton: {
+        backgroundColor: '#F57B21',
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        borderRadius: 8,
+        marginTop: 10,
+        width: '90%',
+    },
+    modalButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalCloseButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        padding: 5,
+    },
+    modalFormContainer: {
+        flexGrow: 1,
+        justifyContent: 'flex-start',
+        paddingBottom: 20,
+        paddingHorizontal: 10,
+    },
 });
 
 export default Profile;
