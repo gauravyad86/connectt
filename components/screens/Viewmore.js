@@ -373,7 +373,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingHorizontal: 0,
-		paddingTop: height * 0.1,
+		// paddingTop: height * 0.1,
+		paddingBottom: 100,
 	},
 	relationContainer: {
 		flexDirection: 'row',
