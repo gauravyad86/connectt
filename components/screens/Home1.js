@@ -849,11 +849,7 @@ export default function Home1() {
 						style={[styles.bigButton, { backgroundColor: lightTheme }]}
 						onPress={prevParent}
 					>
-						<MaterialCommunityIcons
-							name='undo-variant'
-							size={width * 0.08}
-							color='red'
-						/>
+						<FontAwesome5 name='ban' size={width * 0.08} color='red' />
 					</TouchableOpacity>
 
 					<TouchableOpacity

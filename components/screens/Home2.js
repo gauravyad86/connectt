@@ -71,9 +71,13 @@ const Home2 = (props) => {
 				<ListView
 					users={Data.parentUsers}
 					onSelectUser={(index) => {
-						setCurrentIndex(index);
-						setView('tile');
-						setUserType('parent');
+						// setCurrentIndex(index);
+						// setView('tile');
+						// setUserType('parent');
+						// TODO navigate to tile view
+						// setView('tile');
+						props?.setAcc('tile');
+						console.log('LOOOGOGOG');
 					}}
 				/>
 			) : (
