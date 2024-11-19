@@ -4,6 +4,11 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native';
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import {
+	widthPercentageToDP as wp,
+	heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
 export default function BoostSelect() {
 	const userss = [
 		{
@@ -258,7 +263,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 	},
 	container4: {
-		paddingHorizontal: 20,
+		paddingHorizontal: hp(2),
 		paddingVertical: 10,
 		backgroundColor: '#000', // Black background
 		borderRadius: 8,

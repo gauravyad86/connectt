@@ -17,6 +17,10 @@ import connectlogo from '@/assets/images/connect2.jpg';
 import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import InputField from '../InputField';
 import Bottombar from './Bottombar/bottombar';
+import {
+	widthPercentageToDP as wp,
+	heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const DiscoverySettings2 = () => {
 	const [distance, setDistance] = useState(80);
@@ -117,7 +121,7 @@ const DiscoverySettings2 = () => {
 				</View>
 			</View>
 			<ScrollView
-				contentContainerStyle={[styles.container, { paddingBottom: 200 }]}
+				contentContainerStyle={[styles.container, { paddingBottom: hp(20) }]}
 			>
 				{/* Maximum Distance */}
 				<View style={styles.setting}>
@@ -419,7 +423,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#4287f5', // Match the blue color in the image
 		padding: 15,
 		borderRadius: 30,
-		marginVertical: 20, // Adjust the margin as needed
+		marginVertical: wp(2), // Adjust the margin as needed
 	},
 	buttonText: {
 		color: 'white',

@@ -8,6 +8,7 @@ import {
 	Alert,
 	ScrollView,
 	FlatList,
+	Animated,
 } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -18,12 +19,17 @@ import {
 	FontAwesome,
 	FontAwesome5,
 	MaterialCommunityIcons,
+	MaterialIcons,
 	Octicons,
 } from '@expo/vector-icons';
 import Data from '../../assets/data/Data';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 const { width, height } = Dimensions.get('window');
+import {
+	widthPercentageToDP as wp,
+	heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const ProfileComp = () => {
 	const [currentParentIndex, setCurrentParentIndex] = useState(0);
@@ -177,7 +183,7 @@ export const ProfileComp = () => {
 							justifyContent: 'space-between',
 							flexDirection: 'row',
 							alignItems: 'center',
-							paddingHorizontal: 20,
+							paddingHorizontal: hp(2),
 						}}
 					>
 						{/* <Text style={ [ styles.caption2, { textAlign: "left" } ] }>{ currentData.relation }</Text> */}
@@ -445,6 +451,14 @@ export default function Home1() {
 			animated: true,
 		});
 	};
+	const [icon, setIcon] = useState(null); // Tracks which icon to show (up or down)
+	const translateX = new Animated.Value(0);
+
+	useEffect(() => {
+		// setTimeout(() => {
+		// 	setIcon(null);
+		// }, 5000);
+	}, [icon]);
 
 	const activeTabText =
 		section === 'parent'
@@ -497,6 +511,20 @@ export default function Home1() {
 				prevParent();
 			}
 		}
+
+		if (translationX > 50) {
+			setIcon('thumbs-up'); // Swipe right: Show upward arrow
+		} else if (translationX < -50) {
+			setIcon('thumbs-down'); // Swipe left: Show downward arrow
+		} else {
+			setIcon(null); // Reset icon if gesture is too small
+		}
+
+		// Reset translationX
+		Animated.spring(translateX, {
+			toValue: 0,
+			useNativeDriver: true,
+		}).start();
 	};
 
 	const nextParent = () => {
@@ -544,12 +572,29 @@ export default function Home1() {
 			vertical
 		>
 			<LinearGradient
-				colors={['gray', 'black']}
+				colors={['gray', 'black', 'white']}
 				style={styles.gradientOverlay}
 				start={{ x: 0, y: 0 }} // Set start to (0, 0) for top-to-bottom gradient
 				end={{ x: 0, y: 1 }} // Set end to (0, 1) for top-to-bottom gradient
 			/>
+
 			<View style={styles.middleSection}>
+				<View
+					style={{
+						position: 'absolute',
+						top: '30%',
+						left: '40%',
+					}}
+				>
+					{icon && (
+						<FontAwesome5
+							name={icon}
+							size={100}
+							color={icon === 'thumbs-up' ? 'green' : 'red'}
+							style={{}}
+						/>
+					)}
+				</View>
 				<PanGestureHandler
 					onGestureEvent={onSwipeHandler}
 					onHandlerStateChange={onSwipeHandler}
@@ -651,7 +696,7 @@ export default function Home1() {
 							justifyContent: 'space-between',
 							flexDirection: 'row',
 							alignItems: 'center',
-							paddingHorizontal: 20,
+							paddingHorizontal: hp(2),
 						}}
 					>
 						{/* <Text style={ [ styles.caption2, { textAlign: "left" } ] }>{ currentData.relation }</Text> */}
@@ -885,11 +930,12 @@ const styles = StyleSheet.create({
 		// justifyContent: 'center',
 		paddingHorizontal: 0,
 		marginTop: 45,
+		position: 'relative',
 	},
 	scrollContainer: {
 		alignItems: 'center',
 		justifyContent: 'center',
-		paddingHorizontal: 20,
+		paddingHorizontal: hp(2),
 		marginTop: 55,
 	},
 	relationContainer: {
@@ -937,7 +983,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		marginBottom: 20,
 		width: '100%',
-		height: height * 0.45,
+		height: hp(height * 0.055),
 		flex: 1,
 	},
 	imageStyle: {
@@ -955,7 +1001,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		width: width * 0.75,
 		justifyContent: 'space-between',
-		paddingHorizontal: 20,
+		paddingHorizontal: hp(2),
 	},
 	userName: {
 		fontSize: 20,
@@ -1024,8 +1070,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: '100%',
-		paddingHorizontal: 70,
-		height: 80,
+		paddingHorizontal: hp(7),
+		height: hp(14),
 		backgroundColor: 'white', // Ensure no background color interferes
 		borderBottomWidth: 0, // Remove any bottom border that might cause a line
 	},
@@ -1035,7 +1081,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		elevation: 5,
 		borderRadius: width * 0.075,
-		padding: 10,
+		padding: hp(1),
 		alignItems: 'center',
 		justifyContent: 'center',
 		shadowColor: 'black',

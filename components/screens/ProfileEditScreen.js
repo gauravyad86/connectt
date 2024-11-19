@@ -14,6 +14,11 @@ import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { MyContext } from '../MyContext';
 import connectlogo from '@/assets/images/connect2.jpg';
 import * as ImagePicker from 'expo-image-picker';
+import {
+	widthPercentageToDP as wp,
+	heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
 const ProfileEditScreen = () => {
 	const [images, setImages] = useState([]); // Array to store all images (profile and others)
 
@@ -161,7 +166,7 @@ const ProfileEditScreen = () => {
 								source={{ uri: image }}
 								style={{
 									width: '30%',
-									height: 140,
+									height: hp(18),
 									marginRight: 10,
 									marginBottom: 10,
 									borderRadius: 25,
@@ -178,8 +183,8 @@ const ProfileEditScreen = () => {
 							<TouchableOpacity key='addImage' onPress={handleImagePicker}>
 								<View
 									style={{
-										width: 100,
-										height: 140,
+										width: wp(30),
+										height: hp(18),
 										marginRight: 10,
 										marginBottom: 10,
 										justifyContent: 'center',
@@ -537,7 +542,7 @@ const styles = StyleSheet.create({
 	closeButton: {
 		backgroundColor: '#4CAF50',
 		paddingVertical: 10,
-		paddingHorizontal: 20,
+		paddingHorizontal: wp(2),
 		borderRadius: 8,
 		marginTop: 15,
 		width: '100%',
@@ -549,7 +554,7 @@ const styles = StyleSheet.create({
 	},
 	root: {
 		flex: 1,
-		marginBottom: 80,
+		marginBottom: hp(8),
 		backgroundColor: 'white',
 	},
 	sheildicon: {
@@ -561,7 +566,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: 10,
 		width: '100%',
-		height: 80,
+		height: hp(8),
 		backgroundColor: 'white',
 	},
 	righticons: {
@@ -586,7 +591,12 @@ const styles = StyleSheet.create({
 		top: 350,
 	},
 	tileViewContainer: { alignItems: 'center', justifyContent: 'center' },
-	tileViewImage: { width: 250, height: 250, marginBottom: 10, marginTop: 10 },
+	tileViewImage: {
+		width: wp(25),
+		height: hp(25),
+		marginBottom: 10,
+		marginTop: 10,
+	},
 	tileViewName: { fontSize: 20, fontWeight: 'bold' },
 	tileViewBio: {
 		fontSize: 16,

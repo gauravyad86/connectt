@@ -19,6 +19,10 @@ import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import InputField from '../InputField';
 import { useRoute } from '@react-navigation/native';
 import Bottombar from './Bottombar/bottombar';
+import {
+	widthPercentageToDP as wp,
+	heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Relatives = () => {
 	const route = useRoute();
@@ -144,36 +148,39 @@ const Relatives = () => {
 					</Text>
 				</View>
 			</View>
-			<FlatList
-				data={combinedData}
-				contentContainerStyle={{
-					flex: 1,
-					justifyContent: 'flex-start',
-					paddingBottom: 150,
-				}}
-				keyExtractor={(user) => user.id}
-				renderItem={({ item: user }) => (
-					<TouchableOpacity
-						onPress={() => {
-							setActiveSubTab('Focus');
-							setFocusChatUser(user);
-						}}
-					>
-						<View style={styles.mess}>
-							<Image source={{ uri: user.images[0] }} style={styles.image} />
-							<View style={styles.messageContent}>
-								<Text style={[styles.name, { color: lightColor }]}>
-									{user.name}
-								</Text>
-								<Text style={styles.bio}>{user.quote}</Text>
-								<View style={styles.underline} />
+			<ScrollView contentContainerStyle={{ flex: 1 }}>
+				<FlatList
+					data={combinedData}
+					contentContainerStyle={{
+						flex: 1,
+						justifyContent: 'flex-start',
+						paddingBottom: 150,
+						maxHeight: 400,
+					}}
+					keyExtractor={(user) => user.id}
+					renderItem={({ item: user }) => (
+						<TouchableOpacity
+							onPress={() => {
+								setActiveSubTab('Focus');
+								setFocusChatUser(user);
+							}}
+						>
+							<View style={styles.mess}>
+								<Image source={{ uri: user.images[0] }} style={styles.image} />
+								<View style={styles.messageContent}>
+									<Text style={[styles.name, { color: lightColor }]}>
+										{user.name}
+									</Text>
+									<Text style={styles.bio}>{user.quote}</Text>
+									<View style={styles.underline} />
+								</View>
 							</View>
-						</View>
-					</TouchableOpacity>
-				)}
-				// onEndReached={loadMoreUsers} // Load more data when end of list is reached
-				// onEndReachedThreshold={0.5} // Adjust for when to trigger loading more items
-			/>
+						</TouchableOpacity>
+					)}
+					// onEndReached={loadMoreUsers} // Load more data when end of list is reached
+					// onEndReachedThreshold={0.5} // Adjust for when to trigger loading more items
+				/>
+			</ScrollView>
 
 			<Bottombar />
 		</View>
@@ -189,9 +196,9 @@ const styles = StyleSheet.create({
 		borderWidth: 8,
 		borderRadius: 10,
 		overflow: 'hidden',
-		marginBottom: 20,
+		marginBottom: hp(2),
 		width: '60%',
-		height: 200,
+		height: hp(30),
 		alignItems: 'center',
 	},
 	sheildicon: {
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: 10,
 		width: '100%',
-		height: 100,
+		height: hp(10),
 	},
 	righticons: {
 		flexDirection: 'row',
@@ -212,10 +219,10 @@ const styles = StyleSheet.create({
 	messHeading: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginVertical: 10,
+		marginVertical: hp(110),
 	},
 	messagetext: {
-		fontSize: 17,
+		fontSize: hp(7),
 		fontWeight: '500',
 		marginLeft: 5,
 	},
@@ -224,7 +231,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around',
 		width: '60%',
 		position: 'absolute',
-		top: 350,
+		top: hp(35),
 	},
 	tileViewContainer: { alignItems: 'center', justifyContent: 'center' },
 	tileViewImage: { width: 250, height: 250, marginBottom: 10, marginTop: 10 },
