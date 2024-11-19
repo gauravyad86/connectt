@@ -512,6 +512,13 @@ export default function Home1() {
 			}
 		}
 
+		if (event.nativeEvent.state === 5) {
+			// State 5 is 'ended'
+			Animated.spring(position, {
+				toValue: 0,
+				useNativeDriver: false,
+			}).start();
+		}
 		if (translationX > 50) {
 			setIcon('thumbs-up'); // Swipe right: Show upward arrow
 		} else if (translationX < -50) {
@@ -546,6 +553,18 @@ export default function Home1() {
 		setCurrentImageIndex(0);
 	};
 
+	const position = useRef(new Animated.ValueXY()).current;
+	const likeOpacity = position.x.interpolate({
+		inputRange: [0, width / 2],
+		outputRange: [0, 1],
+		extrapolate: 'clamp',
+	});
+	const dislikeOpacity = position.x.interpolate({
+		inputRange: [-width / 2, 0],
+		outputRange: [1, 0],
+		extrapolate: 'clamp',
+	});
+
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const onViewMorePress = (data) => {
@@ -561,6 +580,18 @@ export default function Home1() {
 		}
 		return name;
 	}
+
+	// const positions = useRef(new Animated.Value(0)).current;
+
+	// const gradientColors = positions.interpolate({
+	// 	inputRange: [-width / 2, 0, width / 2],
+	// 	outputRange: [
+	// 		'rgba(255, 0, 0, 1)',
+	// 		'rgba(0, 0, 0, 0)',
+	// 		'rgba(0, 255, 0, 1)',
+	// 	],
+	// 	extrapolate: 'clamp',
+	// });
 
 	return (
 		<ScrollView
@@ -578,6 +609,29 @@ export default function Home1() {
 				end={{ x: 0, y: 1 }} // Set end to (0, 1) for top-to-bottom gradient
 			/>
 
+			<Animated.View style={[styles.gradientContainer]}>
+				{icon === 'thumbs-up' ? (
+					<Animated.View
+						style={[
+							StyleSheet.absoluteFill,
+							{
+								backgroundColor: 'green',
+								right: '50%',
+							},
+						]}
+					/>
+				) : (
+					<Animated.View
+						style={[
+							StyleSheet.absoluteFill,
+							{
+								backgroundColor: 'red',
+								left: '50%',
+							},
+						]}
+					/>
+				)}
+			</Animated.View>
 			<View style={styles.middleSection}>
 				<View
 					style={{
@@ -1011,6 +1065,9 @@ const styles = StyleSheet.create({
 	userDetails: {
 		fontSize: 14,
 		color: 'white',
+	},
+	gradientContainer: {
+		...StyleSheet.absoluteFillObject,
 	},
 	progressBarContainer2: {
 		flexDirection: 'row',
